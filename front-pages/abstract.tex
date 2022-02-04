@@ -1,0 +1,22 @@
+\chapter*{Abstract}
+\setheader{Abstract}
+%  TAKEN FROM MY GOOGLE DOCS
+
+The large and still increasing popularity of deep learning, along with the growing availability of 3D labeled datasets has been setting the stage to the continuous development of new algorithms in scene understanding and exploration of unknown environments. However, these works continue to build modular and hierarchical architectures, engineer complex features in the pre-processing stage and lack reproducibility.
+
+Current methods use either LiDAR data, RGBD data or point clouds to reconstruct top-down 2D maps for exploration in traditional benchmarks or simplistic or limited 3D environments. These methods are computationally and memory-wise expensive and depend heavily on the training data. We tackle the problem of exploration in an unknown environment by exploiting octrees for efficient navigation of 3D scenes, where we also define the uninformativeness in an unknown environment through voxelized objects and semantic entropy.
+
+The key contribution of this thesis is a novel voxel- and octree-based exploration method that builds upon model-free reinforcement learning to enable visual-agnostic exploration of environments and objects, while also taking into account the inconsistencies in the temporal class density present in the environment. 
+We demonstrate that our method outperforms Unity implementations of previous classical and geometric approaches and improves upon current state-of-the-art exploration methods that are motivated by coverage maximization and semantic curiosity.
+
+Moreover, by using voxels for exhaustive exploration of objects and grid sensors with panoramic coverage, our method bridges the gap between synthetic data and real data for the exploration of 3D environments, where the data distribution plays a key role in the performance of transfer learning techniques, enabling the agent to adapt to new environments without changes in its behavior.
+
+Finally, with an ever increasing amount of algorithms, traditional benchmarks become uninformative and allow room for the creation of newer ones capable of testing more sophisticated challenges, representative of the real world. Motivated by recent works in the Unity 3D engine, we contribute three 3D environments that can be extended for the creation of new benchmarks, testing of new exploration methods and for a variety of other tasks such as synthetic data generation, autonomous driving, exploration, navigation, point-to-goal tasks, etc. The code base for our method can be found at \url{https://github.com/Ademord/ma-unity}. All Unity 3D Assets are protected by copyright.
+
+
+% We demonstrate that our method outperforms previous classical and geometric approaches and improves upon current state-of-the-art exploration methods that are motivated by coverage maximization and semantic curiosity.
+
+
+% Computer vision has been a field of study since the 1960s, and over the past few years a lot of challenges, such as 2D object recognition are now considered solved problems. Nevertheless, default uncertainty in all environments is the basis of all vision problems, such as detection and recognition.
+% The goal of this work is to analyze diverse exploration policies using reinforcement learning, and find an applicable solution for unknown 3D environments. 
+% This work will contribute to the computer vision challenges encountered by the project "Melkroboter" project at the ZHAW.

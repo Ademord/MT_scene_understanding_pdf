@@ -1,0 +1,21 @@
+\section{Related Work: 3D Vision}\ref{appendix:rlwork-3dvision}
+Several works have been grabbing inspiration from biological vision \cite{medathati2016bio}, where the authors discuss the foundations of existing computational studies modelling biological vision, considering three classical computer vision tasks from a biological perspective: image sensing, segmentation and optical flow. They describe how computer vision engineers limit their scopes to the distributions described in a dataset and the set of stimuli that their architectures describe.
+%
+Along these lines, a new framework called Ventral-Dorsal Networks (VDNets) \cite{ebrahimpour2019ventral} follows the brain's physiology by separating the "what" from the "where". The authors use a top down saliency analysis to identify irrelevant image regions, i.e., a selective attention mechanism that masks out noise and unimportant background information in the image. 
+% This selective attention process is based on Saliency Detection in activation maps : Class Activation Maps
+% 
+
+The concept of information over time is equally important.
+On one hand, researchers \cite{wagatsuma2018locus} discovered that there is a part of the brain that reacts to "familiarity", such as familiar faces, but is separated from long or short term memory.
+On the other hand, there are works \cite{simonyan2014two} that serve as a great example that leverage the temporal dimension for action recognition or for accurate classification. One of them, proposes to embed a "Temporal Transition Layer" in the DenseNet architecture, creating their proposed "Temporal 3D ConvNet" \cite{diba2017temporal}. They also provide a technique to leverage learned features from 2D ConvNets, so that a pretrained weights from a 2D CNN can be transfered to a 3D CNN (this technique is not limited to RGB models).
+Similarly, \textcite{hou2019efficient} conduct a detailed ablation study to identify the individual contributions of the components of their proposed 3D CNN framework for doing action and object segmentation in video, using separable filters to reduce the computational burden of standard 3D convolutions. 
+%
+Other research in this direction includes PointNet \cite{qi2018frustum, qi2017pointnet, qi2017pointnet++}, which is able to localize objects in large-scene point clouds with high efficiency and high recall, regardless of heavy occlusion or with very sparse points. However their method struggles with multi-instance scenarios, pose estimation accuracy in sparse point clouds, and 3D detection if the 2D detector faces strong occlusion. 
+%
+Similarly, applicability of these methods in industries is as important, for example by leveraging panoptic segmentation in industrial panoramas for carrying out inventories \cite{nivaggioli2019using}.
+% , where the remaining 20\% was affected by the dataset generation process. However, they recommend the usage of RGBD information or intensity information (Point Clouds) for further improving general accuracy   of semantic segmentation.
+% they propose an approach for doing panoptic segmentation on industrial panoramas for inventories with an accuracy of over 80%. the authors use an as-built 3D model of an industrial building to generate masks and labels of an industrial scene. their work demonstrates the applicability of panoptic segmentation for creating inventories of industrial installations. 
+% two neural networks were trained (instance and semantic segmentation) 
+%
+% Moreover, 
+% changchao chen provide a.

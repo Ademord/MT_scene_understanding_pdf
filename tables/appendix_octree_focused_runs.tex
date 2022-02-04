@@ -1,0 +1,36 @@
+\begin{sidewaystable}
+    \subsection{Octree-focused Agents}\label{appendix:RQ1-results-octreeFocusedRuns}
+
+    \begin{longtable}{|l|c|c|c|c|c|c|c|}                            \hline
+        % \multicolumn{3}{|l|}{\textbf{Voxel-Curiosity}}              \\\hline
+        \theadcenteredLeft{Method}            
+        & \theadcentered{Episode \\ Length \%}                
+        & \theadcentered{#Leaf Nodes \\ XZ-Axis}   
+        & \theadcentered{#Leaf Nodes \\ Y-Axis} 
+        & \theadcentered{Node \\ Volume} 
+        & \thead{Octree Leaf \\ Nodes Visited \%}
+        & \theadcentered{New Nodes \\ Discovery Rate} 
+        & \theadcentered{Lingering \\ Count} 
+        % & \thead{Total Detections Count} 
+        \\ \hline
+    
+        blind-agent-explore-constrained & {\cellcolor[HTML]{5DAE9D}} \color[HTML]{F1F1F1} 95 & 40 & 5.00 & {\cellcolor[HTML]{55AA99}} \color[HTML]{F1F1F1} 4000.00 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 2.28 & 7.28 & 3.14 \\ \hline
+        blind-agent-explore-constrained-nospeed & {\cellcolor[HTML]{5AAC9C}} \color[HTML]{F1F1F1} 97 & 40 & 5.00 & {\cellcolor[HTML]{55AA99}} \color[HTML]{F1F1F1} 4000.00 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 2.36 & 6.96 & 2.68 \\ \hline
+        blind-agent-explore-constrained-nospeed-pathak & {\cellcolor[HTML]{5DAE9D}} \color[HTML]{F1F1F1} 95 & 40 & 5.00 & {\cellcolor[HTML]{55AA99}} \color[HTML]{F1F1F1} 4000.00 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 2.32 & 6.86 & 2.86 \\ \hline
+        octree-16 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 4 & 10 & 1.25 & {\cellcolor[HTML]{E9F1EF}} \color[HTML]{000000} 62.50 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 2.72 & 0.60 & 9.97 \\ \hline
+        octree-16-constrained & {\cellcolor[HTML]{55AA99}} \color[HTML]{F1F1F1} 100 & 10 & 1.25 & {\cellcolor[HTML]{E9F1EF}} \color[HTML]{000000} 62.50 & {\cellcolor[HTML]{9DCDC3}} \color[HTML]{000000} 21.56 & 0.09 & 4.99 \\ \hline
+        octree-16-constrained-pigeon & {\cellcolor[HTML]{55AA99}} \color[HTML]{F1F1F1} 100 & 10 & 1.25 & {\cellcolor[HTML]{E9F1EF}} \color[HTML]{000000} 62.50 & {\cellcolor[HTML]{55AA99}} \color[HTML]{F1F1F1} 34.34 & 0.24 & 3.68 \\ \hline
+        octree-16-constrained-pigeon-pathak & {\cellcolor[HTML]{55AA99}} \color[HTML]{F1F1F1} 100 & 10 & 1.25 & {\cellcolor[HTML]{E9F1EF}} \color[HTML]{000000} 62.50 & {\cellcolor[HTML]{E2EEEB}} \color[HTML]{000000} 9.47 & 0.04 & 5.66 \\ \hline
+        octree-16-pathak & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 4 & 10 & 1.25 & {\cellcolor[HTML]{E9F1EF}} \color[HTML]{000000} 62.50 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 2.64 & 0.56 & 9.61 \\ \hline
+        octree-4 & {\cellcolor[HTML]{5AAC9C}} \color[HTML]{F1F1F1} 97 & 40 & 5.00 & {\cellcolor[HTML]{55AA99}} \color[HTML]{F1F1F1} 4000.00 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 2.31 & 6.80 & 3.11 \\ \hline
+        octree-4-pathak & {\cellcolor[HTML]{60AFA0}} \color[HTML]{F1F1F1} 93 & 40 & 5.00 & {\cellcolor[HTML]{55AA99}} \color[HTML]{F1F1F1} 4000.00 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 2.09 & 6.61 & 3.39 \\ \hline
+        octree-4-pigeon & {\cellcolor[HTML]{D9E9E6}} \color[HTML]{000000} 19 & 20 & 2.50 & {\cellcolor[HTML]{D9E9E6}} \color[HTML]{000000} 500.00 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 2.27 & 1.81 & 6.94 \\ \hline
+        octree-4-pigeon-pathak & {\cellcolor[HTML]{D1E6E1}} \color[HTML]{000000} 24 & 20 & 2.50 & {\cellcolor[HTML]{D9E9E6}} \color[HTML]{000000} 500.00 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 2.77 & 1.71 & 8.39 \\ \hline
+        octree-8 & {\cellcolor[HTML]{A8D2C9}} \color[HTML]{000000} 49 & 20 & 2.50 & {\cellcolor[HTML]{D9E9E6}} \color[HTML]{000000} 500.00 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 5.22 & 1.49 & 7.05 \\ \hline
+        octree-8-pathak & {\cellcolor[HTML]{7EBEB1}} \color[HTML]{000000} 75 & 20 & 2.50 & {\cellcolor[HTML]{D9E9E6}} \color[HTML]{000000} 500.00 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 6.97 & 1.24 & 6.86 \\ \hline
+    
+    
+        \caption{Overview of all environment-focused runs. \label{tab:RQ1-results-octreeFocusedRuns}}
+    \end{longtable}
+
+\end{sidewaystable}

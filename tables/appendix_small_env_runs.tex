@@ -1,0 +1,47 @@
+\begin{sidewaystable}
+    \subsection{Voxel-focused Agents}\label{appendix:RQ1-results-noknowledgeofvoxels}
+    
+    \begin{longtable}{|l|c|c|c|c|c|}                            \hline
+        % \multicolumn{3}{|l|}{\textbf{Voxel-Curiosity}}              \\\hline
+        \theadcenteredLeft{Method}            
+        & \theadcentered{Episode Length}                
+        & \theadcentered{Average Total \\ Objects Scanned}   
+        & \theadcentered{Modified \\ F1-score} 
+        & \theadcentered{Octree Leaf \\ Nodes Visited \%}
+        & \theadcentered{Walk Error} 
+        \\ \hline
+        
+        shortest-path+vision-nospeed & 88 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 0.04 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 0.01 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 0.06 & 	{\cellcolor[HTML]{55AA99}} \color[HTML]{F1F1F1} 0.20 \\ \hline
+        shortest-path+vision & 94 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 0.05 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 0.02 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 0.15 & 	{\cellcolor[HTML]{C8E1DC}} \color[HTML]{000000} 0.42 \\ \hline
+        shortest-path & 97 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 0.06 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 0.02 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 0.12 & 	{\cellcolor[HTML]{CFE5E0}} \color[HTML]{000000} 0.44 \\ \hline
+        semantic-curiosity & 99 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 0.07 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 0.02 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 0.10 & 	{\cellcolor[HTML]{D6E8E4}} \color[HTML]{000000} 0.45 \\ \hline
+        semantic-entropy & 40 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 0.13 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 0.04 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 0.11 & 	{\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 0.49 \\ \hline
+        voxel & 89 & {\cellcolor[HTML]{D8E9E5}} \color[HTML]{000000} 0.40 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 0.10 & {\cellcolor[HTML]{E0EDEA}} \color[HTML]{000000} 0.22 & 	{\cellcolor[HTML]{E4EFEC}} \color[HTML]{000000} 0.48 \\ \hline
+        object-detector & 97 & {\cellcolor[HTML]{D9E9E6}} \color[HTML]{000000} 0.39 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 0.12 & {\cellcolor[HTML]{D1E6E1}} \color[HTML]{000000} 0.30 & 	{\cellcolor[HTML]{E2EEEB}} \color[HTML]{000000} 0.47 \\ \hline
+        blind-agent-voxel & 99 & {\cellcolor[HTML]{DDEBE8}} \color[HTML]{000000} 0.34 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 0.13 & {\cellcolor[HTML]{A3CFC6}} \color[HTML]{000000} 0.56 & 	{\cellcolor[HTML]{DBEBE7}} \color[HTML]{000000} 0.46 \\ \hline
+        voxel++100-nospeed-oracle-4 & 99 & {\cellcolor[HTML]{79BBAE}} \color[HTML]{000000} 1.64 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 0.13 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 0.15 & 	{\cellcolor[HTML]{B6D8D1}} \color[HTML]{000000} 0.39 \\ \hline
+        voxel++100-nospeed-nolinger-oracle-8 & 99 & {\cellcolor[HTML]{6EB6A7}} \color[HTML]{F1F1F1} 1.77 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 0.13 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 0.15 & 	{\cellcolor[HTML]{C3DFD9}} \color[HTML]{000000} 0.41 \\ \hline
+        blind-agent-voxel-constrained & 100 & {\cellcolor[HTML]{DEECE9}} \color[HTML]{000000} 0.33 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 0.13 & {\cellcolor[HTML]{7BBCAF}} \color[HTML]{000000} 0.79 & 	{\cellcolor[HTML]{E2EEEB}} \color[HTML]{000000} 0.47 \\ \hline
+        voxel++100 & 96 & {\cellcolor[HTML]{BCDCD5}} \color[HTML]{000000} 0.77 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 0.13 & {\cellcolor[HTML]{E3EEEC}} \color[HTML]{000000} 0.20 & 	{\cellcolor[HTML]{DEECE8}} \color[HTML]{000000} 0.47 \\ \hline
+        voxel++100-nospeed-nolinger-oracle & 95 & {\cellcolor[HTML]{90C6BB}} \color[HTML]{000000} 1.33 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 0.14 & {\cellcolor[HTML]{E7F0EE}} \color[HTML]{000000} 0.18 & 	{\cellcolor[HTML]{CBE3DE}} \color[HTML]{000000} 0.43 \\ \hline
+        voxel++100-nospeed-nolinger-pigeon-oracle-8 & 97 & {\cellcolor[HTML]{93C8BD}} \color[HTML]{000000} 1.30 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 0.14 & {\cellcolor[HTML]{E7F0EE}} \color[HTML]{000000} 0.18 & 	{\cellcolor[HTML]{CCE3DF}} \color[HTML]{000000} 0.43 \\ \hline
+        voxel++050 & 71 & {\cellcolor[HTML]{A6D1C8}} \color[HTML]{000000} 1.05 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 0.14 & {\cellcolor[HTML]{E3EFEC}} \color[HTML]{000000} 0.20 & 	{\cellcolor[HTML]{E6F0ED}} \color[HTML]{000000} 0.48 \\ \hline
+        object-detector-pure & 93 & {\cellcolor[HTML]{A9D2CA}} \color[HTML]{000000} 1.01 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 0.14 & {\cellcolor[HTML]{E3EEEC}} \color[HTML]{000000} 0.20 & 	{\cellcolor[HTML]{E1EDEA}} \color[HTML]{000000} 0.47 \\ \hline
+        voxel++075 & 98 & {\cellcolor[HTML]{ADD4CC}} \color[HTML]{000000} 0.96 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 0.14 & {\cellcolor[HTML]{E2EEEB}} \color[HTML]{000000} 0.21 & 	{\cellcolor[HTML]{DFECE9}} \color[HTML]{000000} 0.47 \\ \hline
+        object-detector-pure-vision & 99 & {\cellcolor[HTML]{80BFB2}} \color[HTML]{000000} 1.54 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 0.15 & {\cellcolor[HTML]{E6F0EE}} \color[HTML]{000000} 0.18 & 	{\cellcolor[HTML]{D9EAE6}} \color[HTML]{000000} 0.46 \\ \hline
+        voxel-entropy++100-oracle & 96 & {\cellcolor[HTML]{95C9BE}} \color[HTML]{000000} 1.27 & {\cellcolor[HTML]{E8F1EF}} \color[HTML]{000000} 0.16 & {\cellcolor[HTML]{E0EDEA}} \color[HTML]{000000} 0.22 & 	{\cellcolor[HTML]{DEECE9}} \color[HTML]{000000} 0.47 \\ \hline
+        voxel-entropy++100 & 89 & {\cellcolor[HTML]{A3D0C7}} \color[HTML]{000000} 1.08 & {\cellcolor[HTML]{E7F0EE}} \color[HTML]{000000} 0.16 & {\cellcolor[HTML]{DCEBE8}} \color[HTML]{000000} 0.24 & 	{\cellcolor[HTML]{E5EFED}} \color[HTML]{000000} 0.48 \\ \hline
+        voxel-entropy++100-oracle-nospeed & 98 & {\cellcolor[HTML]{7CBDB0}} \color[HTML]{000000} 1.59 & {\cellcolor[HTML]{E3EEEC}} \color[HTML]{000000} 0.17 & {\cellcolor[HTML]{DFEDE9}} \color[HTML]{000000} 0.22 & 	{\cellcolor[HTML]{D1E5E1}} \color[HTML]{000000} 0.44 \\ \hline
+        voxel-entropy++050 & 98 & {\cellcolor[HTML]{A0CEC4}} \color[HTML]{000000} 1.13 & {\cellcolor[HTML]{DFEDE9}} \color[HTML]{000000} 0.18 & {\cellcolor[HTML]{D8E9E5}} \color[HTML]{000000} 0.26 & 	{\cellcolor[HTML]{DEECE9}} \color[HTML]{000000} 0.47 \\ \hline
+        voxel++100-nospeed & 98 & {\cellcolor[HTML]{82C0B3}} \color[HTML]{000000} 1.52 & {\cellcolor[HTML]{D9EAE6}} \color[HTML]{000000} 0.19 & {\cellcolor[HTML]{D9EAE6}} \color[HTML]{000000} 0.26 & 	{\cellcolor[HTML]{DCEBE8}} \color[HTML]{000000} 0.46 \\ \hline
+        voxel++100-nospeed-oracle-8 & 94 & {\cellcolor[HTML]{CCE3DE}} \color[HTML]{000000} 0.56 & {\cellcolor[HTML]{D8E9E5}} \color[HTML]{000000} 0.19 & {\cellcolor[HTML]{8FC6BB}} \color[HTML]{000000} 0.67 & 	{\cellcolor[HTML]{DFEDE9}} \color[HTML]{000000} 0.47 \\ \hline
+        voxel++100-nospeed-nolinger & 97 & {\cellcolor[HTML]{71B8A9}} \color[HTML]{F1F1F1} 1.73 & {\cellcolor[HTML]{D7E9E5}} \color[HTML]{000000} 0.19 & {\cellcolor[HTML]{DAEAE6}} \color[HTML]{000000} 0.25 & 	{\cellcolor[HTML]{DFEDE9}} \color[HTML]{000000} 0.47 \\ \hline
+        voxel++025 & 94 & {\cellcolor[HTML]{7EBEB1}} \color[HTML]{000000} 1.56 & {\cellcolor[HTML]{D2E6E2}} \color[HTML]{000000} 0.20 & {\cellcolor[HTML]{D5E7E3}} \color[HTML]{000000} 0.28 & 	{\cellcolor[HTML]{DBEAE7}} \color[HTML]{000000} 0.46 \\ \hline
+        voxel-entropy++100-nospeed & 96 & {\cellcolor[HTML]{55AA99}} \color[HTML]{F1F1F1} 2.10 & {\cellcolor[HTML]{D1E6E1}} \color[HTML]{000000} 0.20 & {\cellcolor[HTML]{D9E9E6}} \color[HTML]{000000} 0.26 & 	{\cellcolor[HTML]{E0EDEA}} \color[HTML]{000000} 0.47 \\ \hline
+        voxel++100-nospeed-oracle-8-pigeon & 93 & {\cellcolor[HTML]{75BAAC}} \color[HTML]{000000} 1.68 & {\cellcolor[HTML]{55AA99}} \color[HTML]{F1F1F1} 0.44 & {\cellcolor[HTML]{55AA99}} \color[HTML]{F1F1F1} 1.00 & 	{\cellcolor[HTML]{DEECE9}} \color[HTML]{000000} 0.47 \\ \hline
+        
+    
+        \caption{Overview of all object-focused runs. \label{tab:RQ1-results-noknowledgeofvoxels}}
+    \end{longtable}
+
+\end{sidewaystable}

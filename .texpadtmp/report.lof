@@ -1,0 +1,99 @@
+\boolfalse {citerequest}\boolfalse {citetracker}\boolfalse {pagetracker}\boolfalse {backtracker}\relax 
+\babel@toc {english}{}
+\defcounter {refsection}{0}\relax 
+\addvspace {10\p@ }
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {1.1}{\ignorespaces 3D Model of our Explorer Drone, from the Unity Asset Store \cite {unity2021}.\relax }}{1}{figure.caption.5}%
+\defcounter {refsection}{0}\relax 
+\addvspace {10\p@ }
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {2.1}{\ignorespaces The Stanford Bunny in different 3D representations \cite {fahim2021single} .\relax }}{8}{figure.caption.6}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {2.2}{\ignorespaces Voxelized representation of Minas Tirith in Minecraft \cite {minecraft2020minastirith}. A multitude of voxels can also represent high-resolution data, at a high computational memory cost (image below). \relax }}{9}{figure.caption.7}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {2.3}{\ignorespaces Two input point clouds (left). Result after running the ICP Algorithm until convergence (right) \cite {open3D2021icp}. \relax }}{9}{figure.caption.8}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {2.4}{\ignorespaces Labels of the octants of a cube (octant 0 is not shown). \cite {chen1988survey}. \relax }}{10}{figure.caption.9}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {2.5}{\ignorespaces (a) Voxel grid (b) Octree representation \cite {saaidi2014multi}. \relax }}{10}{figure.caption.10}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {2.6}{\ignorespaces 3D object detection (left) and 3D instance segmentation (right) using Tensorflow 3D as found in \cite {najibi2020dops}. \relax }}{11}{figure.caption.11}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {2.7}{\ignorespaces A 3D sparse voxel U-Net architecture using submanifold sparse convolutions (horizontal arrows) and submanifold sparse pooling (arrows downward) operations \cite {tf}. \relax }}{12}{figure.caption.12}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {2.8}{\ignorespaces Class labels example of Semantic3D \cite {hackel2017semantic3d}. \relax }}{13}{figure.caption.13}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {2.9}{\ignorespaces 3D hyper-realistic simulated desert using Unreal Engine 5 (early access) \cite {unreal5_2021}.\relax }}{13}{figure.caption.14}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {2.10}{\ignorespaces Comparison of the capabilities between two simulators of creating realistic 3D environments: (a) CARLA \cite {Dosovitskiy17}, (b) Unreal Engine \cite {scionti2021unreal5}.\relax }}{15}{figure.caption.15}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {2.11}{\ignorespaces Synthetic data will become the main form of data used in AI \cite {gartner_inc2021synthetic}. \relax }}{16}{figure.caption.16}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {2.12}{\ignorespaces Developers can alter and randomize objects, colors, lighting, materials and poses in realistic 3D environments to quickly generate synthetic data with perfect labels \cite {8_andrews_2021}. \relax }}{16}{figure.caption.17}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {2.13}{\ignorespaces Agent-environment relationship in an MDP according to \textcite { \cite {sutton1998introduction}}: at each time step $t$, the agent observes the environment's current state $s_t$ and a reward signal $r_t$. The agent then selects an action $a_t$ given $s_t$ and following policy $\mitpi _t$. This action changes the environment state in the next time step to $s_{t+1}$ and yields reward $r_{t+1}$. \relax }}{17}{figure.caption.18}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {2.14}{\ignorespaces A grid-world environment \cite {eriksson2021deep}. Each cell represents a state with corresponding a value, which is the value of the state-value function $V(s)$. The agent gets a reward when it reaches the goal with two flags, and given a penalty when it falls down the pit with a skull. \relax }}{19}{figure.caption.19}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {2.15}{\ignorespaces Neuron. A single neuron consists of an input (or data) connection and an output (or hidden) connection. The input $x$ is multiplied by the training weights $\mittheta $ and summed. An activation function is then applied to the sum to obtain a nonlinear function $h(x,\mittheta )$ of the inputs.\relax }}{21}{figure.caption.20}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {2.16}{\ignorespaces Deep Neural Network with an input layer, a hidden layer and an multiple output heads. In actor-critic reinforcement learning problems and shared parameter networks, one head can be used as the prediction from the critic and another head as the prediction from the actor \cite {MultiHea51, sutton2018reinforcement}. \relax }}{22}{figure.caption.21}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {2.17}{\ignorespaces Plots showing one term (i.e., a single timestep) of the surrogate function L CLIP as a function of the probability ratio r, for positive advantages (left) and negative advantages (right). The red circle on each plot shows the starting point for the optimization, i.e., r = 1. Note that L CLIP sums many of these terms. \cite {schulman2017proximal}. \relax }}{23}{figure.caption.22}%
+\defcounter {refsection}{0}\relax 
+\addvspace {10\p@ }
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {3.1}{\ignorespaces Adapted development process from "\citetitle {luckert2016using}", by \textcite {luckert2016using}. Describes the taken steps from data collection, through algorithm selection to architecture design.\relax }}{25}{figure.caption.23}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {3.2}{\ignorespaces Overview of the Unity ML-Agents Toolkit, taken from \cite {unity_mlagents_github}. \relax }}{28}{figure.caption.24}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {3.3}{\ignorespaces Example of a 3D scene without lighting settings (left) and the same scene with post-processing effects (right). Factors like depth, high-quality volumetric light and fog of variable density allow the construction of realistic environments. \relax }}{29}{figure.caption.25}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {3.4}{\ignorespaces Bunny model voxelized at different resolution settings \cite {}. \relax }}{30}{figure.caption.26}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {3.5}{\ignorespaces grid sensor 2D (a) and grid sensor 3D (b) by Mbaske \cite {}. \relax }}{31}{figure.caption.27}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {3.6}{\ignorespaces Octree Construction and Navigation in Mbaske's Explorer Drone \cite {}. \relax }}{32}{figure.caption.28}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {3.7}{\ignorespaces Overview of the PPO Trainer's workflow from Unity ML-Agents \cite {unityml-agents}. \relax }}{33}{figure.caption.29}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {3.8}{\ignorespaces Visual encoder example, architecture by Mnih et al \cite {unityml-agents}. \relax }}{34}{figure.caption.30}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {3.9}{\ignorespaces 3D Assets used to model the learning agent \cite {unityAssetStore}. Drone Bot (top left), Wireframe Shader (top right), Spot Bot (bottom left), Tesla Bo (bottom right). \relax }}{34}{figure.caption.31}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {3.10}{\ignorespaces Concept of the three proposed environments.\relax }}{39}{figure.caption.32}%
+\defcounter {refsection}{0}\relax 
+\addvspace {10\p@ }
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Artificial cow setup at the ZHAW\relax }}{41}{figure.caption.33}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {4.2}{\ignorespaces Example of a Docker-compose Deployment\relax }}{41}{figure.caption.34}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {4.3}{\ignorespaces Image annotation example.\relax }}{42}{figure.caption.35}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {4.4}{\ignorespaces RANSAC's behavior on the cow data set.\relax }}{44}{figure.caption.36}%
+\defcounter {refsection}{0}\relax 
+\addvspace {10\p@ }
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {5.1}{\ignorespaces Linear model residuals of the model fit to predict the error from "MAV".\relax }}{46}{figure.caption.37}%
+\defcounter {refsection}{0}\relax 
+\addvspace {10\p@ }
+\defcounter {refsection}{0}\relax 
+\addvspace {10\p@ }
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {A.1}{\ignorespaces David Marr's stages to identify the visual world.\relax }}{62}{figure.caption.41}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {A.2}{\ignorespaces McCulloch-Pitts model of a neuron.\relax }}{63}{figure.caption.42}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {A.3}{\ignorespaces The Mask R-CNN Framework for Instance Segmentation \cite {visoai2021detection}.\relax }}{64}{figure.caption.43}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {A.4}{\ignorespaces Structure detail of YOLOv3.It uses Darknet-53 as the backbone network and uses three scale predictions \cite {visoai2021detection}.\relax }}{65}{figure.caption.44}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {A.5}{\ignorespaces Wang et al. proposed method for category-level 6D pose and size estimation of multiple unseen objects in an RGB-D image.\relax }}{65}{figure.caption.45}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {A.6}{\ignorespaces Results of using OcCo (2020) pre-training for completion of point clouds.\relax }}{67}{figure.caption.46}%
+\contentsfinish 
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {A.7}{\ignorespaces Diverse Unity 3D Assets used to model 3D environments for the learning agent \cite {unityAssetStore}. Wireframe Shader (top left), Drone Bot (top right), Foliage Pack (bottom left), Skyboxes (bottom right). \relax }}{68}{figure.caption.47}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {A.8}{\ignorespaces Voxelization of a 3D asset used with the mesh walking technique. 3D model (left) and voxelized model (right). \relax }}{68}{figure.caption.48}%

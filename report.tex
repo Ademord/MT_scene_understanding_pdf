@@ -1,0 +1,192 @@
+\documentclass{tudelft-report}
+
+%% additional packages
+\usepackage{pdfpages}
+
+\usepackage{afterpage}
+\newcommand\blankpage{%
+    \null
+    \thispagestyle{empty}%
+    \addtocounter{page}{-1}%
+    \newpage}
+
+\usepackage{lipsum}
+\usepackage{multirow}
+\usepackage{multicol}
+\usepackage{xcolor,colortbl}
+\usepackage{tabularx}
+\usepackage{listings}
+\usepackage{appendix}
+
+\definecolor{lightgrey}{rgb}{0.9,0.9,0.9}
+\definecolor{neonyellow}{rgb}{1,1,0}
+\definecolor{lightblue}{rgb}{0,0.5,1}
+\definecolor{orange}{rgb}{1,0.5,0} 
+\definecolor{pink}{rgb}{1,0,0.5}
+\definecolor{vectorGreen}{rgb}{0,1,0}
+
+\definecolor{dotblue}{rgb}{0,0.68,0.93}
+
+\newcolumntype{a}{>{\columncolor{Gray}}c}
+\newcolumntype{b}{>{\columncolor{white}}c}
+\newcommand\tab[1][1cm]{\hspace*{#1}}
+
+\usepackage{hyphenat}
+\usepackage[framemethod=tikz]{mdframed}
+\usepackage[most]{tcolorbox}
+\usepackage{lipsum}
+\usepackage[justification=centering]{caption}
+\usepackage{ragged2e}
+\usepackage[export]{adjustbox}
+\usepackage{graphicx,nicefrac}
+% \usepackage{subcaption}
+\usepackage{can  cel}
+% \usepackage[table]{xcolor}
+
+
+\newtcolorbox{definitioni}{
+  breakable,
+  fonttitle=\bfseries,
+  title={Info}
+}
+
+\newcommand*{\bluebullet}{\textcolor{dotblue}{\textbullet} \medskip}
+
+% mathematica
+\usepackage{amsmath, amsthm, amssymb, graphics, setspace}
+\DeclareMathOperator*{\argmin}{argmin}
+
+\newcommand{\mathsym}[1]{{}}
+\newcommand{\unicode}[1]{{}}
+\newcommand{\theadcentered}[1]{
+    \thead{\begin{tabular}{@{}c@{}}
+    {#1}
+    \end{tabular}}   
+}
+
+\newcommand{\theadcenteredLeft}[1]{
+    \thead[l]{\begin{tabular}{@{}c@{}}
+    {#1}
+    \end{tabular}}   
+}
+
+
+
+
+% ------------------------------------------------------------------------
+\let\cleardoublepage\clearpage
+\usepackage{array, booktabs}
+\newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash}m{#1}}
+\usepackage{longtable}
+\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
+\usepackage{parskip}% http://ctan.org/pkg/parskip
+
+% commands to stop hyphenating in the entire document
+\tolerance=1
+\emergencystretch=\maxdimen
+\hyphenpenalty=10000
+\hbadness=10000
+
+
+\usepackage{algorithm2e}
+\RestyleAlgo{ruled}
+
+
+\usepackage[
+backend=biber,
+style=numeric,
+citestyle=numeric,
+sorting=none
+]{biblatex}
+
+
+\addbibresource{report.bib} %Imports bibliography file
+
+\usepackage{minted}
+%\usepackage{emoji}
+%\usepackage{fontspec}
+
+%--------------------------------------------------------------------------
+\usepackage[export]{adjustbox}
+\usepackage{float}
+\usepackage{wrapfig}
+% \usepackage[utf8x]{inputenc}
+\usepackage[colorinlistoftodos]{todonotes}
+% \usepackage{minted}
+% \usemintedstyle{vs}
+\usepackage{subfigure}
+% \usepackage[demo]{graphicx}
+
+
+\usepackage{pdflscape}
+\usepackage{rotating}
+
+\usepackage{makecell}
+% \usepackage{graphicx}
+\renewcommand\theadalign{bc}
+\renewcommand\theadfont{\bfseries}
+\renewcommand\theadgape{\Gape[2pt]}
+\renewcommand\cellgape{\Gape[2pt]}
+% \newcommand*{\thead}[1]{%
+% \multicolumn{1}{c}{\bfseries\begin{tabular}{@{}c@{}}#1\end{tabular}}}
+\usepackage{blindtext}
+
+
+
+\begin{document}
+%% Use Roman numerals for the page numbers of the title pages and table of
+%% contents.
+
+
+\frontmatter
+
+
+\input{front-pages/titlepage}
+\afterpage{\blankpage}
+
+% \input{content/preface}
+\setcounter{page}{1}
+\input{front-pages/selbstaendigkeitserklaerung}
+\input{front-pages/abstract}
+% \input{front-pages/summary}
+\input{front-pages/vorwort}
+
+\tableofcontents
+
+%% Use Arabic numerals for the page numbers of the chapters.
+\mainmatter
+
+\input{chapters/chapter-1}
+
+\input{chapter-2/.header}
+\input{chapter-2/related-work}
+
+\input{chapter-2/compvis}
+% \input{chapter-2/entropy}
+\input{chapter-2/environment}
+\input{chapter-2/reinforcement}
+
+\input{chapters/chapter-3}
+\input{chapters/chapter-4}
+\input{chapters/chapter-5}
+
+%% Use letters for the chapter numbers of the appendices.
+\appendix
+
+\begin{RaggedRight}
+    \printbibliography
+% 	\bibliography{report.bib}
+\end{RaggedRight}
+\newpage
+
+\listoffigures
+\listoftables
+\input{appendix/0. anhang}
+\input{appendix/1. related-work}
+\input{appendix/2. compvis}
+\input{appendix/3. unity}
+\input{appendix/4. mlagents}
+
+
+\end{document}
+
