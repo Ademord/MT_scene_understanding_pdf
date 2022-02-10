@@ -61,22 +61,25 @@ If an environment is fully observable, the agent has full knowledge of the state
 \textbf{Reward Signal and Return.}
 A reward signal describes how well the agent did in a given situation. A reward signal can be thought of as a kind of scoreboard. It will assign a numerical score to each of the actions available to the agent in a given state. These scores are then combined to calculate a global reward which is to be maximized \cite{sutton2018reinforcement}.
 In other words, the reward signal $R_t$ is the reward the agent obtains at time step $t$. The cumulative reward $G_t$ from this signal is the agent's objective. A simple return is defined as:
-\begin{align*}
-    G_t = R_{t+1} + R_{t+2} + ... + R_{t+T} = \sum_{k=0}^{T-t-1} R_{t+1+k}
-\end{align*}
-where T is the final time step. A return can also include a discount rate $\gamma$ that discourages future rewards:
-\begin{align*}
-    G_{t,discounted} = \sum_{k=0}^{T-t-1} \gamma^k * R_{t+1+k}.
-\end{align*}
-A discount rate is used, for example, if the MDP is a continuous problem that never ends or to include uncertainty of future predictions \cite{sutton2018reinforcement}.
+\begin{gather}
+    G_t = R_{t+1} + R_{t+2} + ... + R_{t+T} = \sum_{k=0}^{T-t-1} R_{t+1+k} \label{eu_reward_signal}
+\end{gather}
+where T is the final time step. A return can also include a discount rate $\gamma$ that discourages future rewards, as shown in \ref{eu_discounted_reward}. A discount rate is used, for example, if the MDP is a continuous problem that never ends or to include uncertainty of future predictions \cite{sutton2018reinforcement}.
+
+\begin{gather}
+    G_{t,discounted} = \sum_{k=0}^{T-t-1} \gamma^k * R_{t+1+k}. \label{eu_discounted_reward}
+\end{gather}
+
+         Additionally, it is worth mentioning that a \textbf{sparse} reward signal refers to the lack of instantaneous rewards or penalties given to the agent per transition regardless of distance to the goal. In other words, it rewards the agent in states that are close to a goal. In contrast, a \textbf{dense} reward function rewards (or penalizes) the agent at most of the transitions it takes. This feedback can be counterproductive since the agent could have too many distractions at each timestep. This concept will prove useful in Chapter \ref{chap:discussion}.
 
 \textbf{Value Function.}
 Whereas the reward signal assigns a reward to the actions that are available to the agent at a given state, the value function specifies what is good in the long run. The value function calculates a value for a state, as the expected cumulative reward from the rewards in the future states, starting from that state. \cite{sutton2018reinforcement}
 In other words, the state-value function, $V_{\tau}(s)$ is the expected future reward starting from state $s$ and following policy $\pi$. It can be written as
 
-\begin{align*}
-   V_{\pi}(s)=\mathbb{E}_{\pi}\left\{r_{t} \mid s_{t}=s\right\}=\mathbb{E}_{\pi}\left\{\left(\sum_{k=0}^{T-t-1} \gamma^{k} r_{t+1+k}\right) \mid s_{t}=s\right\}
-\end{align*}
+
+\begin{gather}
+   V_{\pi}(s)=\mathbb{E}_{\pi}\left\{r_{t} \mid s_{t}=s\right\}=\mathbb{E}_{\pi}\left\{\left(\sum_{k=0}^{T-t-1} \gamma^{k} r_{t+1+k}\right) \mid s_{t}=s\right\} \label{eu_valuefunction}
+\end{gather}
  
 where $\gamma$ is the discount rate, $s_t$ is the state at time step $t$, $r_t$ is the reward at time step $t$, and $\mathbb{E}$ is the expected value \cite{eriksson2021deep}. 
 
@@ -115,9 +118,11 @@ An example of a policy that prefers exploration is the $\epsilon$-greedy policy.
 Q-learning one of the most well known reinforcement learning algorithms. It is a model-free learning algorithm and therefore it does not require any assumptions to be made about the environment or about the reward function.
 At the start of each episode, the agent picks an action (also called a “policy”) from some policy distribution. The agent then receives a reward which is calculated based on the policy that was chosen. The agent then uses the reward to update the policy distribution, which is often called the Q-function. The Q-function is an action-value function $Q_\pi(s,a)$, which, in addition to the state-value function (reference), it also considers the action space \cite{sutton2018reinforcement}. It can be written as:
 
-\begin{align*}
+\begin{gather}
     Q_{\pi}(s, a)=\mathbb{E}_{\pi}\left\{r_{t} \mid s_{t}=s, a_{t}=a\right\}=\mathbb{E}_{\pi}\left\{\left(\sum_{k=0}^{T-t-1} \gamma^{k} r_{t+1+k}\right) \mid s_{t}=s, a_{t}=a\right\}
-\end{align*}
+    
+    \label{eu_q_learning}
+\end{gather}
 
 % Q-learning has proven to be a very successful and flexible algorithm, but it requires quite a bit of information to be provided in order to run efficiently.
 Q-learning learns an optimal $\epsilon$-greedy policy. The agent has an $\epsilon$ chance of choosing a random action and $1-\epsilon$ of choosing an action based on the optimal policy. The optimal action is the one that maximizes the action-value function $\max _{a} Q_{\pi}(s, a)$ . 
@@ -128,9 +133,10 @@ and iteratively updates itself by taking into account the immediate rewards it r
 % policy distribution 
 in the following manner:
 
-\begin{align*}
+\begin{gather}
    Q_{\pi}\left(S_{t}, A_{t}\right) \leftarrow Q_{\pi}\left(S_{t}, A_{t}\right)+\alpha\left[R_{t+1}+\gamma \max _{a} Q_{\pi}\left(S_{t+1}, a\right)-Q_{\pi}\left(S_{t}, A_{t}\right)\right]
-\end{align*}
+   \label{eu_q_learning_policy}
+\end{gather}
 
 % $$\pi_{t+1}(s)=\frac{\pi_t(s)\cdot Q_\pi(s,a^*_t)}{\sum_{s'} \pi_t(s')\cdot Q_\pi(s',a^*_t)}$$
 
@@ -200,21 +206,23 @@ They use a large number of interconnected neurons (perceptrons) to approximate t
 
     
 A neuron consists of an input (or data) connection, and an output (or hidden) connection, as visualized in the model in Figure \ref{fig:neuron}. Inputs $x$ are multiplied by a set of training weights $\theta$ and summed. An activation function $h$ is then applied to the sum. The output $h(x,\theta)$ of a neuron is a nonlinear function of the input, and as a result a large number of neurons is needed to approximate a complex function. The weights are then trained by backpropagation in order to minimize the cost of the function approximation (i.e. the training set error). A common activation function, ReLU is defined as follows:
-\begin{align*}
+\begin{gather}
     h(x,\theta) =
     \begin{cases}
         0 & \text{if } z < 0,\\
         z & \text{if } z \ge 0,\\
     \end{cases}
-\end{align*}
+    \label{eu_neural_network_cases}
+\end{gather}
 % then a neuron receives a set of inputs $v_i^j$ and returns an output $z_i^j$. The outputs are then combined with other outputs to form a neuron’s final output $o$.
 % in continuous state space problems since they are relatively easy to train by back-propagation using a loss function.
 where z is the summed output of the neuron. By tuning the weights of a neural network, non-linear functions can be approximated. Accordingly, a neural network could be leveraged to approximate the value function or policy of an agent by feeding state $s$ as input to the network \cite{eriksson2021deep}. 
 % The weights of a neural network can be tuned through gradient descent.
 A common and efficient method to tune the weights of a neural network is batch gradient descent. Gradient descent can be defined as
-\begin{align*}
+\begin{gather}
     \theta_{i, j} \leftarrow \theta_{i, j}-\alpha \frac{\partial L}{\partial \theta_{i, j}}
-\end{align*}
+    \label{eu_neural_networks_weights}
+\end{gather}
 where $\alpha$ is the learning rate, $\theta_{i,j}$ are the neural network's weights and $L$ is the loss function.
 A loss function is a measure of how well the neural network approximates the desired function. Common loss functions for value functions include squared error and mean squared error, where common loss functions for policy functions is cross-entropy. In the squared error $L=(y-\hat{y})^{2}$, $\hat{y}$ is the predicted output from the network and $y$ is the true value (ground truth).  For more information on backpropagation and gradient descent, see \cite{sutton2018reinforcement}. 
 
@@ -270,22 +278,26 @@ The following subsections further introduce the fundamental concepts behind PPO,
 \subsubsection{Policy Gradient}
 Policy Gradient methods estimate the optimal parametrized action policy $\pi(a \mid s, \theta)$ (i.e. which action is taken in each state) and are typically used in large state spaces. These methods learn the policy's parameter vector $\theta$ by learning the weights of a neural network. 
 The parametrized policy $\pi(a \mid s, \theta)$ describes a distribution which gives a probability of choosing action $a$ given state $s$ and parameters $\theta$ at timestep $t$ as
-\begin{align*}
+\begin{gather}
     \pi(a \mid s, \theta)=\operatorname{Pr}\left\{A_{t}=a \mid S_{t}=s, \theta_{t}=\theta\right\}.
-\end{align*}
+    \label{eu_policy_gradient}
+\end{gather}
 These methods aim to maximize the expected return $J(\theta)$, known also as the objective function or loss, by following the parametrized policy \cite{sutton2018reinforcement}. Gradient descent (or ascent) is then used to update the weights of the network as
-\begin{align*}
+\begin{gather}
    \theta_{t+1}=\theta_{t}+\alpha \widehat{\nabla J\left(\theta_{t}\right)}
-\end{align*}
+   \label{eu_policy_gradient_update_weiights}
+\end{gather}
 where $\widehat{\nabla J\left(\theta_{t}\right)}$ is an estimate of the gradient of the objective function (expected return) \cite{3}. A standard gradient estimator for these methods is
-\begin{align*}
+\begin{gather}
     \widehat{\nabla J\left(\theta_{t}\right)}=\hat{E}_{t}\left[\nabla_{\theta} \log \pi_{\theta}\left(a_{t} \mid s_{t}\right) \hat{A}_{t}\right]
-\end{align*}
+    \label{eu_policy_gradient_estimator}
+\end{gather}
 where $\pi_{\theta}$ is the parametrized stochastic policy, $\hat{E}_{t}$ is the expectation across a batch of experiences and $\hat{A}_{t}$ is an estimator of the advantage function at timestep t \cite{sutton2018reinforcement}. 
 The respective objective function for the policy gradient estimator is therefore
-\begin{align*}
+\begin{gather}
   L^{\mathrm{PG}}(\theta)=\widehat{J(\theta)}=\hat{E}_{t}\left[\log \pi_{\theta}\left(a_{t} \mid s_{t}\right) \hat{A}_{t}\right].
-\end{align*}
+  \label{eu_policy_gradient_obj_function}
+\end{gather}
 Optimizing on $L^{P G}$ is, however, not justified, given that it leads to destructively large policy updates \cite{schulman2017proximal}.
 
 \subsubsection{Clipping}
@@ -301,25 +313,31 @@ PPO builds upon the concepts mentioned above and simplifies the concepts introdu
 \end{figure}
 
 First, the probability ratio between the policy with the current parameters and the policy with the old parameters is defined as
-\begin{align*}
+\begin{gather}
     r(\theta)=\frac{\pi_{\theta}(a \mid s)}{\pi_{\theta_{\text {old }}}(a \mid s)}.
-\end{align*}
+    \label{eu_policy_gradient_probability_ratio}
+    
+\end{gather}
 Then, the objective function of TRPO (on policy) is:
-\begin{align*}
+\begin{gather}
   L^{\mathrm{TRPO}}(\theta)=\mathbb{E}\left[r(\theta) \hat{A}_{\theta_{\text {old }}}(s, a)\right].
-\end{align*}
+  \label{eu_ppo_policy_trpo_objective_function}
+\end{gather}
 However, given that the ratio between the policies can grow to be very large, PPO constraints the ratio $r(\theta)$ to stay in a small interval around $1$ through the introduction of an additional hyperparameter $\epsilon$ \cite{schulman2017proximal}. The value function loss then becomes
-\begin{align*}
+\begin{gather}
     L^{\mathrm{CLIP}}(\theta)=\mathbb{E}\left[\min \left(r(\theta) \hat{A}_{\theta_{\mathrm{old}}}(s, a), \operatorname{clip}(r(\theta), 1-\epsilon, 1+\epsilon) \hat{A}_{\theta_{\mathrm{old}}}(s, a)\right)\right]
-\end{align*}
+    \label{eu_ppo_value_function}
+\end{gather}
 where the function $\operatorname{clip}(r(\theta), 1-\epsilon, 1+\epsilon)$ constraints the ratio to a maximum and a minimum. Subsequently, the objective function of PPO takes a pessimistic lower bound to the loss by keeping the minimmum of the unclipped $r(\theta) \hat{A}_{\theta_{\text {old }}}(s, a)$ and the clipped ratio times the advantage estimator \cite{schulman2017proximal}. The advantage estimator is defined by
-\begin{align*}
+\begin{gather}
   \hat{A}_{t}=\delta_{t}+(\gamma \lambda) \delta_{t+1}+\ldots+(\gamma \lambda)^{T-t+1} \delta_{T-1}
-\end{align*}
+  \label{eu_ppo_advantage_estimator}
+\end{gather}
 where
-\begin{align*}
+\begin{gather}
   \delta_{t}=r_{t}+\gamma V(s_{t+1})-V(s_{t})
-\end{align*}
+  \label{eu_ppo_smoothing_coeff}
+\end{gather}
 and $\lambda$ is a smoothing coefficient. 
   
 % \subsubsection{Policy Iteration}
@@ -328,17 +346,17 @@ and $\lambda$ is a smoothing coefficient.
 \subsubsection{Algorithm}
 % A common practice to reduce the variance of the gradient of the expected return estimates is to add a baseline function $b(st)$ inside the expectation. Typical choices are the average reward $\bar{R}$, or the state value function $V(s)$. For more information on baseline functions, refer to \cite{}.
 Most techniques for calculating variance-reduced advantage-function estimators leverage a learned state-value function V(s) as baseline function and PPO is no different \cite{schulman2017proximal}. If using a neural network architecture that shares parameters between the two predictions heads for the policy and value functions, PPO proposes to add a value function error term to the policy surrogate and an entropy term to encourage sufficeint exploration. This new loss is defined as
-\begin{align*}
+\begin{gather}
     L_{t}^{C L I P+V F+S}(\theta)=\hat{\mathbb{E}}_{t}\left[L_{t}^{C L I P}(\theta)-c_{1} L_{t}^{V F}(\theta)+c_{2} S\left[\pi_{\theta}\right]\left(s_{t}\right)\right]
-\end{align*}
+\end{gather}
 where $c1$,$c2$ are coefficients, $S$ denotes the entropy bonus and $L_{t}^{V F}$ is the value function loss \cite{schulman2017proximal}. In other words, $L_{t}^{C L I P}(\theta)$ is the loss for the actor network and $L_{t}^{V F}$ is the loss for the critic network. The loss of the value function used in PPO is defined as
-\begin{align*}
+\begin{gather}
     L^{\mathrm{VF}}=\left(V_{\theta}\left(s_{t}\right)-V_{t}^{\text {target }}\right)^{2}
-\end{align*}
+\end{gather}
 where $V_{\theta}\left(s_{t}\right)$ is also known as the critic return and in some implementations is seen as $\delta_{t} + V_{\theta}\left(s_{t}\right)$. Similarly, the term $S_{\pi_{\theta}}\left(s_{t}\right)$ is an entropy bonus that promotes exploration \cite{schulman2017proximal}. Concretely, this is the Shannon entropy and is computed by
-\begin{align*}
+\begin{gather}
     S_{\pi_{\theta}}\left(s_{t}\right)=-\sum_{i=1}^{n} \pi_{\theta}\left(a_{i} \mid s_{t}\right) \log \left(\pi_{\theta}\left(a_{i} \mid s_{t}\right)\right.
-\end{align*}
+\end{gather}
 In summary, the main idea of PPO is to avoid large policy updates during training by clipping the ratio between the old and the current policy. It successfully combines function approximation with policy optimization while showing great performance \cite{schulman2017proximal}. Finally, the algorithm is described in Algorithm \ref{alg:ppo} below:
 
 {\centering

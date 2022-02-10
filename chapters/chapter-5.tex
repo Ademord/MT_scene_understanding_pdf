@@ -17,20 +17,37 @@ This chapter will discuss the obtained results, the used methodology, the validi
  Voxel knowledge is provided when voxel elements are visible in the grid sensor view to the agent, octree knowledge is provided through octree node observations, pigeon observations or observations of the lingering metric.
  
     \subsection{Object Exploration with Knowledge of Voxels} 
-        The best object exploration results for this type of agents were achieved by the runs that had a \textit{sparse high voxel reward function}. %among all object-focused agents
-        Concretely, \textit{run63+100-nospeed-nolinger} performed the best from the object-focused agents with an average of 1.73 total objects scanned per episode and a standard deviation of 0.17. Close in performance was \textit{run63+100-nospeed}. These two runs prove that an agent that can focus on the scanning of voxels without the distraction of other reward functions achieves the best performance. On this note, even though \textit{run63++025} had the influence of the minimum speed penalty and the lingering penalty, its performance was almost as high as the aforementioned runs. This indicates that it did not have the pressure to change its behavior abruptly when it came into contact with voxels, given that only provided a smaller (25\%) reward.
-        An additional point of interest is that some agents do not finish scanning objects, which goes along the lines of the pressure the agent has from these movement penalties. 
-        Moreover, the mechanism to reduce the minimum speed penalty and the lingering penalty, if voxels were found in the agent's field of vision (FOV), did not provide the expected performance in \textit{run63++075}, nor \textit{run63++100}.
-        An idea is to test the change in performance with an added reward for actually finishing a full scan of an object. This would motivate the agent to finish an object before moving to another one. However, the training setup would sometimes allocate objects within a 10 meter range from each other. The agent would then see both objects and choose to first scan the sides it sees and then the rest of the objects. A possible alternative would be to reward the agent for moving at a slower speed when voxels are in the agent's FOV.
-       
+        %among all object-focused agents
+        In general, the best performing object-focused agents without any semantic information have "oracle" knowledge about the closest goal. This oracle information is the walk and look angles towards the closest goal. However, the best agent is the \textit{voxel-entropy++100-nospeed}, which scanned an average of 2.10 objects per episode. This agent has vision of voxels and also observes the level of entropy in the scene around it. It is then followed by an oracle run, \textit{voxel++100-nospeed-nolinger-oracle-8}, which scans an average of 1.77 objects per episode, and its non-oracle variant, \textit{voxzel+100-nospeed-nolinger}, which scanned 1.73 objects per episode. 
+        
+        % Close in performance was \textit{run63+100-nospeed}. 
+        Overall, the training results show that the best object exploration results were achieved by the agents that had a \textit{sparse high voxel reward function}. In other words, the best performances were achieved when the agents can focus on the scanning of voxels without the distraction of other reward functions. On this note, even though \textit{run63++025} had the influence of the minimum speed penalty and the lingering penalty, its performance was almost as high as the aforementioned runs. This indicates that it did not have the pressure to change its behavior abruptly when it came into contact with voxels, given that only provided a smaller (25\%) reward.
+        Accordingly, the mechanism to reduce the minimum speed penalty and the lingering penalty, if voxels were found in the agent's field of vision (FOV), did not provide the expected performance in \textit{run63++075}, nor \textit{run63++100}.
+        These results points towards the hypothesis that the voxel reward function diverges from reward signal of these penalties and the agent cannot easily balance between these two priorities.
+        Furthermore, they demonstrate that simpler agents with less distractions perform better at scanning the objects they need. 
 
-    
+        % Table \ref{tab:results-RQ1-explorative-performance} also shows that the minimum speed penalty had a negative impact on the explorative capabilities of these runs. Concretely, agents without a minimum speed penalty visited an average of 36-40 octree leaf nodes and perceived an average of 119-131 octree scan points, with an octant setup of 4$m^3$, whereas other agents visited an average of 29 leaf nodes and perceived 87-90 scan points. 
+        
+        % In contrast, \textit{run63++075} and \textit{rurn63++100} were able to scan an average of 0.96 and 0.77 total objects per episode respectively, with a standard deviation of 0.17, and visit 
+      
+        An additional point of interest is that some agents lack the motivation to finish scanning objects. This is explained by the pressure the agent has from the movement penalties. 
+        An idea is to test the change in performance with an added reward for actually finishing a full scan of an object. 
+        This would motivate the agent to scan all voxels of an object before moving to a new one. 
+        However, the training setup would sometimes allocate objects within a 10 meter range from each other. 
+        The agent would then see both objects and choose to first scan the sides it sees and then the rest of the objects. 
+        A possible alternative would be to reward the agent for moving at a slower speed when voxels are in the agent's FOV.
+       
+       
+    %  Animal... In general All methods with Oracle information Achieve high performance Oracle methods with an average of 1.7 Object scan per episode, from the best performing ones Bad band 
+    %     From the runs that had no information about The position of the object in the 3D space   
+    %     Concretely,
     
         % were under the pressure of a, perform better at exploration
-        On a separate note, the best runs for this section visit more nodes in the environment than their counterparts that included a minimum speed penalty, as shown in Table \ref{tab:results-RQ1-explorative-performance}, even with the \textit{in-field-of-vision} mechanism: they visited an average of 36-40 octree leaf nodes and perceived an average of 119-131 octree scan points, with an octant setup of 4$m^3$.
-        In contrast, \textit{run63++075} and \textit{rurn63++100} were able to scan an average of 0.96 and 0.77 total objects per episode respectively, with a standard deviation of 0.17, and visit an average of 29 leaf nodes and perceived 87-90 scan points. 
-        These results points towards the hypothesis that the voxel reward function diverges from reward signal of these penalties and the agent cannot easily balance between these two priorities.  
-        These results demonstrate that simpler agents, with less distractions, perform better at scanning the objects they need. 
+        On a separate note, the shortest-path agents did not perform as expected and were greatly out-shined by the oracle agents. 
+        The difference between these two is that oracle runs have shortest-path observations, but do not receive a penalty from the walk and look errors. 
+        Visual inspection showed that the penalty for the walk and look errors caused the shortest-path agent to fly above the goals to try to minimize these errors, instead of focusing on scanning the voxels. 
+        The FOV-reduction mechanism did not improve these agent's performance within the 30M training timesteps. 
+        
         
         \begin{figure}[!ht]
         \centering
@@ -39,7 +56,7 @@ This chapter will discuss the obtained results, the used methodology, the validi
         \label{fig:results_variables_obj}
         \end{figure}
         
-        Furthermore, it is important to consider the question of what observations, rewards, and constraints have the greatest impact on the effectiveness of agents in solving particular tasks.
+        It is also important to consider the question of what observations, rewards, and constraints have the greatest impact on the effectiveness of agents in solving particular tasks.
         Based on the performance of the best runs Figure \ref{fig:results_variables_obj} visualizes the influence of the most relevant variables. 
         It shows that agents without the minimum speed requirement perform better when the voxel reward is over 75\% strength, which corresponds to the performance discussed above.
         % Similarly, the agent with a weaker voxel reward could balance with these penalties, at 25\% 
@@ -76,7 +93,9 @@ This chapter will discuss the obtained results, the used methodology, the validi
         
         % The addition of a round-trip translation to be used as 
         
-        In summary, the best performing agents achieve an average of 1.73 total objects scanned per episode, visit 36 leaf nodes and are characterized for performing better when removing the minimum speed penalty and, tentatively, the lingering penalty.
+        In summary, the best performing agent achieves an average of 2.1 total objects scanned per episode while only visiting 0.79\% of the environment and is characterized for performing better when removing the minimum speed penalty and, tentatively, the lingering penalty. It is worth reminding that goals are situated at the ground level of the environment and not at different heights. Therefore, the agent must not explore big parts of the environment to find the goals. Therefore, 0.79\% of the environment covers approximately an area of 124 square meters (octree nodes of size 4). 
+    %  divided through octree nodes of 4 meters equals 31 leaf nodes approximately, or an area
+    
     
         % Summarizing, the best achieved results show a classiﬁcation accuracy of 72:24%, resulting
         % in a gain over a random classiﬁer of 22:24% using Bing Translator as a candidate and
@@ -85,58 +104,73 @@ This chapter will discuss the obtained results, the used methodology, the validi
 
     \subsection{Object Exploration without Knowledge of Voxels}
         
-        This section presents the results for the agents that are receive a voxel reward but are not directly able to see voxels in their grid sensor view.
-        
+        This section discusses the results for the agents that receive a voxel reward but are not directly able to see voxels in their grid sensor view.
+        Surprisingly, the best variant among these "blind" agents is the \textit{object-detector-nospeed}, with an average of 1 objects scanned per episode. This variant proved its performance in the previous section with run \textit{object-detector-pure-vision}, which achieves an average of 1.54 objects scanned per episode. 
+        % This goes in line with the performance shown in the previous section b
+        Overall, the results show that all other blind agents were not able to scan objects. On the one hand, the shortest path agent was overwhelmed by the penalties from the walk and look errors, scanning an average of 0.06 objects per episode. On the other hand, the semantic curiosity agent prefers states that maximize Chaplot's rationalized class entropy \cite{chaplot2020semantic}. Such states are usually too far from voxels and preferably where multiple objects are in the agent's camera view. This performance was similar to the one displayed by the random agent. Agents without any information nor penalties, also called fully blind agents, performed better with 0.39 objects scanned per episode. 
+        To distinguish if the performance of these methods was solely due to the lack of voxel-vision, voxel-aware variants were trained. Results show, however, that these methods lay the wrong focus on the object exploration task, with the exception of run \textit{object-detector-pure-vision}, which achieved an average of 1.54 objects scanned per episode.
+       
+        In order to improve the performance of these methods, the penalties and reward strengths would have to be reestructured, similar to what was done with the shortest-path algorithm, where voxel-agents were given only the observations under the suffix \textit{oracle}.
+        Concluding, although the object detector showed unexpected performance in comparison to other blind agents, knowledge about voxels and scarce reward functions proved to achieve better performance in the object exploration tasks.
+        % 
+            % Results show that mixed-focused agents achieve an even better performance 
+                
+            % Due to the lack of a sufﬁcient amount of technical documents to train machine learning
+            % algorithms on a document level, the approach to classify documents into the classes professional
+            % translation and automated translation consisted of 
             
-        Due to the lack of a sufﬁcient amount of technical documents to train machine learning
-        algorithms on a document level, the approach to classify documents into the classes professional
-        translation and automated translation consisted of 
-        
-        To increase the signiﬁcance of the document-based approach, an additional 19190 manufactured
-        documents were ta
-        
-        An important fact concerning the original document, are the clearly visible differences in
-        prediction distributions. 
-        
-        Another important point of concern, is the question of the percentage share distribution
-        of the respective labels. T
-        
-        It is clearly visible that longer documents deviate less in terms of classiﬁcation distributions
-        than shorter docu
-        
-        Based on the performance of the best runs Figure \ref{fig:results_variables_obj} visualizes the influence of the most relevant variables.
-
-        % Furthermore, as shown in table 4.10, using Google Translate as a candidate, results in
-        % substantially higher recall values for automated translation and therefore higher precision
-        % values for professional translation
-        
-        % Assuming, that all Google produced sentences share a characteristi
-        
-        % The addition of a round-trip translation to be used as 
-
-
-        Concluding, although the algorithm classiﬁes every document with one of the two given
-        classes, the results cannot always be taken for certain, since the resulting percentage share
-        of sentence level classiﬁcation plays an important role for determining the certainty of
-        the classiﬁcation. The present approach proposes a classiﬁcation with certainty, if the
-        classiﬁed document ﬁts into one of the following areas:
-         C1, D1 for a classiﬁcation with professional translation or
-         C2, D2 for a classiﬁcation with automated translation.
-
+            % To increase the signiﬁcance of the document-based approach, an additional 19190 manufactured
+            % documents were ta
+            
+            % An important fact concerning the original document, are the clearly visible differences in
+            % prediction distributions. 
+            
+            % Another important point of concern, is the question of the percentage share distribution
+            % of the respective labels. T
+            
+            % It is clearly visible that longer documents deviate less in terms of classiﬁcation distributions
+            % than shorter docu
+            
+            % Based on the performance of the best runs Figure \ref{fig:results_variables_obj} visualizes the influence of the most relevant variables.
+    
+            % % Furthermore, as shown in table 4.10, using Google Translate as a candidate, results in
+            % % substantially higher recall values for automated translation and therefore higher precision
+            % % values for professional translation
+            
+            % % Assuming, that all Google produced sentences share a characteristi
+            
+            % % The addition of a round-trip translation to be used as 
+    
+    
+            % Concluding, although the algorithm classiﬁes every document with one of the two given
+            % classes, the results cannot always be taken for certain, since the resulting percentage share
+            % of sentence level classiﬁcation plays an important role for determining the certainty of
+            % the classiﬁcation. The present approach proposes a classiﬁcation with certainty, if the
+            % classiﬁed document ﬁts into one of the following areas:
+            %  C1, D1 for a classiﬁcation with professional translation or
+            %  C2, D2 for a classiﬁcation with automated translation.
 
     \subsection{Environment Exploration with Knowledge of Octrees}
         
-        As mentioned in section 3.3 there was reasonable concern that the amount of existing at-
-        tributes using no reference translations was insufﬁcient to create a useful classiﬁer for the
-        given problem. 
+        This section explores the results for the agents that are rewarded for exploring new locations in the explorable environment, with observations such as the amount octree nodes discovered or pigeon observations. 
+        Regardless of the limitation that each training episode is limited to 5000 timesteps, the best performing agent \textit{octree-16-constrained-pigeon} discovers 34\% of all leaf nodes in the environment.  
+        Each different octree node size provides a different amount of granularity about the positions in the environment: unlike a 16-meter-wide leaf node, a 4-meter-wide leaf node requires an agent to visit more precise locations in the environment.
+        This is observed in the amount of nodes that constitute the explorable 3D volume at each different dimension (4000, 500 and 62.5). 
+        The best exploratory capabilities are demonstrated by octree explorers that use node sizes of 16 meters: they prove that agents can visit several spaced-out locations in the limited time given.
+        % Factors like the 
+        
+        % As mentioned in section 3.3 there was reasonable concern that the amount of existing at-
+        % tributes using no reference translations was insufﬁcient to create a useful classiﬁer for the
+        % given problem. 
 
-        The agent with 16 nodes is capable of "covering" much more space 
+        % The agent with 16 nodes is capable of "covering" much more space 
                
-     Based on the performance of the best runs Figure \ref{fig:results_variables_obj} visualizes the influence of the most relevant variables.
-
-            It is size satisfying to see that the pigeon observations provided value in exploration task
-        The constraint variable shows that runs with a smaller leaf note size have the highest episode length among the unconstrained runs
-        I expected the constrained runs collect the highest episode length
+         Based on the performance of the best runs Figure \ref{fig:results_variables_octree} visualizes the influence of the most relevant variables.
+        We are proud that the pigeon observations made an impact on exploration missions and helped agents better orient themselves in a mapless environment and cover more different locations, as shown by run \textit{ctree-16-constrained-pigeon}'s 34\% coverage.
+        Interestingly, Pathak's curiosity module did not provide added value to run \textit{octree-16-constrained-pigeon-pathak}, bringing its coverage percentage to 9.5\%.
+        Finally, the constraint variable proved itself useful to evaluate the performance agents that end the episode too soon. This occurred when the rewards were too low or the penalties too high, such as in the case of runs  \textit{octree-16} and \textit{octree-4-pigeon}. 
+        % that runs with a smaller leaf note size have the highest episode length among the unconstrained runs
+        % I expected the constrained runs collect the highest episode length
 
         % Furthermore, as shown in table 4.10, using Google Translate as a candidate, results in
         % substantially higher recall values for automated translation and therefore higher precision
@@ -146,86 +180,147 @@ This chapter will discuss the obtained results, the used methodology, the validi
         
         % The addition of a round-trip translation to be used as 
 
-        Concluding
+        These results suggest that octrees are appropriate navigation data structures to reward the agent for navigating new locations in an environment. It is important to highlight that the agent does not have access to the octree nodes nor some kind of map. Our best octree-only agent is able to explore 21.56\% of the environment using uniquely the reward per each new octree node visited. However, our mapless agent that, similar to pigeons, uses a magnetic north and the position of the sun to determine a relative overall position in the map, achieves 34\% coverage of the space in the given 5000 timesteps. This represents a distance of about 340 meters, crossed in 132 seconds, without repeating.
+        % This corresponds to approximately 340 meters traversed 132 seconds without repetition. 
+        % \ref{https://johnaustin.io/articles/2019/fix-your-unity-timestep#:~:text=Each%20Update%20pass%20actually%20spans,the%20game%2Dtime%20between%20frames.}.
     
     \subsection{Environment Exploration without Knowledge of Octrees}
-        The results discussed above, were used to create a document-based classiﬁcation system
-        similar to the one discussed in subsection 5.1.2. The results for the original documents are
-        shown in table 4.15. The ﬁrst apparent fact is that in this case,
+        This section discusses the results for agents that are rewarded for visiting new octree nodes, yet do not have any information about the number of octree nodes discovered nor spatial information such as pigeon observations. This covers blind agents and those based on Pathak's method \cite{pathak2017curiosity}. The latter is a 1-1 implementation of the paper and is provided through Unity ML-Agents' curiosity module \cite{github-unity-mlagents-toolkit}.
         
-        The evaluation shows an average misclassiﬁcation rate of 32:81% for the shortest documents,
-        25:98% for documents containing ten sentences and an average error of 4% for
-        document length 250 before dropping to 0% for larger test ﬁles.
-        As for Research Question 1, the senten
+        Overall, the results for the fully blind agents suggest that these agents can navigate the environment and avoid obstacles. However, their performance is limited to covering 2.32 \% of the environment. This is because they cannot remember the locations they already visited. 
+        It is interesting to note that the relative location in 3D space does not provide the agent sufficient information for it to create an internal geographical consciousness model.
+        % Interestingly, the relative position of the agent in the 3D space is not enough information for these agents to create some sort of awareness model.  
+        
+        Furthermore, due to differences in environmental coverage, these results must be interpreted with caution: an agent that covers 2\% of the environment with 4-meter-wide leaf nodes, could potentially cover 4 times as much if motivated by 16-meters-wide leaf nodes.
+        However, even with the adjusted results, these agents would cover only 20\% of the space of the best performing agent from the previous section.
+        
+        On a positive note, one of Pathak-derivated agents, \textit{pathak-8}, achieves a 7\% coverage and a potential 14\% coverage with a 16-meter-wide node. Agent \textit{pathak-16-constrained} demonstrates this by achieving \% coverage. 
+        Accordingly, \textit{pathak-16-constrained-nospeed} achieves \% coverage and shows that the speed parameter does not contribute to exploring more octree nodes. 
+        However, run \textit{pathak-16-constrained-nospeed-nolinger} explores \% of the environment and demonstrates that the linger penalty does benefit the exploratory capabilities of an octree-agent.
         
         
-        The areas of interest are the same as described in subsection 5.1.2. The deviations in the
-        areas of larger documents are due to the comparably small amount of created documents
-        for lengths of 1000 s
+            % The results discussed above, were used to create a document-based classiﬁcation system
+            % similar to the one discussed in subsection 5.1.2. The results for the original documents are
+            % shown in table 4.15. The ﬁrst apparent fact is that in this case,
+            
+            % The evaluation shows an average misclassiﬁcation rate of 32:81% for the shortest documents,
+            % 25:98% for documents containing ten sentences and an average error of 4% for
+            % document length 250 before dropping to 0% for larger test ﬁles.
+            % As for Research Question 1, the senten
+            
+            
+            % The areas of interest are the same as described in subsection 5.1.2. The deviations in the
+            % areas of larger documents are due to the comparably small amount of created documents
+            % for lengths of 1000 s
+    
+        These results broaden our understanding of the feasibility of octrees for the exploration of environments and the influence of the minimum speed penalty, the lingering penalty and Pathak's curiosity method. It is safe to say that an explorer agent does not necessarily need a minimum speed constraint, the lingering penalty positively impacts exploration and Pathak's method proves to motivate the agent towards newer states. 
 
     \subsection{Mixed-focused Exploration} \label{chap5:mixed-focused}
+        This section deals with the results from the mixed-focused agents. These agents balance the exploration of both objects and the environment. The baseline mixed-agent incorporates the voxel-entropy agent, removes the minimum speed requirement, and adds octree-node observations, pigeon observations and Pathak's curiosity module. 
+        This set of results incorporate an F1-score metric, calculated from the total objects scanned and the octree leaf nodes visited metrics. 
+        This allows the use of a single metric to evaluate the effectiveness of agents in balancing motivation between two high-level tasks.
+        % This should allow the usage of one single metric to evaluate the harmony score of the agents that try to balance between two tasks.
+        According to our F1-score, the best mixed-focus agent is the \textit{explorer-16-nolinger-noTrainEntropy}, with a 0.37 score. This result, however, comes at the expense of scanning fewer objects (1.20) and exploring more of the environment (8\%). Nevertheless, our preferred best agent is the runner up, \textit{explorer-entropy-8}, since it scans almost twice as many objects per episode and achieves a similar corrected leaf nodes coverage. This claim might seem counter-intuitive, since the results show that an agent with fewer octree-rewards should focus on object scanning. However, the reader must remember that, as previously mentioned, the percentage of coverage for \textit{explorer-entropy-8} must be multiplied by a factor of two to be compared to any variant of \textit{explorer-entropy-16}. This results in the corrected octree leaf node coverage percentage. 
+        Along these lines, it is also safe to claim that \textit{explorer-entropy-16} does not perform as well as \textit{explorer-entropy-8} since, given such a small reward in the environment, the agent is negatively distracted by the lingering penalty being modified by the semantic entropy modifier. As a reminder, the semantic entropy modifier regulates the strength of the lingering penalty based on the rationalized entropy observed by the object detector. This claim is supported by the performance shown by \textit{explorer-entropy-16-nolinger}, which achieves similar octree-explorative performance as the best run. Finally, the difference in objects scanned is justified by the unnecessary observation this agent receives: the value of the lingering penalty strength is changing yet it is not directly related to any reward or penalty, given the \textit{-nolinger} suffix.
+        
+        % The reader must remember, as mentioned before, the corrected octree leaf nodes coverage percentage for the 8-meters-wide leaf nodes must be multiplied by a factor of two to be compared with the explorers that use 8-meters-wide leaf nodes.
     
-            mention using pathak on our models
+        Taken together, these findings demonstrate that agents with simpler, consistent reward signals provide the best performance. 
+        % Additionally, it is safe to say that Pathak's curiosity ML-Agents module contributes to finding new states, yet an analysis on the impact of fine tuning its hyperparameters would be important.
+        In addition, it can safely be said that Pathak's curiosity module provided by ML-Agents helps to find new states, but it would be important to analyze the effects of fine-tuning its hyperparameters.
+        Finally, noise (unnecessary) observations should be avoided at all costs, as they confuse the agent about which observations are actually related to the penalties or rewards being given. 
+        Furthermore, these noise observations translate into slower convergence times, since they mask which observations actually matter for the task at hand.
+        We hope that these findings will reach RL practitioners, specially those who were also inspired by \citetitle{silver2021reward}\cite{silver2021reward}, so that observations and rewards will be carefully deconstructed, analyzed, and evaluated for their actual impact on an agent's behavior.
+
+
+
 
     \subsection{Comparison of the two Research Questions}
+        Regarding the setup of the two research questions, each research question tackled a different expected policy in the reinforcement learning agent. While research question 1 focuses on the exploration of objects from multiple angles, research question 2 deals with the exploration of unknown environments, in which objects of interest could be found. The usage of Unity 3D provided a platform for the implementation and practical testing, in addition to the theoretical argumentation of our approach.
+        Furthermore, the separation of methods based on knowledge about octrees or voxels, allowed the critical, unbiased, feasibility evaluation of our proposed approach.
+        The expected results were that agents trained with knowledge of voxels and octrees would balance both policies and even outperform single-task agents, following \textcite{silver2021reward} claim. These expectations were confirmed by the experiments, achieving a maximum of 2 scanned objects per episode while covering at least 160 $m^2$ without repetition. 
+        
+        From the perspective of research question 1, this is an increase of 50.7\% percent in comparison to the object-detector baseline with vision of voxels and an increase of 13.7\% compared to the best voxel-oracle run, \textit{voxel++100-nospeed-nolinger-oracle-8}.
+        In comparison to our best voxel-focused run, \textit{voxel-entropy++100-nospeed}, our best mixed-focus agent is 2.9\% behind.
+        The respective results for the different algorithms are influenced the most by the minimum speed penalty, which added pressure on the agents to continue moving even though they needed to slow down to scan objects.
 
-        Concerning the setup of the two research questions, research question 1 was a more
-        straight forward task. Allowing the use of reference translations made the creation of
-        a valid attribute base easier and the results were more promising in the ﬁrst optimization
-        runs. In contrast to that, the second research question created the problem of having to
-        solve a document quality problem without access to semantics of the document, since the
-        use of reference translations was not allowed. The addition o
+        From the point of view of research question 2, our best mixed-focus agent explores 48\% less than environment-focused agents. Concretely, the best environment-focused agent performs 53.5\% better than the best mixed-focus agent. Similarly, Pathak's baseline is 42\% ahead of the best mixed-focus agent yet 18.8\% behind our best environment-focused agent. This is expected due to the fact that mixed-focus agents must sacrifice their limited timesteps given in order to explore the objects in the environment.
+        
+        The respective results for the different agents that explore the environment are most influenced by the minim speed penalty and the constraint variable. The removal of the former allowed agents to explore locations that required a slower speed, such as corners or around obstacles. The addition of the latter refused the agent the possibility of early-stopping episodes as a solution to the minimization of penalties, such as observed on 16-meter-wide subdivisions of the octree.
         
         
-        Furthermore, the misclassiﬁcation rate is clearly higher 
+        % The ﬁgure above shows that the performance of blind methods is strictly lower than methods that had knowledge of voxels or octrees.
+
+        
+        It is important to remember that in the case of research question 1, we can only provide an approximate comparison in performance with relation to other state-of-the-art methods. The original methods were not implemented in the Unity game engine, and given the limited time scope, our implementations are not 1-1 copies of the original works. If the authors would be willing to adjust their solution to be tested in the Unity game engine, we can provide a much more accurate performance comparison. In the case of research question 2, our performance comparisons are reliable, since Pathak's curiosity module was implemented by the Unity ML-Agents development team as an identical copy of the method proposed by the original paper.
+        
+        Concluding, the experiments confirmed the expectations of octrees and voxels being able to explore environments and objects, respectively. The in-depth analysis of the influence of observations and rewards in a reinforcement learning agent allowed the construction of an efficient, embodied explorer drone.
+        
+        % Concerning the setup of the two research questions, research question 1 was a more
+        % straight forward task. Allowing the use of reference translations made the creation of
+        % a valid attribute base easier and the results were more promising in the ﬁrst optimization
+        % runs. In contrast to that, the second research question created the problem of having to
+        % solve a document quality problem without access to semantics of the document, since the
+        % use of reference translations was not allowed. The addition o
         
         
-        The ﬁgure above shows that misclassiﬁcations are strictly lower for every d
+        % Furthermore, the misclassiﬁcation rate is clearly higher 
         
         
-        To further examine the performance between the two systems, it is important to look at
-        the percentage share of the different distributions rel
-        
-        Based on the performance of the best runs Figure \ref{} visualizes the influence of the most relevant variables.
-        It is interesting to see that intrinsic curiosity from Pathak's method \cite{pathak2017curiosity} did not provide much value in the expiration task.
+        % The ﬁgure above shows that misclassiﬁcations are strictly lower for every d
         
         
-        Concluding, the results of the experiments conﬁrmed the expectations with research question
-        1 being easier to solve using classiﬁcation techniques, than research question 2, due
-        to higher overall and averaged accuracies on a sentence level, smaller misclassiﬁcation
-        rates and more certain classiﬁcations for all sizes of documents.
+        % To further examine the performance between the two systems, it is important to look at
+        % the percentage share of the different distributions rel
+        
+        % Based on the performance of the best runs Figure \ref{} visualizes the influence of the most relevant variables.
+        % It is interesting to see that intrinsic curiosity from Pathak's method \cite{pathak2017curiosity} did not provide much value in the expiration task.
+        
+        
+        % Concluding, the results of the experiments conﬁrmed the expectations with research question
+        % 1 being easier to solve using classiﬁcation techniques, than research question 2, due
+        % to higher overall and averaged accuracies on a sentence level, smaller misclassiﬁcation
+        % rates and more certain classiﬁcations for all sizes of documents.
 
 
     \subsection{Evaluation Framework}
 
-        The proposed framework uses the results of the classiﬁcation system described in sub-
-        section 5.1.1 and therefore assumes that knowledge of the original document is available.
-        The framework works on a sentence l
+        The proposed framework evaluates the performance of the agents based on two separate tasks, each corresponding to one research question. To this end, inspired by the DARPA Subterranean Challenge, two test environments were developed. One environment tests the agent's time-to-goal for three goals situated sequentially after the previous goal has been discovered. The second environment evaluates how much time each environment-curious agent takes to discover a proportion of the environment, up to 100\% coverage. Given the limited time scope, only the best training runs from four categories were tested: object-focused, environment-focused, baselines, and mixed-focus. For the tests, the length of each episode was extended from 5'000 to 40'000 timesteps. It is also worth mentioning that the episode length was not able to be set to infinite, since that simulations that run for too long without stopping required more computer memory than what we had available. Therefore, the percentages reported are for half of the explorable vertical space. 
         
+        The results for the object-discovery task show that not all agents were able to reach the third goal within the given timesteps. Agents \textit{explorer-entropy-8}, \textit{voxel-entropy++100-nospeed} and \textit{voxel++100-nospeed} reached the third goal after 277, 357 and 264 seconds, respectively. They each have an average time between goals of 88, 92 and 119 seconds, and take an average of 1, 2 and 2 seconds/meter, respectively.
+        These results show that the introduction of entropy as an awareness signal shows an impact in between the second and third best agents. They also show that our mixed-focus agent explores the environment faster and has overall better performance. 
+        Figure \ref{} shows the results for the object exploration task. 
         
+        % Table \ref{} shows that 
         
-        Additionally, a weighted mistake count is added as additional context information. These
-        three attributes (a boolean value for the c
+        Concerning the environment exploration task, the results clearly show that not all agents are capable of exploring newer locations in the environment. 
+        Firstly, given that baselines displayed a poor performance in the previous sections, it was expected that they would not perform well in the test environments.
+        Secondly, from the perspective of voxel-focused agents, it was expected that they are not able to explore much of an environment without goals. On visual inspection, the agents were stuck spinning around obstacles. 
+        Thirdly, in terms of the mixed-focus agents, it was expected that they are able to perform to some extent in this test. Since these agents are also trained for object-discovery, they are capable of exploring the environment, but they are 2x slower than the best agent for this task.
+        Finally, it is clearly visible that the environment-focused agents were able to outperform all other agents. Most importantly, using 16-meter wide leaf nodes, they were able to fully traverse half of all octree leaf nodes in the environment within 7.68 minutes. It can be therefore safely assumed that given an infinite episode, these agents would discover all octree nodes after an average 16 minutes, covering therefore a volume of 62.5 octree nodes.
+        % covering .
         
+        % There are multiple reasons for the 
         
-        The mistake count had more inﬂuence on the sentence quality than the classiﬁcation system,
-        resulting in most sentences with a mista
+        % Additionally, a weighted mistake count is added as additional context information. These
+        % three attributes (a boolean value for the c
         
+        % The mistake count had more inﬂuence on the sentence quality than the classiﬁcation system,
+        % resulting in most sentences with a mista
         
-        Concerning ﬁgure 5.6, it is clearly observable that Category 1 and 3 are the most frequent
-        classes, which is due to them c
+        % Concerning ﬁgure 5.6, it is clearly observable that Category 1 and 3 are the most frequent
+        % classes, which is due to them c
         
+        % It is clearly visible that the professionally translated documents are rated higher than the
+        % respective automated documents. The reason for the professional documents being rated
+        % with an average score of 2:00 is 
         
-        It is clearly visible that the professionally translated documents are rated higher than the
-        respective automated documents. The reason for the professional documents being rated
-        with an average score of 2:00 is 
-        
-        general interpretation
+        % general interpretation
 
-        Our method performs surprisingly well in a,b,c
+        % Our method performs surprisingly well in a,b,c
         
-        the model is robust to hyperparamter tuning, it is shown in the following comparisons under different setups 
-        the hyperparemeters tuned were
+        % the model is robust to hyperparamter tuning, it is shown in the following comparisons under different setups 
+        % the hyperparemeters tuned were
 
     
     % \subsection{Small Environment Performance}
@@ -248,68 +343,64 @@ This chapter will discuss the obtained results, the used methodology, the validi
   
 
 \section{Method Reflection}\label{sec:method-reflection}
+    
+    The used method, adapted from the work by \cite{luckert2016using}, proved to be appropriate for proposing a solution for the research questions given. The structure provided allowed for the setup of different experiments without neglecting the initial goal. From the identification of the goals for each task, through the environment description and the specification and proposition of the reinforcement learning approaches, the method proved to efficiently structure the work required to construct an octree- & voxel-curious explorer agent.
+    
+    The results of this work prove that octrees and voxels are suitable for finding a solution to the two research questions. The abstraction of the complexities in the environment and of objects allowed the agent to be visual-agnostic and capable of adapting to newer environments. To address the possible reward signals capable of solving these tasks, multiple observations and reward signals were developed. These were then evaluated separately to determine their influence in the agent's behavior. Finally, combining the environment-focused agents with the object-focused agents allowed the final mixed-focused agents to outperform all other variants in the evaluation framework.
 
-    The used method, adapted from the work by \cite{luckert2016using}, proved to be appropriate for proposing a solution for the research question given. The structure provided allowed for the setup of different experiments without neglecting the initial goal. From the identification of the goal, through the data description and the specification and proposition of the computer vision approaches, the method proved to efficiently structure the work required to construct a pose estimation algorithm using machine learning.
     
-    % \subsection{Discuss Abstraction of the World} 
-      the benefit of abstracting the world is the reduction of complexity
+    Furthermore, the usage of Unity 3D and the ML-Agents plugin proved to be a great toolbox for developing reinforcement learning agents. It greatly simplified the development process with an intuitive UI, thorough documentation, an active and supportive community, and an extensive set of tools and modules such as attention, memory, curiosity, imitation learning, curriculum, and more.
+     Ultimately, the ML-Agents plugin is an essential solution for developing reinforcement-learning-based solutions. Accordingly, Unity provides efficient means to model, evaluate and improve models and debug errors. The only drawback from the Unity engine is the accumulation of memory if post-processing steps are not turned off manually. It is a debated topic, but it would be beneficial if the developers at Unity ML-Agents improved the handling of all post-processing effects that negatively impact training setups.
+     
+    Furthermore, part of the further use of the results includes the evaluation of compatibility with other environment platforms, such as OpenAI Gym. 
+    This could be easily done with the Unity-provided OpenAI Gym wrapper, which allows any Unity-developed environment to be loaded into a compatible format.
+    % Unity ML agency provides an  
+    % for the use of other algorithms, such as custom neural networks and models from 
+    % From the point of view of compatibility, Unity ML Agent allows indeed smooth transfer to OpenAI Gym.
+    % However,
+    This allowed the training of our an external neural network from OpenAI Baselines \cite{github-dlr-rm-baselines3} to be used for training in our Unity-developed environment. While the Unity OpenAI wrapper permitted a smooth environment transfer, the results presented in Section \ref{chap:4:cross-platform-compatibility} do not justify the transfer to OpenAI Gym. 
+    More concretely, development functions such as resuming of experiments, logging with Weights and Biases \cite{wandb2022}, debugging, etc., were negatively affected the development experience. 
+    % he lack of out-of-the-box development 
+    Even though Unity ML-Agents is currently limited to a set of trainers like PPO and SAC, it provides increased versatility and plug-and-play integration of a multitude of modules, such as attention, memory, curiosity, behavioral cloning, auto-curriculum, and many more. Therefore, we consider the use of Unity ML agents to be more appropriate for reinforcement learning tasks as of 2022. The only limitation of the plugin is that it is not possible to load externally created 3D environments.
 
 
-    The used KDD process proved to be suitable for ﬁnding a solution to the two research
-    questions. The standardized procedure allowed for the ﬂe
+    % The used KDD process proved to be suitable for ﬁnding a solution to the two research
+    % questions. The standardized procedure allowed for the ﬂe
+    % To address possible translation system speciﬁc characteristics, three different machine
+    % translation system
+  
     
+    % Focusing on the initial document quality evaluation on a sentence level ensured the significance
+    % of the approach, since the used data set consisted of over 20:000 different sentences
+    % in contrast to the original 14 doc
+    % Besides the increased signiﬁcance, 
+    % However, the taken approach has a clear shortcoming. 
     
-    
-    To address possible translation system speciﬁc characteristics, three different machine
-    translation system
-    
-    -
-    - a parallel-agent environment where multiple agents could be trained simoulatenously, relatively straight forward but needs some engineering to load multiple configurations at the same time.
-    - clarification on: is this LiDAR behavior? >> leads to noise topic, because its not 100\% worth it now
-    - noise in visuals when using a real translation from depth
-    - noise in scanner, how does the performance suffer ?
-    - simplified words: simplified SLAM and model free navigation.
-    
-    Using different machine learning algorithms to evaluate the quality of sentences and even
-    documents, proves to be effective and the results show the adequacy for the task at hand.
-    The most known algorithms wer
-    
-    
-    
-    Focusing on the initial document quality evaluation on a sentence level ensured the significance
-    of the approach, since the used data set consisted of over 20:000 different sentences
-    in contrast to the original 14 doc
-    Besides the increased signiﬁcance, 
-    However, the taken approach has a clear shortcoming. 
-    
-    
-    
-    
-    On a similar note, the results in the small environment show that the longer the agent has to move to achieve a goal, the greater the actual difference in the effectiveness of each method.
+    Similarly, in small-scale environments, the results show that the longer an agent has to move to reach a goal, the greater the real difference in each method's effectiveness.
+    % show that the longer the agent has to move to achieve a goal, the greater the actual difference in the effectiveness of each method.
     % there is an important difference in the actual performance of each method the longer the agent has to move to reach a goal.
-    For example, in situations where the goals are distributed scarcely, the agents that are not motivated to explore choose to stick to a small part of the environment. 
-    Others chose to move in circles, minimizing the minimum speed penalty, and to wait for the episode to restart. This means that they depend on the domain randomization to spawn a goal near them. It is important to understand that even though these methods are very effective in scanning voxels of objects in the vicinity, such as \textit{run65-pure} demonstrates after visual inspection. However, this does not result in a policy that can be used in a practical environment.
-    Moreover, "too small" environments conceal the subtleties that could distinguish one method from another, since they their performance metrics would not be too far apart. 
+    Concretely, large-scale environments prove that some agent behaviors are not motivated to explore to find rewards. Instead, these agents choose to move in circles in a small part of the environment, minimizing the minimum speed penalty. This indicates that these agents depend on the domain randomization to spawn a goal near them.
+    In contrast, in small-scale environments octree agents are more predisposed to display similar performance, with at least an average of 23\% of the environment explored by all agents.
+    % Others chose to move in circles, minimizing the minimum speed penalty, and to wait for the episode to restart. 
+    % It is important to understand that even though 
+    This proves that these methods are very effective in scanning voxels of objects in the vicinity, such as \textit{run65-pure} demonstrates after visual inspection. However, this does not translate to a policy that can be used in a practical environment.
+    We can safely claim that "small environments" conceal the subtleties that could distinguish one method from another, since their performance metrics would not be too far apart. 
     Therefore, in order to properly assess exploration policies, we recommend that agents must face not only various scenarios with obstacles, different heights, shapes, and colors but also larger environments that resemble the real world.
+    % We hope this helps the reader understand the fallacy of training exploration models in small environments. 
+
     
     
-    
-    Combining the environment-focused agents with the object-focused agents allowed the final mixed-focused agents to outperform all other variants in the evaluation framework.
     % \subsection{Applicable Practical Scenarios} % Future
     
-    It should be noted that in training, many rendering effects, such as grass and moving clouds, do not execute garbage collection mechanisms in the underlying system. This may result in a stop in training if the environment stops reacting due to a lack of remaining memory.
-    This may be a problem within Unity ML Agent's plugin episode reset logic, since this problem is not oberved in the test or demonstration runs.
-    Training was therefore carried out with the island presented in Chapter \ref{chap:4}, without any post-processing or special rendering effects.
-    This corresponded to an average memory usage of 9GB and a load of 60\% across 8 CPU cores, with 5 parallel training environments and a timescale of 20.
-    % Nevertheless, the trained agents were tested and fully functional in the applicable practical scenarios which demonstrated the possibility of transfer learning across environments and preserved the agent's explorative behavior.
-    As mentioned before, voxel-curious agents, which were trained on voxelized bikes, showed visual-agnostic behavior in other voxelized objects such as buses and homes.
-    This validates the proof of concept that our agents can be helpful in emergency rescue situations for police and firefighter drones, environment analysis in factories, airports, warehouses, in industries for defect analysis and product quality assurance, and more.
+    % It should be noted that in training, many rendering effects, such as grass and moving clouds, do not always execute garbage collection mechanisms in the underlying system. This may result in a stop in training if the environment stops reacting due to a lack of remaining memory.
+    % This may be a problem within Unity ML Agent's plugin episode reset logic, since this problem is not oberved in the test or demonstration runs.
+    % Training was therefore carried out with the island presented in Chapter \ref{chap:4}, without any post-processing or special rendering effects.
+    % This corresponded to an average memory usage of 9GB and a load of 60\% across 8 CPU cores, with 5 parallel training environments and a timescale of 20.
+    % % Nevertheless, the trained agents were tested and fully functional in the applicable practical scenarios which demonstrated the possibility of transfer learning across environments and preserved the agent's explorative behavior.
+    % As mentioned before, voxel-curious agents, which were trained on voxelized bikes, showed visual-agnostic behavior in other voxelized objects such as buses and homes.
+    % This validates the proof of concept that our agents can be helpful in emergency rescue situations for police and firefighter drones, environment analysis in factories, airports, warehouses, in industries for defect analysis and product quality assurance, and more.
     
-    Furthermore, part of the further use of the results includes the evaluation of compatibility with other environment platforms, such as OpenAI Gym. 
-    Unity ML agency provides an OpenAI Gym wrapper that allows any Unity-developed environment to be loaded into a compatible format. 
-    This allows for the use of other algorithms, such as custom neural networks and models from OpenAI Baselines \cite{github-dlr-rm-baselines3}.
-    From the point of view of compatibility, Unity ML Agent allows indeed smooth transfer to OpenAI Gym.
-    However, the results presented in Section \ref{chap:4:cross-platform-compatibility} do not justify the transfer to OpenAI Gym given the lack of out-of-the-box development functions, such as resuming of experiments, logging with Weights and Biases \cite{wandb2022}, debugging, etc. Even though Unity ML-Agents is limited to a set of trainers like PPO and SAC, it provides increased versatility and plug-and-play integration of attention, memory, curiosity, behavioral cloning, auto-curriculum, and many more. Therefore, we consider the use of Unity ML agents to be more appropriate for reinforcement learning tasks as of 2022. The only limitation of the plugin is that it is not possible to load externally created 3D environments.
+
 
 
     % It is therefore up to the researcher o
@@ -323,39 +414,82 @@ This chapter will discuss the obtained results, the used methodology, the validi
     % % \subsection{Cross-Platform Compatibility}
     % OpenAI gym showed similar performance to mlagents, but the toolbox that comes with it for 
     % took 80\% of the time invested, since    
+    
+      
+    In terms of future steps, the following points were collected during the creation of this work, as great opportunities to continue research in reinforcement learning:
+    \begin{itemize}
+\item real-time voxelization of the objects of interest to capture limitations in terms of computing, memory and noise.
+    % noise in visuals when using a real translation from depth
+\item a parallel-agent environment where multiple agents could be trained simultaneously. This is a relatively straight forward task using ML-Agents but given the limited time frame it could not be implemented given our setup.
+    % but needs some engineering to load multiple configurations at the same time.
+% \item a deeper argumentation on LiDAR's limitations at bigger distances and the benefit of cameras for navigation.
+  
+  
+    % - clarification on: is this LiDAR behavior? >> leads to noise topic, because its not 100\% worth it now
+    % - noise in scanner, how does the performance suffer ?
+    % - simplified words: simplified SLAM and model free navigation.
+    
+    % Using different machine learning algorithms to evaluate the quality of sentences and even
+    % documents, proves to be effective and the results show the adequacy for the task at hand.
+    % The most known algorithms wer
+    
+        \end{itemize}
+
+    
+    
+    
     In conclusion, the proposed use of octree for environmental exploration and voxels for object exploration has allowed agents to adapt successfully to new environments, to cover large spaces and to perform better than other proposed baselines. Moreover, the evaluation framework clearly distinguishes the performance of the different types of agents. Unity also demonstrated that it has a comprehensive toolkit for implementing concept demonstrations and reinforcement learning agents. Further work includes parsing voxels in real time, taking into account visual input noise and measuring the real-time performance of our methods.
 
 
 \section{Reliability}\label{sec:results-reliability}
-    This section aims to discuss the validity and reliability of the results shown in section \ref{sec:results-research-question}.
+    This section aims to discuss the validity and reliability of the results shown in section \ref{chap:4:results}.
+    The achieved results show substantial improvement over the taken baselines for both object and environment exploration. 
+    Using octrees a data structures for the exploration of newer spaces proved to be a justifiable strategy, given the efficiency of octrees at representing sparse point clouds, specially at lower resolutions. Moreover, the performance of our octrees is not affected by the common octree difficulty of handling shapes with irregular geometry. In the future, we plan to dynamically adjust the size of the octree nodes for the agent to observe more accurate distance  information about its surroundings, such as in distances in small passages in caves.
+    % If the handling of irregular geometries were a requirement, we would propose to use deformable shapes as a basis for building octrees.
     
-    The achieved results by the pose estimation algorithm, specially the adaptations done in contribution based off this work, show better performance than the methods in the market for the cow milking robots. The obtained results show promising a performance for current challenges like detecting two cow teats as one. Once the error in the proposed method is reduced, the proposed pipeline could be connected to a memory system that would keep track of the cow teat positions in cases of obstruction from the suction cups, as discussed in Section \ref{sec:future-work}.
+    Similarly, using voxels as a reward signal for our reinforcement learning agent proved to be valid for the exploration of objects and obtaining multiple-angle perspectives. 
+    % Voxelized objects motivated the agent to look at all the diferent pieces that comprise an object. 
+    In the future, we plan to voxelize objects in real-time to determine the algorithmic and computational limitations of the voxelization process. Furthermore, we plan to propose a method for regulating the amount of scanned voxels required for an object to be marked as scanned.
+   
+    Accordingly, PPO proved to be a valid reinforcement learning algorithm for an exploration drone, since the obtained results were on par with the results achieved by a human-in-the-loop.
+        One of the main drawbacks, however, is the high computational cost of the PPO algorithm, due to the large number of samples that are needed for it to converge to a good solution. 
+        For this reason, we trained for 30 million timesteps and tested on 7.5 million timesteps. 
+        % Another problem of the approach is that it PPO is not suitable for dynamic environments, since it relies on a fixed policy that is learned offline.
+        % To tackle these issues, in the future, we plan to incorporate more advanced PPO methods, such as online PPO \cite{schulman2017proximal}. We also plan to reduce the computational burden of the algorithm, by optimizing the selection of the exploration steps.
+        On a similar note, results for SAC-trained agents show that the SAC algorithm required higher training times in the former. Concretely, SAC took an average of 11h/M timesteps as compared  3.2h/M timesteps when using PPO. Moreover, on closer look, SAC agents preferred to restart the episodes, even for agents in a plentiful-reward setup. This indicates that PPO was a robust and valid reinforcement learning strategy, and that SAC needs more fine-tuning to improve its performance.
+        
+    Finally, the panoramic vision proved to outperform ordinary monocular vision of 55 degrees. This was observed by the performance of the \textit{ev\_smallcam.explorer-8}. While the \textit{smallcam} agent explored 27\% of the environment without scannings objects, its \textit{panoramic} alternative scans 1.96 objects per episode while exploring 14.75\% of the environment. As part of our future steps, an alternative agent with a panoramic-like scanner was implemented and trained to evaluate its performance. While the expected behavior was for this agent to scan objects faster, the results showed that a panoramic scanner not only allowed the agent to scan objects faster and but also to explore more of the environment (18\%). We believe that this behavior can be improved by providing a reward for finishing object scans.
+    % However, this has shown that the agent scans more voxels but does not need to finish scanning all the voxels of an object.
     
-    In contrast, a few shortcomings related to the achieved results must be mentioned. First, the RANSAC algorithm analysis was limited to RGB images and should have been expanded to evaluate the information from the depth image and the point cloud. Second, a more photorealistic data set should be generated to show DOPE's prediction capabilities and carry out a proper comparison with the "MAV" algorithm. Third, the search space of the parameters adjusted should be wider and not limited to the ones presented. In conclusion, the "MAV" algorithm answers the research question with success, being able estimate the 3D pose and direction of a cow teat in less than 2 seconds.
+    
+    % while scanning no objects. 
+    % by the pose estimation algorithm, specially the adaptations done in contribution based off this work, show better performance than the methods in the market for the cow milking robots. The obtained results show promising a performance for current challenges like detecting two cow teats as one. Once the error in the proposed method is reduced, the proposed pipeline could be connected to a memory system that would keep track of the cow teat positions in cases of obstruction from the suction cups, as discussed in Section \ref{sec:future-work}.
+    
+    % In contrast, a few shortcomings related to the achieved results must be mentioned. First, the RANSAC algorithm analysis was limited to RGB images and should have been expanded to evaluate the information from the depth image and the point cloud. Second, a more photorealistic data set should be generated to show DOPE's prediction capabilities and carry out a proper comparison with the "MAV" algorithm. Third, the search space of the parameters adjusted should be wider and not limited to the ones presented. In conclusion, the "MAV" algorithm answers the research question with success, being able estimate the 3D pose and direction of a cow teat in less than 2 seconds.
     
     
-        This ﬁnal section aims to examine the validity and reliability of the shown results in section
-    4.2.
-    The achieved results show substantial improvement over a given benchmark on a sentence
-    level for both research questions. Recombini
+    %     This ﬁnal section aims to examine the validity and reliability of the shown results in section
+    % 4.2.
+    % The achieved results show substantial improvement over a given benchmark on a sentence
+    % level for both research questions. Recombini
     
     
-    In contrast to that, a few shortcomings concerning the presented results have to be mentioned.
-    First, the results were supposed to focus on a technical documentation domain
-    and therefore no statement can be made concerning the classiﬁcation of documents not
-    belonging to the domain. Second, as noted in section 1.5, only syntactical translation
-    aspects are taken into account, which means that the classiﬁcation of a text as a high
-    quality document says nothing about the actual meaning of the translation compared to
-    the original document. Third, to further evaluate the classiﬁcation accuracies, an in-depth
-    comparison to related experiments using machine learning algorithms on different domains
-    should be done to set the achieved results into the scientiﬁc context of machine
-    translation evaluation on a more general methodology.
+    % In contrast to that, a few shortcomings concerning the presented results have to be mentioned.
+    % First, the results were supposed to focus on a technical documentation domain
+    % and therefore no statement can be made concerning the classiﬁcation of documents not
+    % belonging to the domain. Second, as noted in section 1.5, only syntactical translation
+    % aspects are taken into account, which means that the classiﬁcation of a text as a high
+    % quality document says nothing about the actual meaning of the translation compared to
+    % the original document. Third, to further evaluate the classiﬁcation accuracies, an in-depth
+    % comparison to related experiments using machine learning algorithms on different domains
+    % should be done to set the achieved results into the scientiﬁc context of machine
+    % translation evaluation on a more general methodology.
     
-    Concerning the proposed evaluation approach, the presented framework has been validated
-    using sample-based veriﬁcations. However, the system still has to be veriﬁed by
-    professionally qualiﬁed institutions to further validate and possibly adapt the proposed
-    evaluation classes. In conclusion, the presented approaches answer both research questions
-    with success, being able to classify and evaluate technical documents and their translations.
+    % Concerning the proposed evaluation approach, the presented framework has been validated
+    % using sample-based veriﬁcations. However, the system still has to be veriﬁed by
+    % professionally qualiﬁed institutions to further validate and possibly adapt the proposed
+    % evaluation classes. In conclusion, the presented approaches answer both research questions
+    % with success, being able to classify and evaluate technical documents and their translations.
     
 
 
@@ -386,8 +520,6 @@ This chapter will discuss the obtained results, the used methodology, the validi
 % the scene, and for next-best-view planning
 
 
-
-
 This was done by modeling and implementing multiple 3D environments in Unity 3D.
 These environments were used to train and test several reinforcement learning agents aimed at exploring both objects and environments.
 % These environments were used to train and test multiple reinforcement learning agents that aimed to explore both objects and the environment. 
@@ -395,11 +527,8 @@ Firstly, objects were explored through the scanning of the voxels that composed 
 Secondly, agents learned to explore the environment through extrinsic rewards of the new octree nodes discovered. The resulting agents were visual agnostic and could adapt to multiple environments. Their explorative behavior can also be adapted to a multitude of further scenarios, from product quality assurance drones to rescue, police and firefighter drones. 
 Additionally, data collection of 3D scenes is a clear use case for the explorative behavior of the drone, enabling the creation of thorough point cloud datasets in any kind of environment. Given the problematic of small environments proposed by previous methods, our learning environments were 160$m^2$ wide. Our approach was tested against baselines that answered the research questions without direct knowledge of voxels or octrees, respectively. Furthermore, the testing grounds were inspired by the DARPA subterranean challenge to collect data about the time taken to discovery and how much of the environment was explored. Our results show that our exploration drone could explore 90\% of the 3D environment in 3 minutes, whereas methods without the proposed vision explored only 3\% of the environment and did not have the capabilities of exploring objects directly. 
 
-Accordingly, we provided the Unity code for this thesis work and three Unity environments for further work on this project, benchmarks and reproduction of the results. The Unity assets are subject to copyright and require a license to be downloaded and used. We hope that this line of work reaches many people in the community, as the work by Meta Research (Detic) \ref{}, Plenoxels \ref{} and Unity's recent acquisition of Ziva Dynamics \ref{} continue to lay the path for the future of synthetic data and machine learning.
+Accordingly, we provided the Unity code for this thesis work and three Unity environments for further work on this project, benchmarks and reproduction of the results. The Unity assets are subject to copyright and require a license to be downloaded and used. We hope that this line of work reaches many people in the community, as the work by Meta Research (Detic) \cite{detic2022}, Plenoxels \cite{yu2021plenoxels} and Unity's recent acquisition of Ziva Dynamics \cite{unityziva2022dynamics} continue to lay the path for the future of synthetic data and machine learning.
 
-% https://github.com/facebookresearch/Detic
-% https://alexyu.net/plenoxels/
-% https://blog.unity.com/news/welcome-ziva-dynamics
 
 % and are visual agnostic . cross-environment perform better than alternative methods
 % In the current theses work we successfully proposed an agent behavior for autonomous simulated drones that is capable of exploring environments and the optics in it… It reduces the uncertainty environment through the scanning of oxidized objects and takes into account the level of entropy in the environment to provide an indirect this provides an indirect semantic understanding of the states that the agent is in… This method is a général wiiso to other further used cases such as fire accident emergency drones police accident etc. aura for the data collection steps of other methods that require visual input… With that promising future of synthetic data the concept of simplifying environments to construct more complex behaviors homework should be in line… We also successfully provide unity environment that can be further used for benchmarking and extensive billet extensibility of the environment and more… The containers improvement in the machine learning environment machine learning applications with unity continue to grow as seen in their synthetic humans and we hope that more works can follow the lines that we sat down

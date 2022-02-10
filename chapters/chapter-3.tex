@@ -33,19 +33,18 @@ The following questions are answered during this chapter:
 
 In order to answer these questions, the structure of this chapter is illustrated in Figure \ref{fig:development_design}.
 The first step of the RL process is discussed in Section \ref{chap:3:goal}, which defines the exploration task and limits its scope. 
-Then, the choice of a suitable 3D environment for exploration where the agent collects observations from (i.e., the data set) and the construction of the 3D environment is presented. 
+Then, Section \ref{chap:3:data} presents the choice and construction of a suitable 3D environment for exploration where the agent collects observations from (i.e., the data set.
+% and the construction of the 3D environment is presented. 
 % collected raw data as
-Section \ref{chap:3:data} introduces the modeling process and setup of the 3D environment.
+% Section \ref{chap:3:data} introduces the modeling process and setup of the 3D environment.
 % /the 3D assets, components and variables that compose the environment.
 % information available (voxels, octree data) and the choice of observations for the given task
-Afterwards, it explains the approach to perception, presenting the process of voxelization, the creation of the octree map.
-% , the grid sensor component and the concept of semantic entropy.
-Then, it outlines the sensors used in the agent for visual input and the usage of semantic entropy to define uncertainty in an environment.
+Afterwards, Section \ref{chap:3:perception} explains the approach to perception, presenting the process of voxelization, the creation of the octree map, the nature of the used sensors for the visual input of the agent, and the use of semantic entropy to define uncertainty in an environment.
 % 
 % preprocessing of the data by identifying noise or erroneous inputs. 
 % preesents the choiceof three proposed processing pipelines and the considered algorithms and techniques. T
-The agent's character, including 3D models, movement algorithms and other components are presented in Section \ref{}.
-Furthermore, the choice of agent observations, reward signal and environment-related behaviors are defined in Section \ref{chap:3:agent-choice-actions} and the description of the chosen reinforcement learning algorithm is covered in Section \ref{chap:3:specification-approach}. Subsequently, the interpretation of the exploration approaches to octress and voxels are described in Section \ref{chap:3:interpretation}. 
+The agent's character, 3D models, movement algorithms, choice of observations, reward signals and environment-related behaviors are presented in Section \ref{chap:3:character}.
+Subsequently, the chosen reinforcement learning algorithm is covered in Section \ref{chap:3:specification-approach} and the interpretation of the exploration approaches to octress and voxels are described in Section \ref{chap:3:interpretation}. 
 This section also tackles how the method's performance was measured and evaluated and which parameters were tuned.
 % the algorithms were compared to each other
 Finally, Section \ref{chap:3:further-use} presents the proposed evaluation framework for the assessment and comparison of the learned behaviors, introduces the applicability of our approach in multiple scenarios, presents the transferability of the learning environment to another environment platform and proposes the comparison of the performance of the PPO with the Soft Actor-Critic algorithm for the given setup.
@@ -252,7 +251,7 @@ Finally, Unity 3D was the preferred solution given the aforementioned extensive 
 
 
 
-\section{Specification of the Perception Approach}
+\section{Specification of the Perception Approach}\label{chap:3:perception}
 The task at hand requires the agent to perceive its environment. This can be done through a set of sensors and techniques that transform the environment from 3D models to some other interpretable form. In our case, this was done through the following:
 \begin{itemize}
     \item \textbf{Voxelization} of the objects of interest, which generates an occupancy grid to simplify the shape and structure of the objects.
@@ -436,9 +435,9 @@ The implementation of octrees for Unity was taken from Baske's Explorer Drone, w
 
 \subsection{Semantic Entropy}\label{chap:3:semantic-entropy}
 In 1997, \textcite{melamed1997measuring} defined semantic entropy as a way to measure semantic ambiguity, uninformativeness or as the inverse of semantic reliability. In this thesis, we are especially interested in the concept of entropy as the degree of randomness or disorder in an environment, in line with the definition given in information theory, which defines entropy formally as
-\begin{align*}
-    H(X) = - \sum_{x\in X} P(x_i) log P(x_i).
-\end{align*}
+\begin{gather}
+    H(X) = - \sum_{x\in X} P(x_i) log P(x_i). \label{eu_semantic_entropy}
+\end{gather}
 where $X$ is a discrete random variable, with possible outcomes $x_i$ and $P(x_i)$ is the probability that outcome $x_i$ occurs.
 
 Heavily inspired by recent work on exploration by \textcite{chen2019learning} and  \textcite{chaplot2020semantic}, and as part of the answer to the research questions, we leverage the concept of entropy to define the uncertainty in an environment or a 3D object. \textcite{chaplot2020semantic} utilize semantic curiosity to learn exploration trajectories based on semantic maps. These semantic maps contain information about the inconsistency provided by an object detector at position $P$, and are used as a motivation for a reinforcement learning agent to prefer states with higher entropy. In their words, "if an object is labeled with different classes as the viewport changes, it will have high temporal entropy". Similarly, this thesis constructs a short-term memory buffer that measures the temporal inconsistencies perceived by an object detector as a way to measure semantic entropy in the agents field-of-vision. This metric, in contrast to the semantic curiosity motivation, is used to influence the linger estimator in the agent. More concretely, it acts as a discount factor in the definition of the penalty given by inactivity. The definition of the reward signal is presented in Section \ref{chap:3:reward-signal} below.
@@ -495,41 +494,40 @@ Heavily inspired by recent work on exploration by \textcite{chen2019learning} an
 % \section{Agent Setup}
 % Once the 3D environment is constructed, the next step is to layout the capabilities of the agent. This section describes the 
 
-\section{Specification of the Agent Character}
+\section{Specification of the Agent Character}\label{chap:3:character}
 
 % The next step is the modelling and simulation of the learning agent. 
-An agent is simulated through 3D assets, observations collected from an environment, actions, movement algorithms and a policy that motivates a specific behavior. The following sections provide insight into these key areas.
-Furthermore, our proposal agent behavior the exploration task, is the result of a hierarchical composition of behaviors, as illustrated in Figure \ref{fig:baselines_hierarchical}. This composition starts with a base DroneAgent, that sets the basic requirements for any other agent, which includes movement, sensing and interaction. Posterior layers provide additional logic to train specific policies. For example, the \textit{SpeedDrone} takes into account variables such as angular speed, forward velocity, etc., to train an agent to  minimize the speed error between its current speed and a target speed. The same logic follows for other agents such as the OctreeAgent, VoxelAgent, ShortestPathAgent, etc., where observations that belong to the specific domain of the policy to be trained are added on top of previous layers. More detail on the hierarchical construction of these agents can be found on Appendix \ref{appendix:baselines}.
+An agent is simulated through 3D assets, observations collected from an environment, actions, movement algorithms and a learned policy that motivates a specific behavior. The following sections provide insight into these key areas.
+Furthermore, our proposal agent behavior the exploration task, is the result of a hierarchical composition of behaviors, as illustrated in Figure \ref{fig:baselines_hierarchical}. This composition starts with a base DroneAgent, that sets the basic requirements for any other agent, which includes movement, sensing and interaction. Posterior layers provide additional logic to train specific policies. For example, the \textit{SpeedDrone} takes into account variables such as angular speed, forward velocity, etc., to train an agent to  minimize the speed error between its current speed and a target speed. The same logic follows for other agents such as the OctreeAgent, VoxelAgent, ShortestPathAgent, etc., where observations that belong to the specific domain of the policy to be trained are added on top of previous layers. 
+% More detail on the hierarchical construction of these agents can be found on Appendix \ref{appendix:baselines}.
 
 \begin{figure}[!ht]
         \centering
         \includegraphics[width=0.7\textwidth]{images/baselines_hierarchical_construction.png}
         \caption{Hierarchical construction of the agent behaviors in Unity. The DroneAgent contains embodiment logic of the agent such as relative position and orientation. Higher behaviors inherit from the DroneAgent and implement speed, perception of octree nodes, perception of voxels, detections from a YOLO classifier, etc. 
         }
-        \label{fig:bselines_hierarchical}
+        \label{fig:baselines_hierarchical}
 \end{figure}
 
 Given that the base drone lays the ground logic for the rest of the agents, a brief explanation of its components is due. The base agent layer introduces 
 \begin{itemize}
     \item A 3D model of an agent.
     \item A movement algorithm.
-    \item Basic information for embodiment such as such as agent's position, rotation, its velocity, etc. 
+    \item Basic information for embodiment such as agent's position, rotation, its velocity, etc. 
     \item A grid sensor to enable perception of the environment, as introduced in Section \ref{chap:3:gridsensors}.  
     \item A scanner component, which enables interaction with the voxels in the environment.
     \item A reward signal.
     \item An episode reset logic.
 \end{itemize}
 
-Given that the base layer provides the foundation for other derived agent behaviors, the aformentioned elements are described in more detail in the sections below.
-
-Similarly, the base agent allows the introduction, implementation and testing of:
+Given that the base layer provides the foundation for other derived agent behaviors, the aformentioned elements are described in more detail in the sections below. Similarly, the base agent allows the introduction, implementation and testing of:
  
 \begin{itemize}
     \item a modeled 3D environment.
     \item an environment and goals controller. 
-    \item the diverse environment platform components, described in section.
+    \item the diverse environment platform components.
 \end{itemize}
-An environment and goals controller, also known as the \textit{TrainingAreaController}, looks into the randomization of the environment obstacles, goals and initializes the necessary variables for the agent’s future episode.
+Our environment and goals controller, also known as the \textit{TrainingAreaController}, looks into the randomization of the environment obstacles, goals and initializes the necessary variables for the agent’s future episode.
 
 
 % % As mentioned, the base agent encompasses the necessary logic and elements required for movement, and sensing and interacting with the environment. This layer introduces the following:
@@ -540,7 +538,7 @@ An environment and goals controller, also known as the \textit{TrainingAreaContr
 %     \item \textbf{Movement} is enabled thanks to a CharacterController component in two modes: translation- and physics-based. These modes are described further below.
 % \end{itemize}
 
-Consequently, composed agent behaviors follow the structure described for the base agent and incrementally add observations  and reward signals to motivate learning a different policy. In our case, the exploratory behavior is achieved thanks to the policy provided by the OctreeAgent's behavior and the policy that motivated in-depth scanning of objects is given by the VoxelAgent's behavior. More detail is provided for each derivative agent in tables \ref{appendix:baselines_observations, appendix:baselines_rewards}.
+Consequently, composed agent behaviors follow the structure described for the base agent and incrementally add observations  and reward signals to motivate learning a different policy. In our case, the exploratory behavior is achieved thanks to the policy provided by the OctreeAgent's behavior and the policy that motivated in-depth scanning of objects is given by the VoxelAgent's behavior. More detail is provided for each derivative agent in tables \ref{appendix:baselines_observations} and \ref{appendix:baselines_rewards}.
 
 
 \subsubsection{3D Models}
@@ -571,28 +569,39 @@ The simpler variant was implemented using 3D translations, applied to the agent 
 The second variant of the mobility algorithm was inspired by the movement model of a real robot, considering concepts such as velocity, torque and motor noise. Both approaches allow the robot to navigate its environment without the help of an explicit movement model.
 
 \textbf{Physics-based movement.}
-This algorithm can be defined as:
-\begin{align*}
-    v_t = v_t + i_t * \eta_1
-\end{align*}
-and
-\begin{align*}
-    \tau_t = \tau_t + \mu * clip(turn_t * \beta, -1, 1) * \eta_2
-    % Vector3(0, 1, 0)
-\end{align*}
-where $v_t$ is the agent's rigidbody velocity at timestep $t$, which receives a velocity change force based on input $i_t$ at timestep $t$. This input consists of a \textit{forward input}, a \textit{vertical input}, and a \textit{lateral input}. This force is constrained by a movement speed parameter $\eta_1$, measured in meters/second. Similarly, $\tau_t$ is the rigidbody's torque at timestep $t$ which is increased by a vertical unit vector $\mu$ times the turn input $turn_t$ received at timestep $t$. The turn input is clipped to limit the possible rotation at each timestep by the agent, and is constrained by a turning speed parameter $\eta_2$.
+This algorithm can be defined by:
+\begin{gather}
+        v_t = v_{t-1} + a_t * \eta_1 \label{eu_physics-based-movement-velocity}
+        \\    
+        \tau_t = \tau_{t-1} + \mu * clip(turn_{t-1} * \beta, -1, 1) * \eta_2 \label{eu_physics-based-movement-rotation}
+\end{gather}
+where \ref{eu_physics-based-movement-velocity} defines $v_t$, the agent's rigid body velocity at timestep $t$.
+The agent's actions accelerate its rigid body at timestep $t$ through the \textit{forward}, \textit{vertical}, and \textit{lateral} inputs. 
+This acceleration $a_t$ is constrained by factor $\eta_1$. 
+Accordingly, \ref{eu_physics-based-movement-rotation} defines $\tau_t$, the rigid body's torque at timestep $t$ which is increased by a vertical unit vector $\mu$ times the turn input $turn_t$ received at timestep $t$. The turn input is clipped to limit the possible rotation at each timestep by the agent, and is similarly constrained by factor $\eta_2$.
+Our agents use constraints $\eta_1$ and $\eta_2$ of 0.1 and 0.05.
+
+% \newpage
 
 \textbf{Translation-based movement.}
-This algorithm can be defined as:
-\begin{align*}
-    x_t = translate(i_{xt}, i_{yt}, i_{zt}) * \eta_1
-\end{align*}
-and
-\begin{align*}
-    r_t = rotate(\mu, clip(turn_t * \beta, -1, 1) * \eta_2 * \Delta t
-\end{align*}
-where $x_t$ is the agent's position in the 3D space at timestep $t$, which is moved or translated based on the decomposition of the inputs received at each axis. A translation moves an object in the direction indicated by its transform's local axes. Each component from $i_t$ is previously constrained by a movement speed parameter $\eta$, measured in meters/second and regulated for smooth transitions by a time variance parameter $\Delta t$. 
-Similarly, $r_t$ is the transform's rotation of the agent at timestep $t$ which is rotated by the game engine given a vertical unit vector and the turn input provided by the agent. As with the physics-based algorithm, the turn input is clipped to limit the possible rotation at each timestep. It is also constrained by a turning speed parameter $\eta_2$ and regulated by a time variance parameter $\Delta t$ to allow smooth rotations in the game engine.
+This algorithm can be defined by:
+\begin{gather}
+    x_t = translate(i_{xt}, i_{yt}, i_t) * \eta_1 \label{eu_translation-based-movement-velocity}
+    \\
+    r_t = rotate(\mu, clip(turn_t * \beta, -1, 1) * \eta_2 * \Delta t \label{eu_translation-based-movement-rotation}
+\end{gather}
+where \ref{eu_translation-based-movement-velocity} defines agent's position $x_t$ in the 3D space at timestep $t$, which is moved or translated based on the decomposition of the inputs received at each axis. A translation moves an object in the direction indicated by its transform's local axes. Each component from $i_t$ is previously constrained by a movement speed parameter $\eta$, measured in meters/second and regulated for smooth transitions by a time variance parameter $\Delta t$. 
+
+Similarly, \ref{eu_translation-based-movement-rotation} defines the transform's rotation of the agent $r_t$ at timestep $t$. This rotation is position-based and done by the game engine given a vertical unit vector and the turn input provided by the agent. As with the physics-based algorithm, the turn input is clipped to limit the possible rotation at each timestep. It is also constrained by a turning speed parameter $\eta_2$ and regulated by a time variance parameter $\Delta t$ to allow smooth rotations in the game engine.
+
+After testing these algorithms, we chose to train our agents using the physics-based algorithm, since it takes into account collisions and momentum, which resemble a real-world robot.
+The translation-based movement algorithm  provides noiseless movement to a degree which would alienate our agent from a real world implementation.
+
+
+% From these two algorithms, 
+% en the given the limited time scope for this thesis and the complexity of the physics-based movement
+% Taking into account that the physics0based mvoiement takes into account collisions and momentum, this algorithm was pushed , and
+% the physics-based movement was chosen as the preferred movemen
 
 
 \subsubsection{Additional components} 
@@ -808,18 +817,18 @@ In our setup, an episode can reach its end when one of three conditions are met:
 
 \subsection{Goal and Reward Signal} \label{chap:3:reward-signal}
 Given the presented concepts of voxelization, octree navigation, and semantic entropy, the proposed agent's goal is therefore defined as
-\begin{align*}
-    \max R = R^{VOX} + R^{OCT} + R^{COL} + R^{LIN} + R^{X} 
-\end{align*}
+\begin{gather}
+    \max R = R^{VOX} + R^{OCT} + R^{COL} + R^{LIN} + R^{X} \label{eu_rewardsignal}
+\end{gather}
 where $R^{VOX}$ is the reward given by the voxel scans, $R^{OCT}$ is the reward from adding new nodes to the octree and $R^{COL}$ is the penalty the agent receives when it collides with an object. Accordingly, the penalty $R^{LIN}$ is granted given a linger estimator, which is a function of the velocity of the agent and the entropy perceived by the agent. The linger estimator penalizes the agent proportionally as its velocity decreases, but this factor is reduced by the entropy captured. More concretely, 
 \begin{itemize}
     \item $R^{VOX}$ is initially set to 0.01 per voxel that is scanned by the agent. A voxel counts as scanned if the scanner is within the constraints given by the scanner variables (angle, distance).
     \item $R^{OCT}$ is initially set to 0.01 per new node discovered, obtained by calculating the intersect of the current octree with the previous octree.
     \item $R^{COL}$ is initially set to -1, granted on collisions with objects or walls.
     \item $R^{LIN}$ is a linger penalty function taken adapted \cite{github-mbaske-explorer-drone}, that penalizes the agent given 
-        \begin{align*}
-        R^{LIN} = -r_l * (1-e) t_n
-        \end{align*}
+        \begin{gather}
+        R^{LIN} = -r_l * (1-e) t_n \label{eu_penalty_linger}
+        \end{gather}
     where 
     the strength of the penalty is determined by the penalty value $r_l$, set to 0.001, and throttled by the entropy $e$. %0.001 
     Accordingly, $t_n$ is a metric for how many timesteps the agent is at a given octant in the octree. It is constrained to a value range of $[0,2]$ and 
@@ -829,12 +838,19 @@ where $R^{VOX}$ is the reward given by the voxel scans, $R^{OCT}$ is the reward 
     %     \end{align*}
     % It 
     reset when the agent moves to a new grid. 
+    Finally, this penalty is regulated through our definition of semantic entropy. IFor agent variants that observe semantic entropy, we define the lingering penalty strength as 
+    \begin{gather}
+        LingeringPenaltyStrength = \frac{1}{1 + RationalizedClassDensity^2} \label{eu_lingeringpenaltystrength}
+    \end{gather}
+    This allows the agent to implicitly observe the temporal class density in the environment (over the past N timesteps). We used a temporal memory with size $N = 10$. 
+
+    %  Our definition of uncertainty through semantic entropy materializes here as a regulator for the 
+    %  as an agent observation. 
+     
     \item $R^{X}$ encompasses a variety of other rewards and penalties that were tested during the development process, such a reward for moving towards a target, a timestep penalty, a reward for moving forward and a reward for moving at speed higher than a given minimum. Some of these penalties did not make it to the final iterations, for example in clear cases where the agent stopped moving. Interestingly, the moving forward reward not removed: for demonstration purposes it is more intuitive for the agent to move forward towards a target in alignment with its 3D model, instead of backwards towards a target.
 \end{itemize}
 
 The main challenge in the definition of the reward signal was the subtle balance between rewards and penalties. For example, large negative rewards could lead to unstable or a very slow learning process because they indicate an absence of positive learning experience \cite{sutton2018reinforcement}. To this end, the initial values proposed above are evaluated and criticized in Chapter \ref{chap:4}.
-
- It is worth mentioning that a sparse reward function, in this case, refers to the lack of instantaneous rewards or penalties given to the agent per transition; giving therefore a reward when it is actually closer to the goal. In contrast, a dense reward function provides the agent with a reward or a penalty at most of the transitions it takes. This feedback can be counterproductive since the agent could have too many distractions at each timestep. This concept will prove useful in Chapter \ref{chap:discussion}.
 
 % while small values of reward might lead to very fast learning, which could be sub-optimal, and often requires tuning of the learning rate.
 
@@ -909,9 +925,11 @@ The training of the agents on the big environment, also known as the "open world
 
 As mentioned before, other adjustments to the agent's behavior are given such as the moving forward reward, the lingering penalty and the minimum speed penalty. Most importantly, an alternative mechanism is implemented to constrain these penalties if voxels are in field of view (FOV) of the agent, with the expectation that the agent is able to stay longer at certain octree nodes to scan objects. 
 
-Accordingly, in order to determine if the environment or the agent required further tuning or adjustments, the average accumulated reward across all runs was the main metric to distinguish a good from a bad performance. A low or negative reward can point to a behavior that is stuck, spinning or does not explore to discover new states with higher rewards. Similarly, a high reward can indicate a good performance but also reach undesired states. For example, after scanning most of the voxels, the agent can sometimes fall into a sparse reward situation, which complicates learning \cite{sutton2018reinforcement}.
+Accordingly, in order to determine if the environment or the agent required further tuning or adjustments, the average accumulated reward across all runs was the initial metric to distinguish a good from a bad performance. A low or negative reward can point to a behavior that is stuck, spinning or does not explore to discover new states with higher rewards. Similarly, a high reward can indicate a good performance but also reach undesired states. For example, after scanning most of the voxels, the agent can sometimes fall into a sparse reward situation, which complicates learning \cite{sutton2018reinforcement}.
 On one side, the movement speed, turning speed, and constraint attributes related to the agent's perception were observed to analyze the agent's performance. On the other side, the agent's mobility algorithm was also observed and tuned to determine the added complexity of learning a physics model through function approximation.
-The interpretation of the performance was additionally evaluated through more meaningful metrics listed below metrics and visual inspection, in order to distinguish the subtle influence of different observations and rewards in the agent's behavior:
+At early stages of development, visual inspection allows the viewer to debug faulty behavior, such as when the agent is stuck or spinning uncontrollably.
+Afterwards, the interpretation of the performance required a more thorough evaluation, which was done through more meaningful metrics and visual inspection.
+This allowed to distinguish the influences of different observations and rewards in the agents' behavior:
 % Firstly, inspired by the DARPA subterranean challenge, below are some of the \textit{in-depth metrics} that were collected
 \begin{multicols}{2}
     \begin{itemize}
@@ -925,11 +943,11 @@ The interpretation of the performance was additionally evaluated through more me
     \end{itemize}
 \end{multicols}
 % (1) earliest time the last goal was successfully scanned, averaged across all episodes; (2) earliest time the first goal was successfully scanned, averaged across all episodes; (3) lowest average time across all scan reports, averaged across all episodes. 
-Consequently, at early stages of development, visual inspection allows the viewer to debug faulty behavior, such as when the agent is stuck or spinning uncontrollably. At further stages, these \textit{in-depth metrics} allow a more intricate interpretation of an agent's behavior.
+%  At further stages, visual inspection was accompanied by \textit{in-depth metrics} allow a more intricate interpretation of an agent's behavior.
 The full list of \textit{in-depth metrics} is presented in the Appendix \ref{appendix:indepth-metrics}.
 % In the current task the average reward signal can further be treated as a performance metric, which should be close in performance to (3) the lowest average average time. 
 % The complete list of metrics evaluated is presented in Chapter \ref{chap:4} with the results of each behavior variant.
-The trainer's hyperparameters that were tuned are listed in Table \ref{tab:trainer-hyperparameters}. The full list and their default values can be found in Appendix \ref{appendix:ppo-trainer}. 
+The trainer's hyperparameters that were tuned are listed in Table \ref{tab:trainer-hyperparameters} and a full list with their default values can be found in Appendix \ref{appendix:ppo-trainer}. 
 
 \begin{longtable}{@{} p{3.5cm} p{3.5cm} p{3.5cm} @{}} \toprule
 \multicolumn{3}{c}{Tuned Hyperparemeters}\\ \midrule
@@ -965,7 +983,15 @@ results and comparisons are presented in Chapter \ref{chap:4}.
 As stated by \textcite{luckert2016using}, the last step of every knowledge discovery process is the application of the achieved results for further use. In this thesis work, this is of special importance, where the main focus was the exploration of unknown 3D environments and the actual performance of our approach compared to a set of baselines is carried out. This section introduces the baselines that were determined to evaluate our approach, the environments were the exploration policy is deemed most useful, and the utility provided by the development with ML-Agents to perform cross-environment exploration.
 
 \subsection{Evaluation Framework}\label{chap:3:further-use:evaluation-framework}
-For the evaluation of the baseline methods and the proposed methods, we constructed two variations of the open world environment. These environment serve as testing grounds for the best performing methods from the preliminary trainings. These “DARPA Unity Scenes" are identical in dimensions and modeling but they evaluate two separate behaviors. The first environment evaluates the object-exploration capabilities of the agent through a sequential three-goal setup as shown in Figure \ref{}. The DARPA subterranean challenge \cite{darpa_subterranean_challenge} inspired the concept for these environments, where the following metrics are used to evaluate the performance of the object-exploration behavior:
+For the evaluation of the baseline methods and the proposed methods, we constructed two variations of the open world environment. These environment serve as testing grounds for the best performing methods from the preliminary trainings. These “DARPA Unity Scenes" are identical in dimensions and modeling but they evaluate two separate behaviors. The first environment evaluates the object-exploration capabilities of the agent through a sequential three-goal setup as shown in Figure \ref{fig:darpa-object-setup}. 
+\begin{figure}[!ht]
+        \centering
+        \includegraphics[width=0.9\textwidth]{images/darpa-object-setup_3.png} 
+        \caption{Visual diagram of our DARPA environment for the evaluation of the object-exploration capabilities of an agent in a sparse-reward setup.}
+        \label{fig:darpa-object-setup}
+\end{figure}
+
+The DARPA subterranean challenge \cite{darpa_subterranean_challenge} inspired the concept for these environments, where the following metrics were collected to evaluate the performance of the object-exploration behavior:
 \begin{multicols}{2}
     \begin{itemize}
         \item Time to object$_i$.
@@ -974,12 +1000,7 @@ For the evaluation of the baseline methods and the proposed methods, we construc
         \item Total seconds per meter to object$_i$.
     \end{itemize}
 \end{multicols}
-\begin{figure}[!ht]
-        \centering
-        \includegraphics[width=0.9\textwidth]{images/darpa-object-setup_3.png} 
-        \caption{Visual representation of the DARPA environment for the evaluation of the object-exploration capabilities of an agent in a sparse-reward setup.}
-        \label{fig:darpa-object-setup}
-\end{figure}
+
 The second environment evaluates the environment exploration behavior without any goals in the scene. The metrics collected are the times to achieve 10\%, 20\,…, 90\% coverage of the scene. This is meant to demonstrate that the agent is capable of exploring multiple locations in the environment.
 Consequently, the evaluation procedure is done through a bracket qualification system as shown in Figure \ref{fig:darpa-bracket}. Firstly, the best models from the preliminary training are selected. Secondly, a variable analysis is done for each of the agent behaviors: object and environment exploration. 
 % This analysis as explained in section Z.
@@ -988,7 +1009,7 @@ Finally, the qualifying runs are then evaluated on the DARPA environments where 
 \begin{figure}[!ht]
         \centering
         \includegraphics[width=1\textwidth]{images/darpa-qualification-bracket_2.pdf} 
-        \caption{Qualification bracket system for the evaluation framework, using the DARPA-inspired testing environment.}
+        \caption{Our qualification bracket system for the evaluation framework, using the DARPA-inspired testing environment.}
         \label{fig:darpa-bracket}
 \end{figure}
 
