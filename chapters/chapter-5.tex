@@ -359,7 +359,7 @@ This chapter will discuss the obtained results, the used methodology, the validi
     % From the point of view of compatibility, Unity ML Agent allows indeed smooth transfer to OpenAI Gym.
     % However,
     This allowed the training of our an external neural network from OpenAI Baselines \cite{github-dlr-rm-baselines3} to be used for training in our Unity-developed environment. While the Unity OpenAI wrapper permitted a smooth environment transfer, the results presented in Section \ref{chap:4:cross-platform-compatibility} do not justify the transfer to OpenAI Gym. 
-    More concretely, development functions such as resuming of experiments, logging with Weights and Biases \cite{wandb2022}, debugging, etc., were negatively affected the development experience. 
+    More concretely, development functions such as resuming of experiments, logging with Weights and Biases \cite{wandb2022}, debugging, etc., negatively affected cross-platform development. 
     % he lack of out-of-the-box development 
     Even though Unity ML-Agents is currently limited to a set of trainers like PPO and SAC, it provides increased versatility and plug-and-play integration of a multitude of modules, such as attention, memory, curiosity, behavioral cloning, auto-curriculum, and many more. Therefore, we consider the use of Unity ML agents to be more appropriate for reinforcement learning tasks as of 2022. The only limitation of the plugin is that it is not possible to load externally created 3D environments.
 

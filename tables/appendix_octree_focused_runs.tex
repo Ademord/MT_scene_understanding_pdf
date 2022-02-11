@@ -8,29 +8,99 @@
         & \theadcentered{#Leaf Nodes \\ XZ-Axis}   
         & \theadcentered{#Leaf Nodes \\ Y-Axis} 
         & \theadcentered{Node \\ Volume} 
-        & \thead{Octree Leaf \\ Nodes Visited \%}
+        & \thead{Octree Leaf \\ Nodes Visited}
+        & \theadcentered{Visited  \\ Volume  ($m^3$)} 
+
         & \theadcentered{New Nodes \\ Discovery Rate} 
         & \theadcentered{Lingering \\ Count} 
         % & \thead{Total Detections Count} 
         \\ \hline
     
-        blind-agent-explore-constrained & {\cellcolor[HTML]{5DAE9D}} \color[HTML]{F1F1F1} 95 & 40 & 5.00 & {\cellcolor[HTML]{55AA99}} \color[HTML]{F1F1F1} 4000.00 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 2.28 & 7.28 & 3.14 \\ \hline
-        blind-agent-explore-constrained-nospeed & {\cellcolor[HTML]{5AAC9C}} \color[HTML]{F1F1F1} 97 & 40 & 5.00 & {\cellcolor[HTML]{55AA99}} \color[HTML]{F1F1F1} 4000.00 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 2.36 & 6.96 & 2.68 \\ \hline
-        blind-agent-explore-constrained-nospeed-pathak & {\cellcolor[HTML]{5DAE9D}} \color[HTML]{F1F1F1} 95 & 40 & 5.00 & {\cellcolor[HTML]{55AA99}} \color[HTML]{F1F1F1} 4000.00 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 2.32 & 6.86 & 2.86 \\ \hline
-        octree-16 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 4 & 10 & 1.25 & {\cellcolor[HTML]{E9F1EF}} \color[HTML]{000000} 62.50 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 2.72 & 0.60 & 9.97 \\ \hline
-        octree-16-constrained & {\cellcolor[HTML]{55AA99}} \color[HTML]{F1F1F1} 100 & 10 & 1.25 & {\cellcolor[HTML]{E9F1EF}} \color[HTML]{000000} 62.50 & {\cellcolor[HTML]{9DCDC3}} \color[HTML]{000000} 21.56 & 0.09 & 4.99 \\ \hline
-        octree-16-constrained-pigeon & {\cellcolor[HTML]{55AA99}} \color[HTML]{F1F1F1} 100 & 10 & 1.25 & {\cellcolor[HTML]{E9F1EF}} \color[HTML]{000000} 62.50 & {\cellcolor[HTML]{55AA99}} \color[HTML]{F1F1F1} 34.34 & 0.24 & 3.68 \\ \hline
-        octree-16-constrained-pigeon-pathak & {\cellcolor[HTML]{55AA99}} \color[HTML]{F1F1F1} 100 & 10 & 1.25 & {\cellcolor[HTML]{E9F1EF}} \color[HTML]{000000} 62.50 & {\cellcolor[HTML]{E2EEEB}} \color[HTML]{000000} 9.47 & 0.04 & 5.66 \\ \hline
-        octree-16-pathak & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 4 & 10 & 1.25 & {\cellcolor[HTML]{E9F1EF}} \color[HTML]{000000} 62.50 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 2.64 & 0.56 & 9.61 \\ \hline
-        octree-4 & {\cellcolor[HTML]{5AAC9C}} \color[HTML]{F1F1F1} 97 & 40 & 5.00 & {\cellcolor[HTML]{55AA99}} \color[HTML]{F1F1F1} 4000.00 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 2.31 & 6.80 & 3.11 \\ \hline
-        octree-4-pathak & {\cellcolor[HTML]{60AFA0}} \color[HTML]{F1F1F1} 93 & 40 & 5.00 & {\cellcolor[HTML]{55AA99}} \color[HTML]{F1F1F1} 4000.00 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 2.09 & 6.61 & 3.39 \\ \hline
-        octree-4-pigeon & {\cellcolor[HTML]{D9E9E6}} \color[HTML]{000000} 19 & 20 & 2.50 & {\cellcolor[HTML]{D9E9E6}} \color[HTML]{000000} 500.00 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 2.27 & 1.81 & 6.94 \\ \hline
-        octree-4-pigeon-pathak & {\cellcolor[HTML]{D1E6E1}} \color[HTML]{000000} 24 & 20 & 2.50 & {\cellcolor[HTML]{D9E9E6}} \color[HTML]{000000} 500.00 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 2.77 & 1.71 & 8.39 \\ \hline
-        octree-8 & {\cellcolor[HTML]{A8D2C9}} \color[HTML]{000000} 49 & 20 & 2.50 & {\cellcolor[HTML]{D9E9E6}} \color[HTML]{000000} 500.00 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 5.22 & 1.49 & 7.05 \\ \hline
-        octree-8-pathak & {\cellcolor[HTML]{7EBEB1}} \color[HTML]{000000} 75 & 20 & 2.50 & {\cellcolor[HTML]{D9E9E6}} \color[HTML]{000000} 500.00 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 6.97 & 1.24 & 6.86 \\ \hline
+        % blind-agent-explore-constrained & {\cellcolor[HTML]{5DAE9D}} \color[HTML]{F1F1F1} 95 & 40 & 5.00 & {\cellcolor[HTML]{55AA99}} \color[HTML]{F1F1F1} 4000.00 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 2.28 & 7.28 & 3.14 \\ \hline
+        % blind-agent-explore-constrained-nospeed & {\cellcolor[HTML]{5AAC9C}} \color[HTML]{F1F1F1} 97 & 40 & 5.00 & {\cellcolor[HTML]{55AA99}} \color[HTML]{F1F1F1} 4000.00 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 2.36 & 6.96 & 2.68 \\ \hline
+        % blind-agent-explore-constrained-nospeed-pathak & {\cellcolor[HTML]{5DAE9D}} \color[HTML]{F1F1F1} 95 & 40 & 5.00 & {\cellcolor[HTML]{55AA99}} \color[HTML]{F1F1F1} 4000.00 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 2.32 & 6.86 & 2.86 \\ \hline
+        % octree-16 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 4 & 10 & 1.25 & {\cellcolor[HTML]{E9F1EF}} \color[HTML]{000000} 62.50 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 2.72 & 0.60 & 9.97 \\ \hline
+        % octree-16-constrained & {\cellcolor[HTML]{55AA99}} \color[HTML]{F1F1F1} 100 & 10 & 1.25 & {\cellcolor[HTML]{E9F1EF}} \color[HTML]{000000} 62.50 & {\cellcolor[HTML]{9DCDC3}} \color[HTML]{000000} 21.56 & 0.09 & 4.99 \\ \hline
+        % octree-16-constrained-pigeon & {\cellcolor[HTML]{55AA99}} \color[HTML]{F1F1F1} 100 & 10 & 1.25 & {\cellcolor[HTML]{E9F1EF}} \color[HTML]{000000} 62.50 & {\cellcolor[HTML]{55AA99}} \color[HTML]{F1F1F1} 34.34 & 0.24 & 3.68 \\ \hline
+        % octree-16-constrained-pigeon-pathak & {\cellcolor[HTML]{55AA99}} \color[HTML]{F1F1F1} 100 & 10 & 1.25 & {\cellcolor[HTML]{E9F1EF}} \color[HTML]{000000} 62.50 & {\cellcolor[HTML]{E2EEEB}} \color[HTML]{000000} 9.47 & 0.04 & 5.66 \\ \hline
+        % octree-16-pathak & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 4 & 10 & 1.25 & {\cellcolor[HTML]{E9F1EF}} \color[HTML]{000000} 62.50 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 2.64 & 0.56 & 9.61 \\ \hline
+        % octree-4 & {\cellcolor[HTML]{5AAC9C}} \color[HTML]{F1F1F1} 97 & 40 & 5.00 & {\cellcolor[HTML]{55AA99}} \color[HTML]{F1F1F1} 4000.00 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 2.31 & 6.80 & 3.11 \\ \hline
+        % octree-4-pathak & {\cellcolor[HTML]{60AFA0}} \color[HTML]{F1F1F1} 93 & 40 & 5.00 & {\cellcolor[HTML]{55AA99}} \color[HTML]{F1F1F1} 4000.00 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 2.09 & 6.61 & 3.39 \\ \hline
+        % octree-4-pigeon & {\cellcolor[HTML]{D9E9E6}} \color[HTML]{000000} 19 & 20 & 2.50 & {\cellcolor[HTML]{D9E9E6}} \color[HTML]{000000} 500.00 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 2.27 & 1.81 & 6.94 \\ \hline
+        % octree-4-pigeon-pathak & {\cellcolor[HTML]{D1E6E1}} \color[HTML]{000000} 24 & 20 & 2.50 & {\cellcolor[HTML]{D9E9E6}} \color[HTML]{000000} 500.00 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 2.77 & 1.71 & 8.39 \\ \hline
+        % octree-8 & {\cellcolor[HTML]{A8D2C9}} \color[HTML]{000000} 49 & 20 & 2.50 & {\cellcolor[HTML]{D9E9E6}} \color[HTML]{000000} 500.00 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 5.22 & 1.49 & 7.05 \\ \hline
+        % octree-8-pathak & {\cellcolor[HTML]{7EBEB1}} \color[HTML]{000000} 75 & 20 & 2.50 & {\cellcolor[HTML]{D9E9E6}} \color[HTML]{000000} 500.00 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 6.97 & 1.24 & 6.86 \\ \hline
     
-    
+blind-octree-explorer-constrained & {\cellcolor[HTML]{8FC6BB}} \color[HTML]{000000} 91 & 40 & 5.00 & {\cellcolor[HTML]{55AA99}} \color[HTML]{F1F1F1} 4000.00 & 86.40 & {\cellcolor[HTML]{60AFA0}} \color[HTML]{F1F1F1} 345.62 & 7.01 & 3.35 \\ \hline
+blind-octree-explorer-constrained-nospeed & {\cellcolor[HTML]{75B9AB}} \color[HTML]{000000} 95 & 40 & 5.00 & {\cellcolor[HTML]{55AA99}} \color[HTML]{F1F1F1} 4000.00 & 91.82 & {\cellcolor[HTML]{55AA99}} \color[HTML]{F1F1F1} 367.29 & 6.86 & 2.84 \\ \hline
+blind-octree-explorer-constrained-nospeed-pathak & {\cellcolor[HTML]{8FC6BB}} \color[HTML]{000000} 91 & 40 & 5.00 & {\cellcolor[HTML]{55AA99}} \color[HTML]{F1F1F1} 4000.00 & 88.52 & {\cellcolor[HTML]{5BAD9D}} \color[HTML]{F1F1F1} 354.09 & 6.65 & 3.17 \\ \hline
+octree-16 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 4 & 10 & 1.25 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 62.50 & 1.69 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 27.08 & 0.60 & 10.02 \\ \hline
+octree-16-constrained & {\cellcolor[HTML]{55AA99}} \color[HTML]{F1F1F1} 100 & 10 & 1.25 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 62.50 & 12.70 & {\cellcolor[HTML]{AAD3CA}} \color[HTML]{000000} 203.16 & 0.09 & 6.40 \\ \hline
+octree-16-constrained-pigeon & {\cellcolor[HTML]{55AA99}} \color[HTML]{F1F1F1} 100 & 10 & 1.25 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 62.50 & 20.35 & {\cellcolor[HTML]{6AB4A5}} \color[HTML]{F1F1F1} 325.61 & 0.22 & 5.76 \\ \hline
+octree-16-constrained-pigeon-pathak & {\cellcolor[HTML]{55AA99}} \color[HTML]{F1F1F1} 100 & 10 & 1.25 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 62.50 & 6.07 & {\cellcolor[HTML]{E0EDEA}} \color[HTML]{000000} 97.06 & 0.04 & 7.47 \\ \hline
+pathak-16 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 4 & 10 & 1.25 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 62.50 & 1.66 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 26.63 & 0.56 & 9.69 \\ \hline
+pathak-16-constrained-nospeed & {\cellcolor[HTML]{55AA99}} \color[HTML]{F1F1F1} 100 & 10 & 1.25 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 62.50 & 1.01 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 16.19 & 0.02 & 3.26 \\ \hline
+pathak-16-constrained-nospeed-nolinger & {\cellcolor[HTML]{55AA99}} \color[HTML]{F1F1F1} 100 & 10 & 1.25 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 62.50 & 19.05 & {\cellcolor[HTML]{75BAAC}} \color[HTML]{000000} 304.76 & 0.20 & 17.19 \\ \hline
+octree-4 & {\cellcolor[HTML]{88C3B7}} \color[HTML]{000000} 92 & 40 & 5.00 & {\cellcolor[HTML]{55AA99}} \color[HTML]{F1F1F1} 4000.00 & 87.16 & {\cellcolor[HTML]{5EAF9E}} \color[HTML]{F1F1F1} 348.64 & 6.59 & 3.45 \\ \hline
+pathak-4 & {\cellcolor[HTML]{95C9BE}} \color[HTML]{000000} 90 & 40 & 5.00 & {\cellcolor[HTML]{55AA99}} \color[HTML]{F1F1F1} 4000.00 & 79.74 & {\cellcolor[HTML]{6EB6A7}} \color[HTML]{F1F1F1} 318.97 & 6.30 & 3.56 \\ \hline
+octree-4-pigeon & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 17 & 20 & 2.50 & {\cellcolor[HTML]{DBEBE7}} \color[HTML]{000000} 500.00 & 10.20 & {\cellcolor[HTML]{E9F1EF}} \color[HTML]{000000} 81.57 & 1.88 & 7.06 \\ \hline
+octree-4-pigeon-pathak & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 22 & 20 & 2.50 & {\cellcolor[HTML]{DBEBE7}} \color[HTML]{000000} 500.00 & 12.32 & {\cellcolor[HTML]{E0EDEA}} \color[HTML]{000000} 98.52 & 1.79 & 8.06 \\ \hline
+octree-8 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 43 & 20 & 2.50 & {\cellcolor[HTML]{DBEBE7}} \color[HTML]{000000} 500.00 & 22.90 & {\cellcolor[HTML]{B4D8D0}} \color[HTML]{000000} 183.19 & 1.60 & 6.88 \\ \hline
+pathak-8 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 65 & 20 & 2.50 & {\cellcolor[HTML]{DBEBE7}} \color[HTML]{000000} 500.00 & 30.48 & {\cellcolor[HTML]{95C9BE}} \color[HTML]{000000} 243.85 & 1.37 & 7.01 \\ \hline
+        
         \caption{Overview of all environment-focused runs. \label{tab:RQ1-results-octreeFocusedRuns}}
     \end{longtable}
 
 \end{sidewaystable}
+
+
+
+% \begin{longtable}{|l|c|c|c|}                            \hline
+%     % \multicolumn{3}{|l|}{\textbf{Voxel-Curiosity}}              \\\hline
+%     % \thead{Method}            
+%     % & \thead{Octree Scan \\ Points Found}
+%     % & \thead{Octree Leaf  \\ Nodes Visited}
+%     % & \thead{Octree \\ Lingering Count}
+    
+%     % \multicolumn{3}{|l|}{\textbf{Voxel-Curiosity}}              \\\hline
+%     \theadcenteredLeft{Method}
+%     & \theadcentered{Octree Leaf \\ Nodes Visited \%} 
+%     & \theadcentered{Visited  \\ Volume  ($m^3$)} 
+%     & \theadcentered{Octree \\ Lingering Count}
+        
+%     \\ \hline
+%     % run61-explore	        &	1\%	&	3.14	&	1\%	\\ \hline
+%     % run61-explore-constrained	        &	2\%	&	3.11	&	1\%	\\ \hline
+%     % run62-4     	&	1\%	&	3.11	&	1\%	\\ \hline
+%     % run62-4-pigeon	        &	0\%	&	6.94	&	0\%	\\ \hline
+%     % run62-4-pigeon-pathak	&	1\%	&	8.39	&	0\%	\\ \hline
+%     % run62-8     	&	5\%	&	7.05	&	3\%	\\ \hline
+%     % run62-8-pathak      	&	5\%	&	7.20	&	3\%	\\ \hline
+%     % run62-16	        &	6\%	&	10.07	&	1\%	\\ \hline
+%     % run62-16-constrained	        &	\textbf{24\%}	&	4.99	&	\textbf{11\%}	\\ \hline
+%     % run62-16-constrained-pigeon	        &	\textbf{21\%}	&	3.68	&	\textbf{17\%}	\\ \hline
+%     % run62-16-constrained-pigeon-pathak	&	15\%	&	5.66	&	5\%	\\ \hline
+%     % run62-16-pathak	        &	6\%	&	9.91	&	1\%	\\ \hline
+%     % run61-explore	&	3.0	\%	&	3.14	&	2.3	\%	\\ \hline
+%     random-agent	&	100	\%	&	3.76 	&	0.03	\\ \hline % 0.93 octree nodes 
+% pathak-16-constrained-nospeed & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 1.62 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 16.19 & 3.26 \\ \hline
+% pathak-16 & {\cellcolor[HTML]{E6F0EE}} \color[HTML]{000000} 2.66 & {\cellcolor[HTML]{E7F0EE}} \color[HTML]{000000} 26.63 & 9.69 \\ \hline
+% octree-16 & {\cellcolor[HTML]{E6F0ED}} \color[HTML]{000000} 2.71 & {\cellcolor[HTML]{E7F0EE}} \color[HTML]{000000} 27.08 & 10.02 \\ \hline
+% octree-4-pigeon & {\cellcolor[HTML]{E9F1EF}} \color[HTML]{000000} 2.04 & {\cellcolor[HTML]{CFE5E0}} \color[HTML]{000000} 81.57 & 7.06 \\ \hline
+% octree-16-constrained-pigeon-pathak & {\cellcolor[HTML]{C4E0DA}} \color[HTML]{000000} 9.71 & {\cellcolor[HTML]{C9E2DC}} \color[HTML]{000000} 97.06 & 7.47 \\ \hline
+% octree-4-pigeon-pathak & {\cellcolor[HTML]{E8F1EE}} \color[HTML]{000000} 2.46 & {\cellcolor[HTML]{C8E1DC}} \color[HTML]{000000} 98.52 & 8.06 \\ \hline
+% octree-8 & {\cellcolor[HTML]{DDEBE8}} \color[HTML]{000000} 4.58 & {\cellcolor[HTML]{A4D0C7}} \color[HTML]{000000} 183.19 & 6.88 \\ \hline
+% octree-16-constrained & {\cellcolor[HTML]{90C7BC}} \color[HTML]{000000} 20.32 & {\cellcolor[HTML]{9BCCC2}} \color[HTML]{000000} 203.16 & 6.40 \\ \hline
+% pathak-8 & {\cellcolor[HTML]{D5E8E4}} \color[HTML]{000000} 6.10 & {\cellcolor[HTML]{8AC3B8}} \color[HTML]{000000} 243.85 & 7.01 \\ \hline
+% pathak-16-constrained-nospeed-nolinger & {\cellcolor[HTML]{5FAF9F}} \color[HTML]{000000} 30.48 & {\cellcolor[HTML]{6FB7A8}} \color[HTML]{F1F1F1} 304.76 & 17.19 \\ \hline
+% pathak-4 & {\cellcolor[HTML]{E9F1EF}} \color[HTML]{000000} 1.99 & {\cellcolor[HTML]{6AB4A5}} \color[HTML]{F1F1F1} 318.97 & 3.56 \\ \hline
+% octree-16-constrained-pigeon & {\cellcolor[HTML]{55AA99}} \color[HTML]{000000} 32.56 & {\cellcolor[HTML]{67B2A3}} \color[HTML]{F1F1F1} 325.61 & 5.76 \\ \hline
+% blind-octree-explorer-constrained & {\cellcolor[HTML]{E9F1EF}} \color[HTML]{000000} 2.16 & {\cellcolor[HTML]{5EAE9E}} \color[HTML]{F1F1F1} 345.62 & 3.35 \\ \hline
+% octree-4 & {\cellcolor[HTML]{E9F1EF}} \color[HTML]{000000} 2.18 & {\cellcolor[HTML]{5DAE9D}} \color[HTML]{F1F1F1} 348.64 & 3.45 \\ \hline
+% blind-octree-explorer-constr-nospeed-pathak & {\cellcolor[HTML]{E9F1EF}} \color[HTML]{000000} 2.21 & {\cellcolor[HTML]{5AAD9C}} \color[HTML]{F1F1F1} 354.09 & 3.17 \\ \hline
+% blind-octree-explorer-constr-nospeed & {\cellcolor[HTML]{E8F1EF}} \color[HTML]{000000} 2.30 & {\cellcolor[HTML]{55AA99}} \color[HTML]{F1F1F1} 367.29 & 2.84 \\ \hline
+
+
+%     \caption{Brief overview of all environment-focused agents, with respect to the \textit{Octree Scan Points Found}, \textit{Octree Lingering Count} and \textit{Octree Leaf Nodes Visited} metrics.}
+%     \label{tab:RQ2-results-comparative-voxeloctree}
+% \end{longtable}

@@ -979,6 +979,127 @@ Table \ref{appendix:baselines_rewards} summarizes the different behaviors evalua
 results and comparisons are presented in Chapter \ref{chap:4}. 
 
 
+
+\section{Experiments}
+\subsection{Environment and Vision Setup}\label{chap:4:setup}
+
+% As proof of concept for the project the test environment that was set up consisted of an artificial cow at the ZHAW and a robotic arm as shown by Figure \ref{fig:cow_setup}. The hardware setup for such an environment consisted of the following:
+
+
+To carry out the experiments, a set of learning environments were required to train, collect metrics and test the different agent behaviors. These behaviors derivated as a result of different observations, hyperparameters, policies and reward signals. The implemented 3D environment is illustrated in Figure \ref{fig:unity-island}, with the respective exploration boundaries that limit the exploration space for the agent.
+
+\begin{figure}[!ht]
+    \centering
+    \subfigure{\includegraphics[width=0.49\textwidth]{images/unity-chapter4-intro.png}} 
+    \subfigure{\includegraphics[width=0.49\textwidth]{images/unity-environments-training-boundaries.png}} 
+    \caption{Training 3D environment in Unity 3D with explorer drone (left). Exploration boundaries of training environment to delimit evaluation zone (right). Created using 3D models from \cite{unity-asset-store}.}
+    \label{fig:unity-island}
+\end{figure}
+
+% 
+% are voxelized and a reinforcement learning agent explores an environ
+% % Tasks
+% % in this category do not require exhaustive exploration of the environment as the
+% % location of the goal is known explicitly (coordinates) or implicitly (path).
+% Visual Navigation and Exploration. Prior work on visual navigation
+% can broadly be categorized into two classes based on whether the location of the
+% goal is known or unknown. Navigation scenarios, where the location of the goal is
+% known, include the most common pointgoal task where the coordinate to the goal
+% is given [26,40].
+% In point-to-goal tasks two irrealistic things occur:
+
+% It is of spAs claimed by [ref], many exploration approaches shoot themselves in the foot by using methods that rely on heavy data structures in the form of point clouds, meshes, etc., which limits area they can explore.
+% Other methods do not consider the efficiency problem at all and are short-sighted to scenarios where the goal is a couple steps ahead of the agent's starting point. 
+To analyze changes in performance given a larger training environment, we compare the agents' performance across a \textit{small} environment of 32 $m^2$ and a \textit{large} environment of 160 $m^2$. Figure \ref{fig:unity-islands-bigsmall} shows the two variants of the established 3D environment, where the large environment also includes obstacles for the agent to navigate around.
+
+
+\begin{figure}[!ht]
+    \centering
+    \subfigure{\includegraphics[width=0.49\textwidth]{images/unity-chapter4-small.png}} 
+    \subfigure{\includegraphics[width=0.49\textwidth]{images/unity-chapter4-big.png}} 
+    \caption{Sample 3D assets for scenario proposals. Taken from \cite{unity-asset-store}.}
+    \label{fig:unity-islands-bigsmall}
+\end{figure}
+
+Consequently, after the definition and setup of the environment, the next step is the setup of the vision system. As described in more detail in the previous chapter, the approach to perception was to use the grid sensors from \cite{github-unity-mlagents-toolkit, github-mbaske-gridsensor}. 
+% These grid sensors create a mesh of ray casts that mimic the output of a normal depth camera to interpret an abstracted view that takes the form of simplified, voxelized view of the environment. As also mentioned in the previous chapter, their output is then fed through a visual encoder that uses convolutional neural networks to transform this visual input for the agent. 
+Figure \ref{fig:unity-island-gridsensors} visualizes the range of the two grid sensors used in the agent and the voxelized view they produce. 
+At the implementation level, the unwrapping of the grid sensor input into the 3D grid shown in Figure \ref{fig:unity-island-gridsensors} is done through multiple Unity box colliders at each grid cell. 
+The detected objects at each collider are then mapped to a position in a matrix which are then input to the simple encoder and also displayed in the Unity UI. For more technical information on the implementation of the grid sensor please refer to \cite{github-mbaske-gridsensor}.
+
+One grid sensor is used to visualize elements in a panoramic fashion within a radius of 16 meters, where elements of three types are detected: boundaries, obstacles and collectibles.
+A second and smaller grid sensor with a diameter of 6 meters acts as the scanner in the voxel-exploration task: this grid sensor mimics a "scanneable" area and has a fail-rate of 20\% to provide the agent with an imperfect scanning behavior. Voxels that fall into this grid sensor's area are marked as scanned and accumulated by a counter to reward the agent at timestep \textit{t}. 
+
+\begin{figure}[!ht]
+    \centering
+    \subfigure{\includegraphics[width=0.49\textwidth]{images/unity-environments-training-gridsensor-single-octree.png}}
+    \subfigure{\includegraphics[width=0.49\textwidth]{images/unity-environments-training-gridsensor-single-voxel.png}} 
+    \caption{Integrated grid sensor used for the agent to perceive objects, boundaries and collectibles (left). Grid sensor used by the agent as a voxel-scanner (right). Voxelized-view perceived through the grid sensors is also shown.}
+    \label{fig:unity-island-gridsensors}
+\end{figure}
+
+% \newpage 
+ 
+\subsection{Behaviors Setup}\label{chap:4:behaviors}
+
+The setup of the agent behaviors for the exploration of octrees and voxels is comprised by the set of observations and rewards provided to motivate a certain policy. The octree exploration policy was motivated by the approach presented by \textcite{chen2019learning}, where each discovered node in the octree provides a certain reward to the agent. To analyze the behavior of different octree setups, diverse experiments were run with varying from nodes of 4 $m^3$ to 16 $m^3$. Therefore, the rewarding styles for octree exploration policies vary according to the size of the octree nodes the agent can discover.
+
+
+\begin{figure}[!ht]
+    \centering
+    \subfigure{\includegraphics[width=0.49\textwidth]{images/unity-environments-training-behavior-octree2.png}} 
+    \subfigure{\includegraphics[width=0.49\textwidth]{images/unity-environments-training-behavior-voxel.png}} 
+    \caption{Sample 3D assets for scenario proposals. Taken from \cite{unity-asset-store}.}
+    \label{fig:unity-my-3d-envs}
+\end{figure}
+
+
+A second branch of variants of this approach take into account something called \textit{pigeon observations}. These observations take inspiration of the physiology used by pigeons to orient themselves in their environment, memorize routes and keep a biological compass. They consist of two vectors: one towards a geographical north and one towards a sun placed on top of the training island. 
+
+Finally, following the example given by \textcite{chaplot2020semantic}, we analyze the performance of a "blind" octree variant that is curious for new states following the approach proposed by  \textcite{pathak2017curiosity} and then compare it to the octree methods that follow \textcite{chen2019learning}'s approach. Moreover, as motivated by \textcite{github-unity-mlagents-toolkit}, we go one step further and integrate \textcite{pathak2017curiosity}'s parameters into the agent's model to construct our proposed explorer drone, which takes into account all three: 1) octree observations, 2) pigeon observations and 3) pathak's curiosity for new states. In summary, in addition to the information presented about the choice of agent observations in Section \ref{chap:3:agent-choice-actions} and the baseline agents in Section \ref{chap:3:interpretation}, the diverse setups for environment-focused agents are a combination of the following:
+
+\begin{itemize}
+    \item Agents with a reward for discovering 4-, 8-, 16-meter-wide octree leaf nodes.
+    \item Agents with one or more of the following environment observations:
+    \begin{itemize}
+        \item Amount of octree nodes discovered at timestep $t$.
+        \item Pigeon observations.
+        \item Lingering factor.
+    \end{itemize}
+
+    \item Agents penalized given their lingering behavior.
+    \item Agents with Pathak's curiosity module (main feature of the \textbf{Pathak} baseline agent).
+    \item Agents with a minimum speed penalty.
+\end{itemize}
+
+It is worth clarifying that \textbf{blind} octree agents receive a reward for discovering new nodes but do not receive any of the aforementioned observations. Furthermore, mentioned in Section \ref{chap:3:interpretation}, Pathak's method was initially proposed for the exploration of environments but is now incorporated as a curiosity module
+
+
+Similarly, the voxel exploration policy was motivated by a rewards-per-voxel fashion, where the diverse policies vary according to the reward per voxel, ranging from a 25\% reward per voxel to a 100\% reward per voxel. 
+The diverse setups for object-focused agents are a combination of the following:
+\begin{itemize}
+    \item Agents with a reward for discovering a voxel with a reward by a factor in the range: 25\%, 50\%, 75\%, and 100\%.
+    \item Agents with, alternatively, a normalized voxel reward given by $ R^{VOX} = \frac{voxels\_scanned}{2 + voxels\_scanned} $.
+    \item Agents with one or more of the following environment observations:
+    \begin{itemize}
+        \item Vision of voxels in the grid sensor.
+        \item Lingering factor.
+        \item Pigeon observations.
+        \item Walk and look angles towards nearest object (main feature of \textbf{oracle} agents and the \textbf{shortest-path} baseline agent).
+        \item Number of classes detected by the object detector (main feature of the \textbf{object detector} baseline agent).
+        \item Rationalized class entropy (main feature of the \textbf{semantic curiosity} baseline agent).
+        \item Lingering penalty strength (observed and regulated in our \textbf{voxel-entropy} agent).
+        % \item Number of classes detected by the object detector (main feature of the object detector baseline agent).
+    \end{itemize}
+    \item Agents with a minimum speed penalty.
+    \item Agents with a lingering penalty.
+    % \item Agents penalized given their lingering behavior.
+\end{itemize}
+
+Each agent behavior presented in the following sections was trained for \textbf{30 million timesteps} using PPO and variations of the hyperparameters presented in \ref{appendix:ppo-trainer}. Following the 80-20 rule, test runs had a duration of 7.5 million timesteps. 
+Tables \ref{appendix:baselines_observations}, \ref{appendix:baselines_rewards} present a complete overview of the different agent variants trained. 
+
+
 \section{Further Use of Results}\label{chap:3:further-use}
 As stated by \textcite{luckert2016using}, the last step of every knowledge discovery process is the application of the achieved results for further use. In this thesis work, this is of special importance, where the main focus was the exploration of unknown 3D environments and the actual performance of our approach compared to a set of baselines is carried out. This section introduces the baselines that were determined to evaluate our approach, the environments were the exploration policy is deemed most useful, and the utility provided by the development with ML-Agents to perform cross-environment exploration.
 
@@ -1077,4 +1198,3 @@ On one hand, where vanilla RL implementations suffer from a large variance of th
 % Additionally, this approach allowed 
 
 % \subsection{Semantic Sub-modules}\label{chap:3:further-semantic}
-

@@ -231,7 +231,9 @@ The visible growth over the past few years of 3D sensors in our day-to-day surro
 % https://ai.googleblog.com/2021/02/3d-scene-understanding-with-tensorflow.html
 % add picture from TF
 Given the inherent sparse nature of 3D data in our surroundings, denoted as open space, appropriate data structures and algorithms for efficient memory and inference operations are required. Accordingly, sparse convolutional models with pooling operations are seen in the core backbones of most state-of-the-art methods used in outdoor autonomous driving and indoor benchmarks, such as Waymo, NuScenes and ScanNet \cite{najibi2020dops}.
-Tensorflow, for example, uses the 3D submanifold sparse U-net architecture to extract both coarse and fine features from voxels. This network, as shown in Figure \ref{fig:u-net}, consists of three components: an encoder, a bottleneck and a decoder. A set of prediction heads can then be added according to the task at hand. Implementations involving sparse convolutions combined with CUDA techniques show improvements of up to 20x with respect to previous implementations \cite{najibi2020dops}.
+Tensorflow, for example, uses the 3D submanifold sparse U-net architecture to extract both coarse and fine features from voxels. 
+%  as shown in Figure \ref{fig:u-net}, 
+This network consists of three components: an encoder, a bottleneck and a decoder. A set of prediction heads can then be added according to the task at hand. Implementations involving sparse convolutions combined with CUDA techniques show improvements of up to 20x with respect to previous implementations \cite{najibi2020dops}.
 
 % \begin{figure}[!ht]
 %         \centering
