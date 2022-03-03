@@ -1,0 +1,65 @@
+
+\begin{sidewaystable}
+\subsubsection{Agent Definitions by Observations}
+ 
+    % \hspace{-\marginparsep}    
+    % \hspace{-0.5\marginparwidth}
+  
+    \begin{longtable}{l|cccccccc|l}
+    \cline{2-9}
+     & \multicolumn{8}{c|}{Obs. per Baseline} &  \\ \hline
+    \multicolumn{1}{|l|}{Baseline} & \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}Octree \\ Obs.\end{tabular}} & \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}Voxel \\ Vision\end{tabular}} & \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}Pigeon\\ Obs.\end{tabular}} & \multicolumn{1}{l|}{\begin{tabular}[c]{@{}l@{}}Speed \\ Sensitivity \\ to FOV\end{tabular}} & \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}Shortest \\ Path\\  Obs.\end{tabular}} & \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}Detector \\ Obs.\end{tabular}} & \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}Semantic \\ Curiosity \\ Obs.\end{tabular}} & \begin{tabular}[c]{@{}c@{}}Semantic \\ Entropy \\ Obs.\end{tabular} & \multicolumn{1}{l|}{Comment} \\ \hline
+    
+    \multicolumn{1}{|l|}{Random Walk} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{} &  & \multicolumn{1}{l|}
+    {Simple agent with obs: speed and position in 3D space.} \\ \hline
+    
+    \multicolumn{1}{|l|}{Octree Agent} & \multicolumn{1}{c|}{\emoji{x}} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{\emoji{x}} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{} &  & \multicolumn{1}{l|}
+    {DA with discovered octree nodes count each timestep.} \\ \hline
+    
+    \multicolumn{1}{|l|}{Voxel (R\_VOX norm)}  & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{\emoji{x}} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{\emoji{x}} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{} &  & \multicolumn{1}{l|}{
+    DA that observes voxels with a normalized reward.} \\ \hline
+    
+    \multicolumn{1}{|l|}{Voxel (R\_VOX str: 0.25)}  & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{\emoji{x}} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{\emoji{x}} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{} &  & \multicolumn{1}{l|}{
+    DA that observes voxels with a reward strength of 25\%} \\ \hline
+    
+    \multicolumn{1}{|l|}{Voxel (R\_VOX str: 0.50)}   & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{\emoji{x}} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{\emoji{x}} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{} &  & \multicolumn{1}{l|}{
+    DA that observes voxels with a reward strength of 50\%} \\ \hline
+    
+    \multicolumn{1}{|l|}{Voxel (R\_VOX str: 0.75)}  & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{\emoji{x}} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{\emoji{x}} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{} &  & \multicolumn{1}{l|}{
+    DA that observes voxels with a reward strength of 75\%} \\ \hline
+    
+    \multicolumn{1}{|l|}{Voxel (R\_VOX str: 1.00)}   & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{\emoji{x}} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{\emoji{x}} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{} &  & \multicolumn{1}{l|}{
+    DA that observes voxels with a reward strength of 100\%} \\ \hline
+    
+    \multicolumn{1}{|l|}{Shortest Path}  & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{\emoji{x}} & \multicolumn{1}{c|}{\emoji{x}} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{} &  & \multicolumn{1}{l|}{
+    DA with walk angle and look angle to target.} \\ \hline
+
+    \multicolumn{1}{|l|}{Shortest Path + Vision}  & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{\emoji{x}} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{\emoji{x}} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{} &  & \multicolumn{1}{l|}{
+    DA with voxel vision.} \\ \hline
+    
+    \multicolumn{1}{|l|}{Object Detection} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{\emoji{x}} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{\emoji{x}} & \multicolumn{1}{c|}{} &  & \multicolumn{1}{l|}{
+    Simple agent with input from object detector.} \\ \hline
+
+    \multicolumn{1}{|l|}{Object Detection + pure} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{\emoji{x}} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{} &  & \multicolumn{1}{l|}{
+    Simple agent without speed constraint.} \\ \hline
+    
+    \multicolumn{1}{|l|}{Semantic Curiosity} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{\emoji{x}} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{\emoji{x}} &  & \multicolumn{1}{l|}{
+    DA with rationalized class density each timestep.} \\ \hline
+    
+    \multicolumn{1}{|l|}{Semantic Entropy}& \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{\emoji{x}} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{} &  & \multicolumn{1}{l|}{
+    DA with lingering penalty strength present reduction.} \\ \hline
+    
+    \multicolumn{1}{|l|}{Explorer (R\_VOX str: 0.5)}  & \multicolumn{1}{c|}{\emoji{x}} & \multicolumn{1}{c|}{\emoji{x}} & \multicolumn{1}{c|}{\emoji{x}} & \multicolumn{1}{c|}{\emoji{x}} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{} & \emoji{x} & \multicolumn{1}{l|}
+    {DA as above. Voxel reward strength of 50\%} \\ \hline
+    
+    \multicolumn{1}{|l|}{Explorer (R\_VOX str: 1.0)} & \multicolumn{1}{c|}{\emoji{x}} & \multicolumn{1}{c|}{\emoji{x}} & \multicolumn{1}{c|}{\emoji{x}} & \multicolumn{1}{c|}{\emoji{x}} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{} & \emoji{x} & \multicolumn{1}{l|}
+    {DA as above. Voxel reward strength of 100\%} \\ \hline
+    
+    \caption{Diverse agent behavior variants and the observations they receive. "DA" stands for Derived Agent. All agents observe their own information, such as 3D position, orientation, etc.}
+    \label{appendix:baselines_observations}
+    
+    \end{longtable}%
+
+        % \usepackage{graphicx}
+       
+\end{sidewaystable}

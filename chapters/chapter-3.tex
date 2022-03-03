@@ -47,6 +47,10 @@ The agent's character, 3D models, movement algorithms, choice of observations, r
 Subsequently, the chosen reinforcement learning algorithm is covered in Section \ref{chap:3:specification-approach} and the interpretation of the exploration approaches to octress and voxels are described in Section \ref{chap:3:interpretation}. 
 This section also tackles how the method's performance was measured and evaluated and which parameters were tuned.
 % the algorithms were compared to each other
+Section \ref{chap:3:experiments} presents the experiments, including the environment and sensors setup, and the behavior setup for object- and environment-focused agents.
+% Section \ref{chap:4:setup} illustrates the environment and sensors setup, 
+% section \ref{chap:4:behaviors} describes the exploration and voxel-curious behaviors setup, 
+
 Finally, Section \ref{chap:3:further-use} presents the proposed evaluation framework for the assessment and comparison of the learned behaviors, introduces the applicability of our approach in multiple scenarios, presents the transferability of the learning environment to another environment platform and proposes the comparison of the performance of the PPO with the Soft Actor-Critic algorithm for the given setup.
 % for the experiments to evaluate and compare learned behaviors.
 % dacross for determining the 3D position of the salient object. 
@@ -64,20 +68,23 @@ Inspired by the structure proposed by \textcite{luckert2016using} and given the 
 %  
 \section{Identification of Goals}\label{chap:3:goal}
 The predetermined goal of this project work was to propose an exploration policy that reduces uncertainty in a 3D scene. As mentioned in Section \ref{chap:1:research-question}, this project work tackles the following research questions: 
-\begin{itemize}
-    %  Howcan an active vision exploration policy based on a ubiquitous source of information such as voxels, in currently accessible RGBD cameras, contribute to reducing the uncertainty about a scene?
-     % \item How can these exploration policies be leveraged for a multitude of scenarios, including the milking robot problem? 
+\input{chapters/research_questions}
+
+% \begin{itemize}
+%     %  Howcan an active vision exploration policy based on a ubiquitous source of information such as voxels, in currently accessible RGBD cameras, contribute to reducing the uncertainty about a scene?
+%      % \item How can these exploration policies be leveraged for a multitude of scenarios, including the milking robot problem? 
    
-    % \item How can 3D data (meshes or point clouds), in voxel form, be exploited for extrinsic motivation for the exploration of objects in an unknown environment?
-    % \item How can large and unknown environments be explored efficiently by the same agent?
-    % \item How can uncertainty be defined through semantic entropy and be used as a motivation in exploration policies?
-    \item How can an embodied agent increase the overall certainty about an object's characteristics, i.e., how can trajectories around objects of interest be generated to reduce the uncertainty about such objects? 
-    \item How can these objects be found in large and unknown environments by the same agent?
+%     % \item How can 3D data (meshes or point clouds), in voxel form, be exploited for extrinsic motivation for the exploration of objects in an unknown environment?
+%     % \item How can large and unknown environments be explored efficiently by the same agent?
+%     % \item How can uncertainty be defined through semantic entropy and be used as a motivation in exploration policies?
+%     \item How can an embodied agent increase the overall certainty about an object's characteristics, i.e., how can trajectories around objects of interest be generated to reduce the uncertainty about such objects? 
+%     \item How can these objects be found in large and unknown environments by the same agent?
     
    
   
     
-\end{itemize}
+% \end{itemize}
+
 
 % \begin{itemize}
 %     \item How can the cow teats 3D pose be estimated under 10 seconds?
@@ -314,12 +321,24 @@ Accordingly, research by \textcite{davison2007monoslam} highlights that it takes
 % Work by \textcite{zhang2021panoramic} provides a thorough explanation of the potential of monocular cameras for the future computer vision research, where SLAM technologies are categorized into LIDAR SLAM and visual SLAM. Even though the LIDAR SLAM has been extensively studied, it remains a more expensive alternative and has a limited range of detection in comparison to camera-based SLAM. As of today, techniques for visual SLAM have used either 1) depth-sensor equipped cameras (RGBD) or 2) monocular, stereo or panoramic cameras. 
 
 % visual SLAM algorithms: a survey from 2010 to 2016
-This thesis takes inspiration from these works and the benefits provided by spherical vision, to integrate the agent with a grid sensor component.
+This thesis not only took inspiration from these works to reap the benefits provided by spherical vision but it also provides vision to the embodied agent through a grid sensor component. In a nutshell, a grid sensor enables (faster) off-render training and wider versatility in learning agents. The following paragraphs present the historical background and more details for this component. 
 % The motivation for the use of this component roots back to the origins of this component in the reinforcement learning community. 
-The motivation for the use of this component roots back to its origins in the reinforcement learning community. 
 
-With the growing interest for reinforcement learning techniques and research, a middle ground was required between model expensiveness and lengthy training times. Moreover, the testing of this middle ground had to be independent of the changing visuals across diverse video games, defined by one of the core principles of Automated Game Testing \cite{unity-eidosmontreal2020}. 
-In 2020, the labs at Eidos-Montréal \cite{unity-eidosmontreal2020} innovated the state-of-the-art in perception for reinforcement learning, which at that point was limited to raycasts and cameras, with a simple 2D \textit{grid sensor} component. Inspired by the simplification of an environment in the MinAtar paper \cite{young2019minatar}, the grid sensor exploits the computational efficiency of CNNs with the generality in data structure provided by raycasts. The basic principle behind the grid sensor is to use a height x width x channel matrix of variable resolution, that queries physics information from objects in range. This keeps the spatial structure perceived and can be then fed to a CNN, a reinforcement learning algorithm, or used to perform data analysis. 
+
+The motivation for the use a grid sensor roots back to the origins of the component in the reinforcement learning community: with the growing interest for reinforcement learning techniques and research, a middle ground was required between model expensiveness and lengthy training times. Moreover, the testing of this middle ground had to be independent of the changing visuals across diverse video games, defined by one of the core principles of Automated Game Testing \cite{unity-eidosmontreal2020}. 
+This was how the first grid sensor came to be: in 2020, the labs at Eidos-Montréal \cite{unity-eidosmontreal2020} innovated the state-of-the-art in perception for reinforcement learning, which at that point was limited to raycasts and cameras, with a simple 2D \textit{grid sensor} component. Inspired by the simplification of an environment in the MinAtar paper \cite{young2019minatar}, the grid sensor exploits the computational efficiency of CNNs with the generality in data structure provided by raycasts. The basic principle behind the grid sensor is to use a height x width x channel matrix of variable resolution, that queries physics information from objects in range. This keeps the spatial structure perceived and can be then fed to a CNN, a reinforcement learning algorithm, or used to perform data analysis. 
+
+\begin{figure}[!ht]
+    \centering
+    % \subfigure[]{\includegraphics[width=0.538\textwidth]{images/gridsensor_mbaske_2D.png}} 
+    \subfigure[]{\includegraphics[width=0.4304\textwidth]{images/gridsensor_mbaske_2D.png}} 
+    % \subfigure[]{\includegraphics[width=0.40\textwidth]{images/gridsensor_mbaske_3D.png}} 
+    \subfigure[]{\includegraphics[width=0.32\textwidth]{images/gridsensor_mbaske_3D.png}} 
+        \caption{
+            (a) Top-down 2D vision through 2D grid sensor (b) Spherical vision through 3D grid sensor. The used grid sensor component for Unity ML-Agents was developed by Mathias Baske \cite{github-mbaske-gridsensor}. 
+        }
+        \label{fig:gridsensor-3d}
+\end{figure}
 
 % \begin{figure}[!ht]
 %         \centering
@@ -329,25 +348,24 @@ In 2020, the labs at Eidos-Montréal \cite{unity-eidosmontreal2020} innovated th
 %         \label{fig:gridsensor-3d}
 % \end{figure}
 
-
 \begin{figure}[!ht]
-    \centering
-    % \subfigure[]{\includegraphics[width=0.538\textwidth]{images/gridsensor_mbaske_2D.png}} 
-    \subfigure[]{\includegraphics[width=0.4304\textwidth]{images/gridsensor_mbaske_2D.png}} 
-    % \subfigure[]{\includegraphics[width=0.40\textwidth]{images/gridsensor_mbaske_3D.png}} 
-    \subfigure[]{\includegraphics[width=0.32\textwidth]{images/gridsensor_mbaske_3D.png}} 
-        \caption{
-            Top-down 2D vision and panoramic vision through variants of the grid sensor component for Unity ML-Agents. (a) 2D grid sensor and (b) 3D grid sensor, developed by Mbaske \cite{github-mbaske-gridsensor}.
-        }
-        \label{fig:gridsensor-3d}
+        \centering
+        \includegraphics[width=1\textwidth]{images/gridsensor_voxelized_view.png}
+        \caption{Voxelized view of the grid sensor. The spherical vision is unwrapped through equirectangular projection and mapped into a 2D grid. Different class tags are represented with different colors and distance is shown visually through different brightness levels.}
+        \label{fig:gridsensor_voxelized_view}
 \end{figure}
 
-The grid sensor used in this thesis is an improved version of the original grid sensor, developed by \textcite{github-mbaske-gridsensor}, under a variety of perception parameters. 
-In Chapter \ref{chap:4} we compare the performance of the agent under an ordinary monocular camera setting and a spherical, panoramic, setup. 
+
+The grid sensor used in this thesis is an improved version of the original grid sensor, developed by \textcite{github-mbaske-gridsensor} and is visualized in Figure \ref{fig:gridsensor-3d}. It is setup with a variety of perception parameters to customize the range, cell arc, angles, etc. Furthermore, it can provide geometric and semantic information about each object detected or be extended for other use cases. At the implementation level, the unwrapping of the grid sensor input into the 3D grid shown in Figure \ref{fig:gridsensor_voxelized_view}, is done by equirectangular projection of a single Unity object known as an \textit{OverlapSphere} that recovers all colliders in range. The calculations for the latitude and longitude of the detected points, alongside with more information about the grid sensor, can be found at \url{https://github.com/mbaske/grid-sensor}. 
+
+
+% Mathias Baske's repository \cite{github-mbaske-gridsensor}. 
+
+
+In Chapter \ref{chap:4} we compare the performance of the agent under an ordinary monocular camera setting of 55 degrees and a spherical, panoramic, setup. 
 This, in conjunction with a voxelized representation of the world, conceives a training agent that is input-agnostic and can greatly increase the training time in 3D environments. 
-Since this setup does not depend on the rendering of visuals, training in the configuration file can be set to headless mode, which means that it runs as a normal computer process but no GUI is shown in the computer screen. This allows the agent to train while still using high-dimensional data and the benefits of domain randomization, such as position and domain randomization. Moreover, the 3D creative process involving textures and lighting setup is completely detached from the agent's behavior training setup. 
-Our aim is that this also motivates further research in reinforcement learning to enable transfer learning of agent behaviors from training in simple environments to progressively more complex ones. 
-The grid sensor developed by Baske can be found at \url{https://github.com/mbaske/grid-sensor}, and is visualized in Figure \ref{fig:gridsensor-3d}. 
+Since this setup does not depend on the rendering of visuals, training in the configuration file can be set to headless (off-render) mode. This means that training runs as a normal computer process but no Graphical User Interface is shown in the computer screen, and the rendering load on the GPU can be lifted. This allows the agent to train while still using high-dimensional data and the benefits of domain randomization, such as position and orientation changes. Moreover, in terms of the development pipeline, the 3D creative process involving textures and lighting setup is completely detached from the agent's behavior training setup. 
+Our aim is that this also motivates further research in reinforcement learning to enable effortless transfer learning of agent behaviors from training in simple environments to progressively more complex ones. 
 
 
 % . There is extensive research into LIDAR SLAM in com 
@@ -691,7 +709,7 @@ The trainer can receive both visual observations, such as camera, raycasts, grid
     \item A single fully connected dense layer.
 \end{itemize}
 
-Similarly, capabilities such as attention, LSTM, curriculum learning, multi-agent setups and more can be easily changed or added in Unity to construct an agent for a variety of practical reinforcement learning scenarios \cite{github-unity-mlagents-toolkit}. Figure \ref{fig:unity-simple-encoder} presents an example of the visual encoders mentioned.
+Similarly, capabilities such as attention, LSTM, curriculum learning, multi-agent setups and more can be easily changed or added in Unity to construct an agent for a variety of practical reinforcement learning scenarios \cite{github-unity-mlagents-toolkit}. Figure \ref{fig:unity-simple-encoder} presents an example of the visual encoders mentioned. For more information on visual observations in ML-Agents, please refer to \cite{mlagents2022visualobservations}.
 % For more information on the visual encoders, please refer to Appendix \ref{appendix:visual-encoders}.
 
 The main challenge during this stage was the delay introduced by training a reinforcement learning algorithm, where observations are provided but the performance cannot be estimated until the agent has been trained. Hence, a method with good sample efficiency was also an important factor that was considered when PPO was chosen.
@@ -827,27 +845,40 @@ where $R^{VOX}$ is the reward given by the voxel scans, $R^{OCT}$ is the reward 
     \item $R^{COL}$ is initially set to -1, granted on collisions with objects or walls.
     \item $R^{LIN}$ is a linger penalty function taken adapted \cite{github-mbaske-explorer-drone}, that penalizes the agent given 
         \begin{gather}
-        R^{LIN} = -r_l * (1-e) t_n \label{eu_penalty_linger}
+        R^{LIN} = -t_n  * S^{LIN}(e) * r_l
+        \label{eu_penalty_linger}
         \end{gather}
-    where 
-    the strength of the penalty is determined by the penalty value $r_l$, set to 0.001, and throttled by the entropy $e$. %0.001 
-    Accordingly, $t_n$ is a metric for how many timesteps the agent is at a given octant in the octree. It is constrained to a value range of $[0,2]$ and 
+    where the penalty is directly controlled by $t_n$, which is a metric for how many timesteps the agent is at a given octant in the octree. It is constrained to a value range of $[0,2]$ and it resets when the agent moves to a new octree node. 
+    Similarly, the strength of the penalty is given by the \textit{lingering penalty strength} $S^{LIN}(e)$, which is defined by
+     \begin{gather}
+        S^{LIN}(e) =
+        \begin{cases}
+            \frac{1}{1 + e^2} & \text{if is \textit{semantic-entropy-agent}}, \\
+            1 & \text{else}
+        \end{cases}
+        \label{eu_lingeringpenaltystrength} 
+    \end{gather}
+    % by the  set to 0.001, and throttled by the
+    % Accordingly, .  and 
     % and updated every frame by 
     %     \begin{align*}
     %     t_n = min(200, t_n + 1).
     %     \end{align*}
     % It 
-    reset when the agent moves to a new grid. 
-    Finally, this penalty is regulated through our definition of semantic entropy. IFor agent variants that observe semantic entropy, we define the lingering penalty strength as 
+    Accordingly, $e$, also known as \textit{RationalizedClassEntropy}, is defined as
     \begin{gather}
-        LingeringPenaltyStrength = \frac{1}{1 + RationalizedClassDensity^2} \label{eu_lingeringpenaltystrength}
+    e = \Sigma_{(i) \in(M)}\left(M_{t}^{S e m}[i]-M_{t-1}^{S e m}[i]\right) 
+    \label{eu_rationalized_class_entropy}
     \end{gather}
-    This allows the agent to implicitly observe the temporal class density in the environment (over the past N timesteps). We used a temporal memory with size $N = 10$. 
-
+    where our definition of $e$ was taken from the semantic curiosity reward proposed by \cite{chaplot2020semantic}. Furthermore, $\left(M_{t}^{S e m}\right)$ is the temporal buffer (also known as semantic map) and $M$ is the length of the temporal buffer. The semantic map allows the agent collect the number of classes detected by the object detector over the past N timesteps. We used a temporal memory with size $N = 10$. 
+    % It is worth mentioning that \textit{semantic-entropy} agents 
+    Finally, the lingering penalty is also regulated by penalty weight $r_l$, set to 0.001. 
+    
     %  Our definition of uncertainty through semantic entropy materializes here as a regulator for the 
     %  as an agent observation. 
      
-    \item $R^{X}$ encompasses a variety of other rewards and penalties that were tested during the development process, such a reward for moving towards a target, a timestep penalty, a reward for moving forward and a reward for moving at speed higher than a given minimum. Some of these penalties did not make it to the final iterations, for example in clear cases where the agent stopped moving. Interestingly, the moving forward reward not removed: for demonstration purposes it is more intuitive for the agent to move forward towards a target in alignment with its 3D model, instead of backwards towards a target.
+    \item $R^{X}$ encompasses a variety of other rewards and penalties that were tested during the development process, such a reward for moving towards a target, a timestep penalty, a reward for moving forward and a reward for moving at speed higher than a given minimum. Furthermore, a mechanism was implemented and analyzed to constrain these penalties if voxels are in field of view (FOV) of the agent, with the expectation that the agent is able to stay longer at certain octree nodes to scan objects. 
+    % Some of these penalties did not make it to the final iterations, for example in clear cases where the agent stopped moving. Interestingly, the moving forward reward not removed: for demonstration purposes it is more intuitive for the agent to move forward towards a target in alignment with its 3D model, instead of backwards towards a target.
 \end{itemize}
 
 The main challenge in the definition of the reward signal was the subtle balance between rewards and penalties. For example, large negative rewards could lead to unstable or a very slow learning process because they indicate an absence of positive learning experience \cite{sutton2018reinforcement}. To this end, the initial values proposed above are evaluated and criticized in Chapter \ref{chap:4}.
@@ -888,19 +919,18 @@ The workflow of a training session was adapted from \cite{eriksson2021deep} and 
 }
 
 
-
+% As mentioned before, other adjustments to the agent's behavior are given such as the moving forward reward, the lingering penalty and the minimum speed penalty. Most importantly, 
 \section{Interpretation}\label{chap:3:interpretation}
 
-As described in the previous sections, the agent is defined through a set of observations that allow it to perceive voxels, new octree nodes, obstacles and 3D assets in the environment and the level of semantic entropy in the environment. It is also defined through a reinforcement learning approach that given the agent's observations, maximizes the reward on a given state, to solve two main tasks:
+As described in the previous sections, the agent is defined through a set of observations that allow it to perceive voxels, new octree nodes, obstacles and 3D assets in the environment and the level of semantic entropy in the environment. It is also defined through a reinforcement learning agent that given the agent's observations, maximizes the reward on a given state, to solve two main tasks:
 \begin{itemize}
-    \item Exploration of the Environment.
-    \item Exploration of Objects (voxel-curiosity).
+    \item Exploration of the Environment, achieved through the octree observations and the associated reward. The lingering penalty also plays a critical role in this behavior to prevent the agent from staying at an octree node for too long.
+    \item Exploration of Objects (voxel-curiosity),achieved through the trajectories that the agent traverses while scanning voxels i.e., the agent is capable of looking at objects from multiple perspectives given its perception of the voxels that comprise the object of interest and the reward it obtains through the scanning of such voxels. 
 \end{itemize}
 % \section{Performance}\label{chap:3:performance}
 %  This section also describes how the method results were evaluated, how the algorithmswere compared to each other and which parameters were adjusted
-For the first task, the exploration of the environment is done through the octree observations and the associated reward. The lingering penalty also plays a critical role in this behavior to prevent the agent from staying at an octree node for too long.
-For the second task, the exploration of objects is done through the generation of trajectories around the objects themselves. These trajectories are discovered through the scanning of voxels i.e., the agent is capable of looking at objects from multiple perspectives given its perception of the voxels that comprise the object of interest and the reward it obtains through the scanning of such voxels. 
-The training of the agents on the big environment, also known as the "open world environment", is meant to serve as a preliminary training grounds for a variety of agent behaviors analyzed. These agent behaviors can be categorized in the following:
+% The training of the agents on the big environment, also known as the "open world environment", is meant to serve as a preliminary training grounds for a variety of agent behaviors analyzed.
+The set of agent behaviors we propose and analyze, that solve one or both tasks, can be categorized in the following:
 \begin{itemize}
     \item \textbf{Object-focused:} these agents have knowledge about voxels, i.e., they are capable of seeing voxels in the grid sensor. Their goal is to maximize the amount of voxels discovered in a scene.
     \item \textbf{Environment-focused:} refers to agents that have knowledge about octrees through information about nodes, lingering status and pigeon observations. Their goal is to maximize the space covered in a scene without direct knowledge of a map structure. From the concept of "coverage maximization", it would be similar to the work by \textcite{chen2019learning}, however we do not provide the agent with a map or information about how much it has explored so far.
@@ -914,26 +944,24 @@ The training of the agents on the big environment, also known as the "open world
         \item \textbf{Shortest Path.} This baseline provides the agent with the look angle and the walking angle to the nearest unvisited object. It is used to evaluate both object-focused agents given its priority for objects. %  through an orientation vector and the 3D position of the voxel
         \item \textbf{Prediction Error Curiosity.} Based on the work by \textcite{pathak2017curiosity}, it provides the agent with intrinsic curiosity towards novel states. This is used to evaluate and environment-focused agents.
         \item \textbf{Object Exploration.} This is a naive baseline where the reinforcement learning algorithm maximizes the amount of object detections given by a YOLO detector. As pointed out by \textcite{chaplot2020semantic}, this policy is expected to learn to search for frames with more objects but not for frames with different objects over time.
-        \item \textbf{Semantic Curiosity.} This baseline is based on the work by \textcite{chaplot2020semantic}, and uses semantic curiosity to prefer trajectories with high temporal inconsistencies in an object detector. 
+        \item \textbf{Semantic Curiosity.} This baseline is implemented based on the work by \textcite{chaplot2020semantic}, and uses their proposed semantic curiosity to prefer trajectories with high temporal inconsistencies in an object detector. Following the original method, this agent maximizes the semantic curiosity reward using formula \ref{eu_rationalized_class_entropy} and $\lambda_{S C}=2.5 \times 10^{-3}$.
     \end{itemize}
     \item \textbf{Proposed methods:} these are our proposed methods that incorporate a mixed-focused agent logic with the semantic entropy concept.
         \begin{itemize}
-            \item \textbf{Semantic Entropy.} this agent works upon the \textit{Semantic Curiosity} method by \textcite{chaplot2020semantic} by using high temporal inconsistencies in the object detector translate to adjustments to the agents lingering penalty strength. This is expected to allow the agent not only to explore both environments and objects, but also to prefer states with low lingering penalty and more objects.
+            \item \textbf{Semantic Entropy.} this agent works upon the \textit{Semantic Curiosity} method by \textcite{chaplot2020semantic} by using high temporal inconsistencies in the object detector translate to adjustments to the agents lingering penalty strength. This is expected to allow the agent not only to explore both environments and objects, but also to prefer states with low lingering penalty and more objects. These agents implicitly observe the levels of semantic entropy through $S^{LIN}(e)$ (see \ref{eu_lingeringpenaltystrength}).
             \item \textbf{Semantic Entropy as an observation.} This method is similar to the previous one by providing the semantic entropy observations to the agent, but does not adjust the lingering penalty strength.
         \end{itemize}
 \end{itemize}
 
-As mentioned before, other adjustments to the agent's behavior are given such as the moving forward reward, the lingering penalty and the minimum speed penalty. Most importantly, an alternative mechanism is implemented to constrain these penalties if voxels are in field of view (FOV) of the agent, with the expectation that the agent is able to stay longer at certain octree nodes to scan objects. 
 
-Accordingly, in order to determine if the environment or the agent required further tuning or adjustments, the average accumulated reward across all runs was the initial metric to distinguish a good from a bad performance. A low or negative reward can point to a behavior that is stuck, spinning or does not explore to discover new states with higher rewards. Similarly, a high reward can indicate a good performance but also reach undesired states. For example, after scanning most of the voxels, the agent can sometimes fall into a sparse reward situation, which complicates learning \cite{sutton2018reinforcement}.
+In order to determine if the environment or the agent required further tuning or adjustments, the average accumulated reward across all runs was the initial metric to distinguish a good from a bad performance. A low or negative reward can point to a behavior that is stuck, spinning or does not explore to discover new states with higher rewards. Similarly, a high reward can indicate a good performance but also reach undesired states. For example, after scanning most of the voxels, the agent can sometimes fall into a sparse reward situation, which complicates learning \cite{sutton2018reinforcement}.
 On one side, the movement speed, turning speed, and constraint attributes related to the agent's perception were observed to analyze the agent's performance. On the other side, the agent's mobility algorithm was also observed and tuned to determine the added complexity of learning a physics model through function approximation.
-At early stages of development, visual inspection allows the viewer to debug faulty behavior, such as when the agent is stuck or spinning uncontrollably.
-Afterwards, the interpretation of the performance required a more thorough evaluation, which was done through more meaningful metrics and visual inspection.
-This allowed to distinguish the influences of different observations and rewards in the agents' behavior:
+
+As agents become more complex, the interpretation of the performance required more meaningful metrics, which allowed to distinguish the influences of different observations and rewards in the agents' behavior. For example:
 % Firstly, inspired by the DARPA subterranean challenge, below are some of the \textit{in-depth metrics} that were collected
 \begin{multicols}{2}
     \begin{itemize}
-        \item Moving metrics (how fast, in which direction).
+        % \item Moving metrics (how fast, in which direction).
         \item Total objects detected.
         \item Total voxel detected.
         \item Total octree leaf nodes discovered.
@@ -944,10 +972,52 @@ This allowed to distinguish the influences of different observations and rewards
 \end{multicols}
 % (1) earliest time the last goal was successfully scanned, averaged across all episodes; (2) earliest time the first goal was successfully scanned, averaged across all episodes; (3) lowest average time across all scan reports, averaged across all episodes. 
 %  At further stages, visual inspection was accompanied by \textit{in-depth metrics} allow a more intricate interpretation of an agent's behavior.
-The full list of \textit{in-depth metrics} is presented in the Appendix \ref{appendix:indepth-metrics}.
+The full list of \textit{in-depth metrics} is presented in the Appendix \ref{appendix:indepth-metrics}. Finally, visual inspection also supported the detection of faulty behavior, such as when the agent is stuck or spinning uncontrollably.
 % In the current task the average reward signal can further be treated as a performance metric, which should be close in performance to (3) the lowest average average time. 
 % The complete list of metrics evaluated is presented in Chapter \ref{chap:4} with the results of each behavior variant.
-The trainer's hyperparameters that were tuned are listed in Table \ref{tab:trainer-hyperparameters} and a full list with their default values can be found in Appendix \ref{appendix:ppo-trainer}. 
+
+
+
+% Table \ref{appendix:baselines_rewards} summarizes the different behaviors evaluated given variations of the observations and the rewards. These multiple variants of the aforementioned baselines were further branched off test the influences of different observations and rewards, such as the influence on performance of the visibility of voxels or the strength of the voxel reward. The training agents 
+% % After training the baselines and proposed variants on 3D scenes, the 
+% results and comparisons are presented in Chapter \ref{chap:4}. 
+
+
+
+\section{Experiments} \label{chap:3:experiments}
+\subsection{Environment and Vision Setup}\label{chap:4:setup}
+
+
+
+% \begin{figure}[!ht]
+%     \centering
+%     \subfigure{\includegraphics[width=0.49\textwidth]{images/unity-chapter4-intro.png}} 
+%     \subfigure{\includegraphics[width=0.49\textwidth]{images/unity-environments-training-boundaries.png}} 
+%     \caption{Training 3D environment in Unity 3D with explorer drone (left). Exploration boundaries of training environment to delimit evaluation zone (right). Created using 3D models from \cite{unity-asset-store}.}
+%     \label{fig:unity-island}
+% \end{figure}
+% As proof of concept for the project the test environment that was set up consisted of an artificial cow at the ZHAW and a robotic arm as shown by Figure \ref{fig:cow_setup}. The hardware setup for such an environment consisted of the following:
+
+
+To carry out the experiments, a set of learning environments were required to train, collect metrics and test the different agent behaviors. These behaviors derivated as a result of different observations, hyperparameters, policies and reward signals. 
+To analyze changes in performance given a larger training environment, we compare the agents' performance between a \textit{small} environment of 32 $m^2$ and a \textit{large} environment of 160 $m^2$.
+Figure \ref{fig:unity-islands-bigsmall} illustrates these two environments, the exploration boundaries (colliders) and the added obstacles for collision avoidance.
+% that limit the exploration space 
+%  shows the two variants of the established 3D environment, where the large environment also includes obstacles for the agent to navigate around.
+% The implemented 3D environment is illustrated in Figure \ref{fig:unity-islands-bigsmall},
+
+\begin{figure}[!ht]
+    \centering
+    \subfigure{\includegraphics[width=0.49\textwidth]{images/unity-environments-training-boundaries.png}} 
+    % \subfigure{\includegraphics[width=0.32\textwidth]{images/unity-chapter4-small.png}} 
+    \subfigure{\includegraphics[width=0.49\textwidth]{images/unity-chapter4-big.png}} 
+    \caption{Small island (32$m^$2) with exploration boundaries (left). Large environment (160$m^2$) with stone obstacles (right). 3D assets were modeled our taken from \cite{unity-asset-store}.}
+    \label{fig:unity-islands-bigsmall}
+\end{figure}
+
+Each agent behavior presented was trained for \textbf{30 million timesteps} using PPO and variations of the hyperparameters presented in \ref{appendix:ppo-trainer}. Following the 80-20 rule, test runs had a duration of 7.5 million timesteps. 
+Tables \ref{appendix:baselines_observations}, \ref{appendix:baselines_rewards} present a complete overview of the different agent variants trained. 
+The trainer's hyperparameters that were tuned are listed in the following Table \ref{tab:trainer-hyperparameters}. A full list with their default valuescan be found in Appendix \ref{appendix:ppo-trainer}. 
 
 \begin{longtable}{@{} p{3.5cm} p{3.5cm} p{3.5cm} @{}} \toprule
 \multicolumn{3}{c}{Tuned Hyperparemeters}\\ \midrule
@@ -974,27 +1044,7 @@ epsilon                     \\\bottomrule
 % \\
 \end{longtable} 
 
-Table \ref{appendix:baselines_rewards} summarizes the different behaviors evaluated given variations of the observations and the rewards. These multiple variants of the aforementioned baselines were further branched off test the influences of different observations and rewards, such as the influence on performance of the visibility of voxels or the strength of the voxel reward. The training agents 
-% After training the baselines and proposed variants on 3D scenes, the 
-results and comparisons are presented in Chapter \ref{chap:4}. 
 
-
-
-\section{Experiments}
-\subsection{Environment and Vision Setup}\label{chap:4:setup}
-
-% As proof of concept for the project the test environment that was set up consisted of an artificial cow at the ZHAW and a robotic arm as shown by Figure \ref{fig:cow_setup}. The hardware setup for such an environment consisted of the following:
-
-
-To carry out the experiments, a set of learning environments were required to train, collect metrics and test the different agent behaviors. These behaviors derivated as a result of different observations, hyperparameters, policies and reward signals. The implemented 3D environment is illustrated in Figure \ref{fig:unity-island}, with the respective exploration boundaries that limit the exploration space for the agent.
-
-\begin{figure}[!ht]
-    \centering
-    \subfigure{\includegraphics[width=0.49\textwidth]{images/unity-chapter4-intro.png}} 
-    \subfigure{\includegraphics[width=0.49\textwidth]{images/unity-environments-training-boundaries.png}} 
-    \caption{Training 3D environment in Unity 3D with explorer drone (left). Exploration boundaries of training environment to delimit evaluation zone (right). Created using 3D models from \cite{unity-asset-store}.}
-    \label{fig:unity-island}
-\end{figure}
 
 % 
 % are voxelized and a reinforcement learning agent explores an environ
@@ -1010,27 +1060,14 @@ To carry out the experiments, a set of learning environments were required to tr
 
 % It is of spAs claimed by [ref], many exploration approaches shoot themselves in the foot by using methods that rely on heavy data structures in the form of point clouds, meshes, etc., which limits area they can explore.
 % Other methods do not consider the efficiency problem at all and are short-sighted to scenarios where the goal is a couple steps ahead of the agent's starting point. 
-To analyze changes in performance given a larger training environment, we compare the agents' performance across a \textit{small} environment of 32 $m^2$ and a \textit{large} environment of 160 $m^2$. Figure \ref{fig:unity-islands-bigsmall} shows the two variants of the established 3D environment, where the large environment also includes obstacles for the agent to navigate around.
 
 
-\begin{figure}[!ht]
-    \centering
-    \subfigure{\includegraphics[width=0.49\textwidth]{images/unity-chapter4-small.png}} 
-    \subfigure{\includegraphics[width=0.49\textwidth]{images/unity-chapter4-big.png}} 
-    \caption{Sample 3D assets for scenario proposals. Taken from \cite{unity-asset-store}.}
-    \label{fig:unity-islands-bigsmall}
-\end{figure}
 
-Consequently, after the definition and setup of the environment, the next step is the setup of the vision system. As described in more detail in the previous chapter, the approach to perception was to use the grid sensors from \cite{github-unity-mlagents-toolkit, github-mbaske-gridsensor}. 
+After the definition and setup of the environment, the next step is the setup of the vision system. As described in more detail in the previous chapter, the approach to perception was to use the grid sensors from \cite{github-unity-mlagents-toolkit, github-mbaske-gridsensor}. 
 % These grid sensors create a mesh of ray casts that mimic the output of a normal depth camera to interpret an abstracted view that takes the form of simplified, voxelized view of the environment. As also mentioned in the previous chapter, their output is then fed through a visual encoder that uses convolutional neural networks to transform this visual input for the agent. 
 Figure \ref{fig:unity-island-gridsensors} visualizes the range of the two grid sensors used in the agent and the voxelized view they produce. 
-At the implementation level, the unwrapping of the grid sensor input into the 3D grid shown in Figure \ref{fig:unity-island-gridsensors} is done through multiple Unity box colliders at each grid cell. 
-The detected objects at each collider are then mapped to a position in a matrix which are then input to the simple encoder and also displayed in the Unity UI. For more technical information on the implementation of the grid sensor please refer to \cite{github-mbaske-gridsensor}.
 
-One grid sensor is used to visualize elements in a panoramic fashion within a radius of 16 meters, where elements of three types are detected: boundaries, obstacles and collectibles.
-A second and smaller grid sensor with a diameter of 6 meters acts as the scanner in the voxel-exploration task: this grid sensor mimics a "scanneable" area and has a fail-rate of 20\% to provide the agent with an imperfect scanning behavior. Voxels that fall into this grid sensor's area are marked as scanned and accumulated by a counter to reward the agent at timestep \textit{t}. 
-
-\begin{figure}[!ht]
+\begin{figure}[!h]
     \centering
     \subfigure{\includegraphics[width=0.49\textwidth]{images/unity-environments-training-gridsensor-single-octree.png}}
     \subfigure{\includegraphics[width=0.49\textwidth]{images/unity-environments-training-gridsensor-single-voxel.png}} 
@@ -1038,23 +1075,17 @@ A second and smaller grid sensor with a diameter of 6 meters acts as the scanner
     \label{fig:unity-island-gridsensors}
 \end{figure}
 
+In our setup, one grid sensor is used to visualize elements in a panoramic fashion within a radius of 16 meters, where boundaries, obstacles and collectibles can be detected.
+A second and smaller grid sensor with a diameter of 6 meters acts as the scanner in the voxel-exploration task: this grid sensor mimics a "scanneable" area and has a fail-rate of 20\% to provide the agent with an imperfect scanning behavior. Voxels that fall into this grid sensor's area are marked as scanned and accumulated by a counter to reward the agent at timestep \textit{t}. 
+% For more technical information on the implementation of the grid sensor please refer to \cite{github-mbaske-gridsensor}.
+
 % \newpage 
  
 \subsection{Behaviors Setup}\label{chap:4:behaviors}
 
 The setup of the agent behaviors for the exploration of octrees and voxels is comprised by the set of observations and rewards provided to motivate a certain policy. The octree exploration policy was motivated by the approach presented by \textcite{chen2019learning}, where each discovered node in the octree provides a certain reward to the agent. To analyze the behavior of different octree setups, diverse experiments were run with varying from nodes of 4 $m^3$ to 16 $m^3$. Therefore, the rewarding styles for octree exploration policies vary according to the size of the octree nodes the agent can discover.
 
-
-\begin{figure}[!ht]
-    \centering
-    \subfigure{\includegraphics[width=0.49\textwidth]{images/unity-environments-training-behavior-octree2.png}} 
-    \subfigure{\includegraphics[width=0.49\textwidth]{images/unity-environments-training-behavior-voxel.png}} 
-    \caption{Sample 3D assets for scenario proposals. Taken from \cite{unity-asset-store}.}
-    \label{fig:unity-my-3d-envs}
-\end{figure}
-
-
-A second branch of variants of this approach take into account something called \textit{pigeon observations}. These observations take inspiration of the physiology used by pigeons to orient themselves in their environment, memorize routes and keep a biological compass. They consist of two vectors: one towards a geographical north and one towards a sun placed on top of the training island. 
+Additionally, another set of environment-focused agents take into account observations called \textit{pigeon observations}. These observations take inspiration of the physiology used by pigeons to orient themselves in their environment, memorize routes and keep a biological compass. They consist of two vectors: one towards a geographical north and one towards a sun placed on top of the training island. 
 
 Finally, following the example given by \textcite{chaplot2020semantic}, we analyze the performance of a "blind" octree variant that is curious for new states following the approach proposed by  \textcite{pathak2017curiosity} and then compare it to the octree methods that follow \textcite{chen2019learning}'s approach. Moreover, as motivated by \textcite{github-unity-mlagents-toolkit}, we go one step further and integrate \textcite{pathak2017curiosity}'s parameters into the agent's model to construct our proposed explorer drone, which takes into account all three: 1) octree observations, 2) pigeon observations and 3) pathak's curiosity for new states. In summary, in addition to the information presented about the choice of agent observations in Section \ref{chap:3:agent-choice-actions} and the baseline agents in Section \ref{chap:3:interpretation}, the diverse setups for environment-focused agents are a combination of the following:
 
@@ -1096,21 +1127,13 @@ The diverse setups for object-focused agents are a combination of the following:
     % \item Agents penalized given their lingering behavior.
 \end{itemize}
 
-Each agent behavior presented in the following sections was trained for \textbf{30 million timesteps} using PPO and variations of the hyperparameters presented in \ref{appendix:ppo-trainer}. Following the 80-20 rule, test runs had a duration of 7.5 million timesteps. 
-Tables \ref{appendix:baselines_observations}, \ref{appendix:baselines_rewards} present a complete overview of the different agent variants trained. 
-
+% \newpage
 
 \section{Further Use of Results}\label{chap:3:further-use}
 As stated by \textcite{luckert2016using}, the last step of every knowledge discovery process is the application of the achieved results for further use. In this thesis work, this is of special importance, where the main focus was the exploration of unknown 3D environments and the actual performance of our approach compared to a set of baselines is carried out. This section introduces the baselines that were determined to evaluate our approach, the environments were the exploration policy is deemed most useful, and the utility provided by the development with ML-Agents to perform cross-environment exploration.
 
 \subsection{Evaluation Framework}\label{chap:3:further-use:evaluation-framework}
 For the evaluation of the baseline methods and the proposed methods, we constructed two variations of the open world environment. These environment serve as testing grounds for the best performing methods from the preliminary trainings. These “DARPA Unity Scenes" are identical in dimensions and modeling but they evaluate two separate behaviors. The first environment evaluates the object-exploration capabilities of the agent through a sequential three-goal setup as shown in Figure \ref{fig:darpa-object-setup}. 
-\begin{figure}[!ht]
-        \centering
-        \includegraphics[width=0.9\textwidth]{images/darpa-object-setup_3.png} 
-        \caption{Visual diagram of our DARPA environment for the evaluation of the object-exploration capabilities of an agent in a sparse-reward setup.}
-        \label{fig:darpa-object-setup}
-\end{figure}
 
 The DARPA subterranean challenge \cite{darpa_subterranean_challenge} inspired the concept for these environments, where the following metrics were collected to evaluate the performance of the object-exploration behavior:
 \begin{multicols}{2}
@@ -1121,6 +1144,13 @@ The DARPA subterranean challenge \cite{darpa_subterranean_challenge} inspired th
         \item Total seconds per meter to object$_i$.
     \end{itemize}
 \end{multicols}
+
+\begin{figure}[!ht]
+        \centering
+        \includegraphics[width=0.9\textwidth]{images/darpa-object-setup_3.png} 
+        \caption{Visual diagram of our DARPA environment for the evaluation of the object-exploration capabilities of an agent in a sparse-reward setup.}
+        \label{fig:darpa-object-setup}
+\end{figure}
 
 The second environment evaluates the environment exploration behavior without any goals in the scene. The metrics collected are the times to achieve 10\%, 20\,…, 90\% coverage of the scene. This is meant to demonstrate that the agent is capable of exploring multiple locations in the environment.
 Consequently, the evaluation procedure is done through a bracket qualification system as shown in Figure \ref{fig:darpa-bracket}. Firstly, the best models from the preliminary training are selected. Secondly, a variable analysis is done for each of the agent behaviors: object and environment exploration. 
@@ -1180,7 +1210,7 @@ Finally, the qualifying runs are then evaluated on the DARPA environments where 
 \subsubsection{Applicable Practical Scenarios}\label{chap:3:further-generalization}
 Part of the value behind the research questions also is reflected in the applicability of the proposed methods to a variety of scenarios. 
 % The working steps to answer the research questions summarize themselves also into a policy capable of exploring any proposed 3D scene. 
-Therefore, multiple scenes were considered to demonstrate the further use of the agent's behavior in production. Example scenes include a stable, a traffic accident, a neighborhood fire, a forest accident, etc.
+Therefore, multiple scenes were considered to demonstrate the generalization of our agent's behavior to new environments. Example scenes include a stable, a traffic accident, a neighborhood fire, a forest accident, etc.
 
 \subsubsection{Cross-Platform Performance}\label{chap:3:further-generalization}
 % In order to additionally demonstrate the value of using Unity ML-Agents
@@ -1189,7 +1219,7 @@ Further value of using ML-Agents can be demonstrated through the capability to t
 The trainer used was the Stable Baselines 3 \cite{github-dlr-rm-baselines3} trainer, developed by the German Aerospace Center (DLR) and the Institute of Robotics and Mechatronics (RM). Accordingly, a similar average accumulated reward and a \textit{low transfer cost} across environments was treated as a high indicator for a high compatibility between environment platforms.  The transfer cost was defined as the amount of hours and lines of code required to reuse a Unity Environment in OpenAI Gym.
 
 \subsubsection{Algorithmic Performance} \label{chap:3:algorithmic-performance}
-We finally compare the performance of PPO to a state-of-the-art deep reinforcement learning algorithm, Soft Actor-Critic. 
+Finally, we compare the performance of PPO to a state-of-the-art deep reinforcement learning algorithm, Soft Actor-Critic. 
 On one hand, where vanilla RL implementations suffer from a large variance of the learned policy due to the policy update on-policy, PPO is a well-rounded algorithm that exhibits remarkable performance on a variety of tasks, as described in Sections \ref{chap2:ppo} and \ref{chap:3:specification-approach}. On the other hand, SAC is known to improve sample efficiency compared to on-policy methods and to reduce the variance through a more complex policy update (critically) and an off-policy correction step. Subsequently, SAC's off-policy training advantage is also important to analyze, because real-world problems, such as robot control, often have data from a non-replayable domain. 
 % Details on the experiments carried out can be found in the next chapter.
 

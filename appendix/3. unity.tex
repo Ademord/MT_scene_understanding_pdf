@@ -31,18 +31,16 @@ Unity allows each object to be used as a \textit{prefab} object, which allows th
 
 \section{Unity 3D: Voxelizing 3D Models}\label{appendix:unity3d-voxelizing-3dmodels}
 % manipulation of 3D images
-% - pytorch3d https://arxiv.org/pdf/2007.08501.pdf
-% - tensorflow 3d https://ai.googleblog.com/2021/02/3d-scene-understanding-with-tensorflow.html
-
-
-
-
-\begin{figure}[!ht]
+The current voxelization process involves pre-voxelizing the 3D assets instead of doing it real time. The pre-voxelization of the assets was done using the following script Voxelizer script which can be found in our Github repository linked in Appendix \ref{appendix:github}.
++\begin{figure}[!ht]
         \centering
         \includegraphics[width=0.3\textwidth]{images/voxel_bunny_borders.png}
         \caption{Voxelization of a 3D asset used with the mesh walking technique. 3D model (left) and voxelized model (right). 
         }
         \label{fig:unity-voxelized}
 \end{figure}
+
+
+As part of our further steps, we plan to look at \cite{weder2020routedfusion}, \cite{ravi2020pytorch3d}, \cite{googleAI2022tensorflow3D, najibi2020dops} and \cite{hackel2017semantic3d} for the manipulation of 3D clouds and their respective voxelization. This should cover the analysis of noise, outliers and empty spaces in the cloud generated, and bring our agent closer to a production-ready state.
 
 

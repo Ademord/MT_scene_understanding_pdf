@@ -84,7 +84,7 @@ At the NeurIPS 2017, \textcite{abbeel_youtube_2017} presented a video of robots 
 Later it was showed that the robot was being controlled by a human with a remote controller: his presentation hinted towards the fact that the robots that we use today are physically capable of performing such actions, so building state of the art robotics is not a hardware problem anymore but a software one.
 As of 2021, tasks like teaching a robot how to pick a bottle of beer can still be a very challenging task. Nevertheless, current algorithms have come a long way since Pieter's talk and much has been done to improve robots' understanding of their environment and to study what set of tools are required to achieve not just perception in robots but intelligent agents \cite{kok2020trust, trivedi2008soft}.
 Works like DeepMind's recent publication \cite{silver2021reward} hint towards a promising future where reward maximization methods are a promising path towards general artificial intelligence. Where current AI models outperform humans at specific tasks and alleviate repetitive workloads, general AI would potentially outperform humans at nearly every cognitive task. 
-It is therefore imperative to continue research in disciplines such as reinforcement learning as it is one of the most promising field to achieve intelligent robotic behavior \cite{abbeel_youtube_2017, kok2020trust, silver2021reward}.
+It is therefore imperative to continue research in disciplines such as reinforcement learning as it is one of the most promising field to achieve intelligent robotic behavior \cite{song2021autonomous, abbeel_youtube_2017, kok2020trust, silver2021reward}.
 
 % is of vital importance to to eventually
 
@@ -98,9 +98,10 @@ It is therefore imperative to continue research in disciplines such as reinforce
 Accordingly, a current project at ZHAW linked to this thesis work aims to construct a milking robot that leverages machine learning methods to outperform traditional milking robot technologies, in cooperation with the industrial partner Sutter Landtechnik GmbH (SLG).
 Most of today's milking robots use a 2D laser scanner to estimate the position of the cow, the udder and the cow's teats, and several measurements are necessary. This is time consuming and if the cow moves during the measurement, the position estimation must be reinitialized. ZHAW therefore proposes innovative changes to the milking robot's architecture, using electric drives and a more compact kinematic structure. Moreover, given that inexpensive 3D cameras have been introduced to the market over the past few years, it is now possible to leverage high resolution 3D point clouds to dynamically estimate the position of the cow teats while also reducing the costs of manufacture. 
 
-This thesis aims to contribute to this project but also to the fields of practical reinforcement learning, computer vision research and practical machine learning. To this end, we study the scenario where given a milking robot defined as an unknown environment with objects of interest, a reinforcement learning agent's task is to explore such an environment and the objects in it.
+This thesis aims to contribute to this project but also to the fields of practical reinforcement learning, computer vision research and practical machine learning. To this end, we abstract the scenario of a milking robot as an unknown environment with objects of interest, a reinforcement learning agent's task is to explore such an environment and the objects in it.
 % the milking robot problem represents an unknown environment where not only the position of objects is of interest, but the general level of awareness of the overall environment itself.
-In other words, the aim of this masters thesis is to select and implement a computer vision enabled pipeline that leverages active vision to reduce the uncertainty over time in a new environment, one of which can be a milking robot's environment. In this sense, uncertainty is defined as the temporal semantic entropy given by an object detector and the derived class complexity through the Shannon entropy. 
+In other words, the aim of this masters thesis is to select and implement a computer vision enabled pipeline that leverages active vision to reduce the uncertainty over time in a new environment, one of which can be a milking robot's environment. In this sense, uncertainty is defined as the amount of unscanned voxels in the scene, the unexplored locations and the measured temporal semantic entropy given by an object detector.
+%  and the derived class complexity through the Shannon entropy. 
 
 The proposed solution is inspired by the human brain's physiology and approximates the discovery process a human would follow in an unknown environment. It also leverages the concept of temporal semantic entropy proposed by \textcite{chaplot2020semantic} to define this dimension of uncertainty. Concretely, the task at hand is exploration for coverage maximization, for which we propose a novel approach that leverages extrinsic rewards from voxel scans constructed from ubiquitous RGB-D information. From the perspective of architecture design, it proposes a pipeline that can be further extended to a multitude of use cases and even other semantic models, in an attempt to contribute to the research on semantic-curiosity-motivated exploration.
 
@@ -165,17 +166,19 @@ In this work, the problem of uncertainty in an environment presented by the milk
 Finally, a set of research scenarios are proposed to show the versatility of our exploration policies and contribute to existing benchmark environments. 
 % and account for realism using Unity 3D
 Regarding this task, this work tackles the following research questions:
-\begin{itemize}
-    %  Howcan an active vision exploration policy based on a ubiquitous source of information such as voxels, in currently accessible RGBD cameras, contribute to reducing the uncertainty about a scene?
-    % \item How can voxel structures be exploited for intrinsic motivation in active vision exploration policies?
-    % \item How can uncertainty, defined through semantic entropy, be used to thoroughly scan objects through active vision policies?
-    % \item How can active vision exploration policies be leveraged for a practical scenarios, beyond the original milking robot use case? 
-    % 3D data (meshes or point clouds), in voxel form, be exploited for extrinsic motivation of objects?
-    \item How can an embodied agent increase the overall certainty about an object's characteristics, i.e., how can trajectories around objects of interest be generated to reduce the uncertainty about such objects? 
-    \item How can these objects be found in large and unknown environments by the same agent?
-    % \item How can uncertainty be defined through semantic entropy and be used as a motivation in exploration policies?
+\input{chapters/research_questions}
+
+% \begin{itemize}
+%     %  Howcan an active vision exploration policy based on a ubiquitous source of information such as voxels, in currently accessible RGBD cameras, contribute to reducing the uncertainty about a scene?
+%     % \item How can voxel structures be exploited for intrinsic motivation in active vision exploration policies?
+%     % \item How can uncertainty, defined through semantic entropy, be used to thoroughly scan objects through active vision policies?
+%     % \item How can active vision exploration policies be leveraged for a practical scenarios, beyond the original milking robot use case? 
+%     % 3D data (meshes or point clouds), in voxel form, be exploited for extrinsic motivation of objects?
+%     \item How can an embodied agent increase the overall certainty about an object's characteristics, i.e., how can trajectories around objects of interest be covered to reduce the uncertainty about such objects? 
+%     \item How can these objects be found in large and unknown environments by the same agent?
+%     % \item How can uncertainty be defined through semantic entropy and be used as a motivation in exploration policies?
     
-\end{itemize}
+% \end{itemize}
 
 \section{Approach and Methodology}\label{chap:1:approach-methodology}
 This work focuses on leveraging reinforcement learning techniques to manipulate an agent (camera) motivated by abstractions of the perceived environment. These abstractions are meant to simplify the complexity present in the environment and take the form of translations of camera input into voxels. Voxels, accordingly, represent the direct goal for a scanning agent to obtain view from an object from multiple angles. The problem that is further studied within this master's thesis is two-fold: 1) uniform exploration of large open spaces and 2) thorough scanning of objects from multiple angles, as a mean to reduce the uncertainty in a 3D scene over time. We define, therefore, uncertainty through the semantic entropy observed at a given point in time, which is inspired by \textcite{chaplot2020semantic}.
@@ -205,12 +208,14 @@ Our contributions can be summarized into the following points:
     \item We demonstrate that our method outperforms our Unity implementations of classical and geometric exploration for scanning strategies, and further improves upon exploration methods motivated by coverage maximization \cite{chen2019learning} using octrees and adapts its exploration pace through semantic entropy.
     % , which is inspired by \textcite{chaplot2020semantic}'s semantic curiosity. 
     
-    \item We show that Proximal Policy Optimization (PPO), with minimal hyperparameter tuning and any domain-specific algorithmic changes or architectures, achieves final performances comparable to the Soft Actor-Critic algorithm \cite{schulman2017proximal}.
+    \item We show that Proximal Policy Optimization (PPO), with minimal hyperparameter tuning and any domain-specific algorithmic changes or architectures, achieves final performances and converges faster than the Soft Actor-Critic algorithm \cite{schulman2017proximal}.
+    %   comparable to the
     % where  synthetic data and real data for the exploration of 3D environments
     \item By using voxels and grid sensors for extensive exploration, our method abstracts the complexity in the 3D world through voxels and therefore is capable of visual-agnostic exploration and transfer learning tasks. 
     % data distribution plays a key role in the performance of transfer learning techniques trained on synthetic data and tested on real robots, enabling the agent to adapt to new environments without changes in its behavior.
     
-    \item We evaluate our approach through relevant statistics for exploration and for thorough scanning of objects, where a set of baselines is defined and used to perform the evaluation, inspired by \textcite{darpa_subterranean_challenge}.
+    \item We evaluate our approach through relevant statistics for exploration and for thorough scanning of objects, where a set of baselines were defined and two DARPA-inspired evaluation environments \cite{darpa_subterranean_challenge} were implemented.
+    % inspired by .
     
     \item We further demonstrate that our method excels in new 3D scenarios that represent real life situations where exploration time is critical to save not just time and costs but, more importantly, lives and further losses. 
     

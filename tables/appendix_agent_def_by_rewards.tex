@@ -1,0 +1,71 @@
+
+\begin{sidewaystable}
+\subsubsection{Agent Definitions by Rewards}    
+
+ 
+    % \hspace{-\marginparsep}    
+    % \hspace{-0.5\marginparwidth}
+  
+    \begin{longtable}{l|ccccccc|l}
+    \cline{2-8}
+             & \multicolumn{7}{c|}{Trained Functions} &  \\ \hline
+            %  \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}} Moving \\ Forward\end{tabular}}
+            \multicolumn{1}{|l|}{Baseline}  & \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}} Speed\end{tabular}} & \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}  Octree \\ Nodes\\  Discovery\end{tabular}} & \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}} Voxel \\ Discovery\end{tabular}} & \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}} Shortest \\ Path\end{tabular}} & \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}} Object \\ Detection\end{tabular}} & \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}} Semantic \\ Curiosity\end{tabular}} & \begin{tabular}[c]{@{}c@{}} Semantic \\ Entropy\end{tabular} & \multicolumn{1}{l|}{Comment} \\ \hline
+            
+            \multicolumn{1}{|l|}{Random Walk}  & \multicolumn{1}{c|}{\emoji{x}} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{} &  & \multicolumn{1}{l|}
+            {Simple that moves at a minimum target speed.} \\ \hline
+            
+            \multicolumn{1}{|l|}{Octree Agent} & \multicolumn{1}{c|}{\emoji{x}} & \multicolumn{1}{c|}{\emoji{x}} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{} &  & \multicolumn{1}{l|}
+            {DA that explores new (octree) locations.} \\ \hline
+            
+            \multicolumn{1}{|l|}{Voxel (R\_VOX norm)} & \multicolumn{1}{c|}{\emoji{x}} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{\emoji{x}} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{} &  & \multicolumn{1}{l|}
+            {""                               ""} \\ \hline
+            
+            \multicolumn{1}{|l|}{Voxel (R\_VOX str: 0.25)} & \multicolumn{1}{c|}{\emoji{x}} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{\emoji{x}} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{} &  & \multicolumn{1}{l|}
+            {""                               ""} \\ \hline
+        
+            \multicolumn{1}{|l|}{Voxel (R\_VOX str: 0.50)} & \multicolumn{1}{c|}{\emoji{x}} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{\emoji{x}} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{} &  & \multicolumn{1}{l|}
+            {""                               ""} \\ \hline
+        
+            \multicolumn{1}{|l|}{Voxel (R\_VOX str: 0.75)}  & \multicolumn{1}{c|}{\emoji{x}} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{\emoji{x}} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{} &  & \multicolumn{1}{l|}
+            {""                               ""} \\ \hline
+        
+            \multicolumn{1}{|l|}{Voxel (R\_VOX str: 1.00)}  & \multicolumn{1}{c|}{\emoji{x}} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{\emoji{x}} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{} &  & \multicolumn{1}{l|}
+            {""                               ""} \\ \hline
+        
+            \multicolumn{1}{|l|}{Shortest Path}  & \multicolumn{1}{c|}{\emoji{x}} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{\emoji{x}} & \multicolumn{1}{c|}{\emoji{x}} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{} &  & \multicolumn{1}{l|}
+            {DA that learns to move to the closest target.} \\ \hline
+        
+            
+            \multicolumn{1}{|l|}{Shortest Path + Vision} & \multicolumn{1}{c|}{\emoji{x}} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{\emoji{x}} & \multicolumn{1}{c|}{\emoji{x}} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{} &  & \multicolumn{1}{l|}
+            {DA with voxel vision.} \\ \hline
+        
+            
+            \multicolumn{1}{|l|}{Object Detection} & \multicolumn{1}{c|}{\emoji{x}} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{\emoji{x}} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{\emoji{x}} & \multicolumn{1}{c|}{} &  & \multicolumn{1}{l|}
+            {DA that maximizes object detections.} \\ \hline
+            
+            \multicolumn{1}{|l|}{Object Detection + pure} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{\emoji{x}} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{\emoji{x}} & \multicolumn{1}{c|}{} &  & \multicolumn{1}{l|}
+            {DA with no minimum speed penalty.} \\ \hline
+        % . Found voxels provide a normalized reward.}
+            
+            \multicolumn{1}{|l|}{Semantic Curiosity}  & \multicolumn{1}{c|}{\emoji{x}} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{\emoji{x}} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{\emoji{x}} &  & \multicolumn{1}{l|}
+            {DA that maximizes the temporal class density.} \\ \hline
+            
+            \multicolumn{1}{|l|}{Ultron (Semantic Entropy)} & \multicolumn{1}{c|}{\emoji{x}} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{\emoji{x}} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{} & \emoji{x} & \multicolumn{1}{l|}
+            {Voxel-DA with a lingering penalty regulator.} \\ \hline
+            
+            \multicolumn{1}{|l|}{Explorer (R\_VOX str: 0.5)} & \multicolumn{1}{c|}{\emoji{x}} & \multicolumn{1}{c|}{\emoji{x}} & \multicolumn{1}{c|}{\emoji{x}} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{} & \emoji{x} & \multicolumn{1}{l|}
+            {Explorer DA for voxels and octrees.} \\ \hline
+            
+            \multicolumn{1}{|l|}{Explorer (R\_VOX str: 1.0)}  & \multicolumn{1}{c|}{\emoji{x}} & \multicolumn{1}{c|}{\emoji{x}} & \multicolumn{1}{c|}{\emoji{x}} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{} & \emoji{x} & \multicolumn{1}{l|}
+            {Explorer DA for voxels and octrees.} \\ \hline
+           
+    
+    \caption{Diverse agent behavior variants and the rewards they receive. "DA" stands for Derived Agent.}
+     \label{appendix:baselines_rewards}
+     
+    \end{longtable}%
+
+        % \usepackage{graphicx}
+       
+\end{sidewaystable}

@@ -9,17 +9,17 @@
 This chapter will provide an overview of the achieved results, the determined baselines, the setup of the experiments, the nature of the environment and the experiment process to solve the posed research question. 
 This chapter also adapts the structure for machine learning algorithms proposed by \textcite{luckert2016using}.
 %  the pipeline deployment details,  collection and labelling steps, the neural network implementation and training. Finally, the pose estimation algorithms and the pipeline are evaluated.
-Section \ref{chap:4:setup} illustrates the environment and sensors setup, 
-section \ref{chap:4:behaviors} describes the exploration and voxel-curious behaviors setup, 
 % section \ref{chap:4:train_data} explains the data collection and neural network training, 
 % section \ref{chap:4:\ref{chap:4:training}} detailing the training , 
-and section \ref{chap:4:results} presents the experiment results. The following questions will be answered thoroughly:
+Section \ref{chap:4:results} presents the experiment results, Section \ref{chap:4:evaluation_framework}. Afterwards, Section \ref{chap:4:further_evaluations}. Finally the deliverables for this thesis work are presented in Section \ref{chap:4:deliverables}. The following questions will be answered thoroughly:
 \begin{itemize}
-    \item How were the experiments set up?
     % \item What was the cloud deployment setup for the solution?
-    \item How many episodes, metrics, etc., were ran and collected for training, testing and optimizing the algorithms?
+
+    % \item How were the experiments set up?
+    % \item How many episodes, metrics, etc., were ran and collected for training, testing and optimizing the algorithms?
+    
     % \item Which tools were used to acquire the metrics, create the data and perform the experiments?
-    \item Which algorithm parameters were the most influential?
+    \item Which observations and rewards were the most influential?
     % \item Which algorithm optimizations were done?
     \item What were the achieved results on each experiment?
     \item What was the setup of the best performing algorithm?
@@ -59,11 +59,13 @@ Without further delay, the following sections present the the training and the D
 
 
 
+\section{Results}\label{chap:4:results}
+The following subsections present the results of the experiments. 
+
+Section \ref{chap:4:results-RQ2} deals with the results concerning the exploration of objects and \ref{chap:4:results-RQ1} deals with the results concerning the exploration of unknown spaces using octrees. Each subsection will present the best results obtained on the exploration policy variants and a brief description of the most representative details of each variant.
+
 
 % \newpage
-
-\section{Results}\label{chap:4:results}
-This section presents the results of the experiments. Section \ref{chap:4:results-RQ2} deals with the results concerning the exploration of objects and \ref{chap:4:results-RQ1} deals with the results concerning the exploration of unknown spaces using octrees. Each subsection will present the best results obtained on the exploration policy variants and a brief description of the most representative details of each variant.
 
 % • How can an embodied agent increase the overall certainty about an object’s characteristics, i.e., how
 % can trajectories around objects of interest be generated to reduce the uncertainty about such objects?
@@ -73,7 +75,7 @@ This section presents the results of the experiments. Section \ref{chap:4:result
 
 The first research question focuses on the reduction of uncertainty about objects, which we have posed as a voxel-curiosity task. Below, the best results for each voxel-curious variant are be presented in two subsections according to if the model has knowledge of voxels. 
 It is worth mentioning that the training environment provided the agent 6 goals per episode situated at a distance of 5-50 meters away from the origin. 
-In contrast, the DARPA testing environment contained a single goal located between 30 to 50 meters away from the origin. This sparse-reward testing environment evaluates the actual explorative capabilities of an agent.
+In contrast, the DARPA testing environment contained a single goal located between 30 to 50 meters away from the origin. This sparse-reward testing environment evaluates the actual exploratory capabilities of an agent.
 For information on the run names, please refer to the previous Section \ref{chap:4:behaviors} and Appendix \ref{appendix:agents_explanations}.
 
 
@@ -106,13 +108,10 @@ voxel++100-nospeed-nolinger-oracle-8 & 99 & {\cellcolor[HTML]{90C6BB}} \color[HT
 voxel++100-nospeed-nolinger-pigeon-oracle-8 & 97 & {\cellcolor[HTML]{E6F0EE}} \color[HTML]{000000} 1.30 &                        0.24 \\ \hline
 voxel++100-nospeed-oracle-4 & 100 & {\cellcolor[HTML]{A9D2CA}} \color[HTML]{000000} 1.64 &                       0.19 \\ \hline
 voxel++100-nospeed-oracle-8-pigeon & 93 & {\cellcolor[HTML]{A1CFC5}} \color[HTML]{000000} 1.68 &                         0.23 \\ \hline
-object-detector-pure-vision & 99 & {\cellcolor[HTML]{BADBD4}} \color[HTML]{000000} 1.54 &                        0.19 \\ \hline
+% object-detector-pure-vision & 99 & {\cellcolor[HTML]{BADBD4}} \color[HTML]{000000} 1.54 &                        0.19 \\ \hline
 voxel-entropy++100-nospeed & 97 & {\cellcolor[HTML]{55AA99}} \color[HTML]{000000} 2.10 &                         0.20 \\ \hline
 voxel-entropy++100-oracle & 96 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 1.27 &                          0.20 \\ \hline
 voxel-entropy++100-oracle-nospeed & 98 & {\cellcolor[HTML]{B1D6CE}} \color[HTML]{000000} 1.59 &                          0.20 \\ \hline
-
-
-
 
 % readable\_name & \%episode\_length & avg\_total\_objects\_scanned \\ \hline
 % voxel & 100 
@@ -127,10 +126,12 @@ voxel-entropy++100-oracle-nospeed & 98 & {\cellcolor[HTML]{B1D6CE}} \color[HTML]
 % voxel-entropy++100 & 54 
 % voxel-entropy++100-nospeed & 25 
 % voxel-entropy++100-oracle-nospeed & 16 
-    \caption{Overview of the best object-focused runs with knowledge of voxels respect to the \textit{Episode Length} and the \textit{Total Objects Scanned} metrics. A small episode length indicates that the agent is overwhelmed by the penalties and the fastest way to minimize the reward function is to end the episode. An object is marked as scanned once all voxels that belong to it are scanned by the agent.
+    \caption{Overview of the best object-focused runs with knowledge of voxels respect to the \textit{Episode Length} and the \textit{Total Objects Scanned} metrics.
     } \label{tab:RQ1-results}
 \end{longtable}
 
+As mentioned before, a small episode length indicates that the agent is overwhelmed by the penalties and the fastest way to minimize the reward function is to end the episode. An object is marked as scanned once all voxels that belong to it are scanned by the agent.
+\newpage
 \subsubsection{Agents without Knowledge of Voxels}
 The following Table \ref{tab:RQ1-results-noknowledgeofvoxels} presents the aggregated results for the agents that get rewarded for finding voxels but are not able to see them in the grid sensor view. These agents must rely on their other information to find objects and their voxels, such as shortest path angles (look angle and walk angle), the output of an object detector, the temporal semantic map in their trajectories \cite{chaplot2020semantic}, the semantic entropy in the environment, or no information at all (blind agent).
 % is shown below in Table , which also shows the general performance of the algorithms for the voxel scanning task.
@@ -141,20 +142,19 @@ The following Table \ref{tab:RQ1-results-noknowledgeofvoxels} presents the aggre
     & \theadcentered{Episode \\ Length \%}                
     & \theadcentered{Average Total \\ Objects Scanned}
     & \theadcentered{Standard \\ Deviation} 
-    & \theadcentered{otal \\ Detections Count}
+    & \theadcentered{Total \\ Detections Count}
     % & \thead{Standard Deviation}    \\ 
     \hline
-    random-agent	&	89	\%	& {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000}	0.14    &  0.15  &    {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 10221.18	\\ \hline % 	&	0.24
-shortest-path & 97 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 0.06 &         0.04 &       {\cellcolor[HTML]{90C7BC}} \color[HTML]{000000} 387956.37 \\ \hline
-semantic-curiosity & 99 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 0.07 &        0.05 &          {\cellcolor[HTML]{55AA99}} \color[HTML]{000000} 831982.04 \\ \hline
-semantic-entropy &  {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000}  40 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 0.13 &      0.17 &        {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 217608.01 \\ \hline
-blind-agent-voxel-constrained & 100 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 0.33 &        0.11 &         {\cellcolor[HTML]{90C7BC}} \color[HTML]{000000} 350545.99 \\ \hline
-blind-agent-voxel & 99 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 0.34 &         0.10 &       {\cellcolor[HTML]{99CBC1}} \color[HTML]{000000} 452437.65 \\ \hline
-object-detector & 97 & {\cellcolor[HTML]{E5EFED}} \color[HTML]{000000} 0.39 &       0.33 &        {\cellcolor[HTML]{79BCAE}} \color[HTML]{000000} 627828.14 \\ \hline
-object-detector-nospeed & 93 & {\cellcolor[HTML]{55AA99}} \color[HTML]{000000} 1.01 &       0.25 &        {\cellcolor[HTML]{9DCDC3}} \color[HTML]{000000} 433438.51 \\ \hline
+    random-agent	&	89	\%	& {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000}	0.14    &  0.15  &    {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 10	\\ \hline % 	&	0.24
+shortest-path & 97 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 0.06 &       0.04 &    {\cellcolor[HTML]{A6D1C8}} \color[HTML]{000000} 34 \\ \hline
+semantic-curiosity & 99 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 0.06 &      0.05 &    {\cellcolor[HTML]{55AA99}} \color[HTML]{F1F1F1} 73 \\ \hline
+semantic-entropy & 39 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 0.13 &    0.17 &    {\cellcolor[HTML]{C1DED8}} \color[HTML]{000000} 21 \\ \hline
+blind-agent-voxel-constrained & 100 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 0.31 &      0.11 &    {\cellcolor[HTML]{ACD4CB}} \color[HTML]{000000} 31 \\ \hline
+blind-agent-voxel & 99 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 0.33 &       0.10 &    {\cellcolor[HTML]{99CBC1}} \color[HTML]{000000} 40 \\ \hline
+object-detector & 96 & {\cellcolor[HTML]{E9F1EF}} \color[HTML]{000000} 0.35 &     0.33 &    {\cellcolor[HTML]{7ABCAF}} \color[HTML]{000000} 55 \\ \hline
+object-detector-pure & 93 & {\cellcolor[HTML]{55AA99}} \color[HTML]{F1F1F1} 0.94 &    0.25 &    {\cellcolor[HTML]{9DCDC3}} \color[HTML]{000000} 38 \\ \hline
 
-
-    \caption{Overview of the best object-focused runs without knowledge of voxels.
+    \caption{Overview of the best object-focused runs without knowledge of voxels. Total Detection Counts are in tens of thousands.
     % with respect to the \textit{Episode Length} and the \textit{Total Objects Scanned} metrics}. 
     }
     \label{tab:RQ1-results-noknowledgeofvoxels}
@@ -172,6 +172,8 @@ More detailed tables of voxel-aware agents can be found in Appendix \ref{appendi
 
 This section deals with the results related to question 2, which focuses on the exploration coverage of a 3D space given octrees as the 3D data structure for the space. 
 The first two tables present these results through the octree discovery reward.
+
+\subsubsection{Agents with Knowledge of Octrees}
 
 %  8000, 800 and 200 nodes
 Table \ref{tab:RQ2-results} summarizes the results for the agents that are aware of octrees for the given task. This can be through feedback of how many nodes were discovered each timestep or through pigeon observations. 
@@ -193,14 +195,14 @@ Table \ref{tab:RQ2-results} summarizes the results for the agents that are aware
     % run61-explore-constrained	&	100	\%	&	0.93	&	0.03	\\ \hline
   
     
-    octree-4 & 92 & 87.16 & 2.18 & {\cellcolor[HTML]{55AA99}} \color[HTML]{000000} 348.64 \\ \hline
-    octree-4-pigeon & 17 & 10.20 & 2.04 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 81.57 \\ \hline
-    octree-4-pigeon-pathak & 22 & 12.32 & 2.46 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 98.52 \\ \hline
-    octree-8 & 43 & 22.90 & 4.58 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 183.19 \\ \hline
-    octree-16 & 4 & 1.69 & 2.71 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 27.08 \\ \hline
-    octree-16-constrained & 100 & 12.70 & 20.32 & {\cellcolor[HTML]{DDEBE8}} \color[HTML]{000000} 203.16 \\ \hline
-    octree-16-constrained-pigeon & 100 & 20.35 & 32.56 & {\cellcolor[HTML]{6AB4A5}} \color[HTML]{000000} 325.61 \\ \hline
-    octree-16-constrained-pigeon-pathak & 100 & 6.07 & 9.71 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 97.06 \\ \hline
+    octree-4 & 92 & 87.16 & 2.18 & {\cellcolor[HTML]{55AA99}} \color[HTML]{000000} 348 \\ \hline
+    octree-4-pigeon & 17 & 10.20 & 2.04 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 81 \\ \hline
+    octree-4-pigeon-pathak & 22 & 12.32 & 2.46 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 98 \\ \hline
+    octree-8 & 43 & 22.90 & 4.58 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 183 \\ \hline
+    octree-16 & 4 & 1.69 & 2.71 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 27 \\ \hline
+    octree-16-constrained & 100 & 12.70 & 20.32 & {\cellcolor[HTML]{DDEBE8}} \color[HTML]{000000} 203 \\ \hline
+    octree-16-constrained-pigeon & 100 & 20.35 & 32.56 & {\cellcolor[HTML]{6AB4A5}} \color[HTML]{000000} 325 \\ \hline
+    octree-16-constrained-pigeon-pathak & 100 & 6.07 & 9.71 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 97 \\ \hline
     
     \caption{Overview of the environment-exploration focused runs with knowledge of octrees. 
     % These results are with respect to the \textit{Episode Length} and the \textit{Octree Discovery Reward} metrics}.
@@ -208,6 +210,8 @@ Table \ref{tab:RQ2-results} summarizes the results for the agents that are aware
     \label{tab:RQ2-results}
 \end{longtable}
 
+\newpage
+\subsubsection{Agents without Knowledge of Octrees}
 
 Pathak's method \cite{pathak2017curiosity} usage is two-fold. First, without knowledge of octrees, it is used as one baseline to compare the exploration performance to our method. Secondly, it is also used as a curiosity module for other agents, as suggested by Unity ML-Agents \cite{github-unity-mlagents-toolkit}, given that it motivates the agent to prefer newer states.
 
@@ -226,16 +230,16 @@ The results for the environment-focused methods that have no knowledge of octree
     % & \thead{Standard Deviation}       
     \\ \hline
     % run61-explore	&	95	\%	&	0.89	&	0.07	\\ \hline
-    random-agent	&	100	& 0.01 & 0	& {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000}	0.04	\\ \hline
-    blind-octree-explorer & 91 & 86.40 & 2.16 & {\cellcolor[HTML]{77BAAD}} \color[HTML]{000000} 345.62 \\ \hline
-    blind-octree-explorer-nospeed & 95 & 91.82 & 2.30 & {\cellcolor[HTML]{55AA99}} \color[HTML]{000000} 367.29 \\ \hline
-    blind-octree-explorer-nospeed-pathak & 91 & 88.52 & 2.21 & {\cellcolor[HTML]{6AB4A5}} \color[HTML]{000000} 354.09 \\ \hline
+    random-agent	&	100	& 0.01 & 0	& {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000}	0	\\ \hline
+    blind-octree-explorer & 91 & 86.40 & 2.16 & {\cellcolor[HTML]{77BAAD}} \color[HTML]{000000} 345 \\ \hline
+    blind-octree-explorer-nospeed & 95 & 91.82 & 2.30 & {\cellcolor[HTML]{55AA99}} \color[HTML]{000000} 367 \\ \hline
+    blind-octree-explorer-nospeed-pathak & 91 & 88.52 & 2.21 & {\cellcolor[HTML]{6AB4A5}} \color[HTML]{000000} 354 \\ \hline
     
-    pathak-4 & 90 & 79.74 & 1.99 & {\cellcolor[HTML]{A1CFC5}} \color[HTML]{000000} 318.97 \\ \hline
-    pathak-8 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 65 & 30.48 & 6.10 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 243.85 \\ \hline
-    pathak-16 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 4 & 1.66 & 2.66 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 26.63 \\ \hline
-    pathak-16-constr-nospeed & 100 & 1.01 & 1.62 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 16.19 \\ \hline
-    pathak-16-constr-nospeed-nolinger & 100 & 19.05 & 30.48 & {\cellcolor[HTML]{B7D9D2}} \color[HTML]{000000} 304.76 \\ \hline
+    pathak-4 & 90 & 79.74 & 1.99 & {\cellcolor[HTML]{A1CFC5}} \color[HTML]{000000} 318 \\ \hline
+    pathak-8 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 65 & 30.48 & 6.10 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 243 \\ \hline
+    pathak-16 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 4 & 1.66 & 2.66 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 26 \\ \hline
+    pathak-16-constr-nospeed & 100 & 1.01 & 1.62 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 16 \\ \hline
+    pathak-16-constr-nospeed-nolinger & 100 & 19.05 & 30.48 & {\cellcolor[HTML]{B7D9D2}} \color[HTML]{000000} 304 \\ \hline
     
     \caption{Overview of the environment-exploration focused agents that have no knowledge of octrees. 
     % These results are with respect to the \textit{Episode Length} and the \textit{Octree Discovery Reward} metrics
@@ -244,14 +248,14 @@ The results for the environment-focused methods that have no knowledge of octree
 \end{longtable}
 
 
-% The contrast in explorative performance for the best octree exploration methods and the best voxel-curious methods is presented below in
+% The contrast in exploratory performance for the best octree exploration methods and the best voxel-curious methods is presented below in
  The performances can be contrasted based on the number of scan nodes, which originate from objects of interest or obstacles (stones) in the environment, the number of leaf nodes and the lingering behavior. 
 The 160$m^2$ environment consists of 40, 20, 10 octree nodes on the XZ-axis when segmented with node sizes of 4$m^3$, 8$m^3$ and 16$m^3$, respectively. Since the vertical space is not useful for our use case (objects are not situated at different heights), the Y-axis is limited to 5, 2.5 and 1.25 nodes, respectively. This is equal to 3D volumes of 4000, 500 and 62.5 nodes, respectively.
-
-Table \ref{appendix:RQ1-results-octreeFocusedRuns} presents more details for the results for all environment-focused agents. More details can be found in Appendix \ref{appendix:results-mixed-focused-agents-bigtable}.
+Table \ref{appendix:RQ1-results-octreeFocusedRuns} presents more details for the results for all environment-focused agents. 
+% 
 % Table \ref{tab:RQ2-results-comparative-voxeloctree} presents the results for all environment-focused agents.
 
-\newpage
+% \newpage
 
 
 
@@ -260,7 +264,6 @@ This sections presents the variant of agents that have both knowledge of the env
 We propose an adapted F1-score \cite{f1score2022} to calculate the harmony mean between the total scanned objects and the visited volume. This provides a way to evaluate agents based on their performance on both tasks using only one statistic. 
 % \newpage
 The following Table \ref{tab:results-mixed-agents} displays the results for the mixed-focus agents with their respective episode length, average amount of scanned objects, F1-score and percentage of octree leaf nodes visited.
-
 
 \begin{longtable}{|l|c|c|c|c|}                            \hline
 
@@ -273,29 +276,30 @@ The following Table \ref{tab:results-mixed-agents} displays the results for the 
 % & \theadcentered{Octree Leaf \\ Nodes Visited \%}
 \\ \hline
 
-explorer-entropy-4 & 97 & {\cellcolor[HTML]{CDE4DF}} \color[HTML]{000000} 0.54 & {\cellcolor[HTML]{C6E0DB}} \color[HTML]{000000} 0.21 & {\cellcolor[HTML]{69B4A5}} \color[HTML]{000000} 310.53 \\ \hline
-explorer-entropy-4-nolinger-noTrainEntropy & 97 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 0.17 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 0.08 & {\cellcolor[HTML]{75B9AB}} \color[HTML]{000000} 281.55 \\ \hline
-explorer-entropy-4-noTrainEntropy & 98 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 0.00 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 0.00 & {\cellcolor[HTML]{55AA99}} \color[HTML]{000000} 358.06 \\ \hline
-explorer-entropy-8 & 88 & {\cellcolor[HTML]{55AA99}} \color[HTML]{000000} 1.96 & {\cellcolor[HTML]{55AA99}} \color[HTML]{000000} 0.30 & {\cellcolor[HTML]{ACD4CC}} \color[HTML]{000000} 151.04 \\ \hline
-explorer-entropy-8-nolinger & 96 & {\cellcolor[HTML]{65B2A2}} \color[HTML]{000000} 1.77 & {\cellcolor[HTML]{9CCCC2}} \color[HTML]{000000} 0.24 & {\cellcolor[HTML]{BADAD4}} \color[HTML]{000000} 117.86 \\ \hline
-explorer-entropy-8-nolinger-noTrainEntropy & 98 & {\cellcolor[HTML]{60AFA0}} \color[HTML]{000000} 1.83 & {\cellcolor[HTML]{94C8BE}} \color[HTML]{000000} 0.25 & {\cellcolor[HTML]{B8DAD3}} \color[HTML]{000000} 120.73 \\ \hline
-explorer-entropy-8-noTrainEntropy & 92 & {\cellcolor[HTML]{6FB6A8}} \color[HTML]{000000} 1.65 & {\cellcolor[HTML]{7CBDB0}} \color[HTML]{000000} 0.27 & {\cellcolor[HTML]{B1D6CE}} \color[HTML]{000000} 139.49 \\ \hline
-explorer-entropy-16 & 95 & {\cellcolor[HTML]{E8F1EF}} \color[HTML]{000000} 0.22 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 0.05 & {\cellcolor[HTML]{DEECE9}} \color[HTML]{000000} 31.36 \\ \hline
-explorer-entropy-16-nolinger & 100 & {\cellcolor[HTML]{B9DAD3}} \color[HTML]{000000} 0.78 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 0.14 & {\cellcolor[HTML]{CCE3DE}} \color[HTML]{000000} 74.64 \\ \hline
-explorer-entropy-16-nolinger-noTrainEntropy & 97 & {\cellcolor[HTML]{97CABF}} \color[HTML]{000000} 1.18 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 0.16 & {\cellcolor[HTML]{CAE2DD}} \color[HTML]{000000} 79.76 \\ \hline
-explorer-entropy-16-noTrainEntropy & 99 & {\cellcolor[HTML]{E7F0EE}} \color[HTML]{000000} 0.23 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 0.05 & {\cellcolor[HTML]{DEECE9}} \color[HTML]{000000} 32.13 \\ \hline
+explorer-entropy-4 & 97 & {\cellcolor[HTML]{CDE4DF}} \color[HTML]{000000} 0.54 & {\cellcolor[HTML]{C6E0DB}} \color[HTML]{000000} 0.21 & {\cellcolor[HTML]{69B4A5}} \color[HTML]{000000} 310 \\ \hline
+explorer-entropy-4-nolinger-noTrainEntropy & 97 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 0.17 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 0.08 & {\cellcolor[HTML]{75B9AB}} \color[HTML]{000000} 281 \\ \hline
+explorer-entropy-4-noTrainEntropy & 98 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 0.00 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 0.00 & {\cellcolor[HTML]{55AA99}} \color[HTML]{000000} 358 \\ \hline
+explorer-entropy-8 & 88 & {\cellcolor[HTML]{55AA99}} \color[HTML]{000000} 1.96 & {\cellcolor[HTML]{55AA99}} \color[HTML]{000000} 0.30 & {\cellcolor[HTML]{ACD4CC}} \color[HTML]{000000} 151 \\ \hline
+explorer-entropy-8-nolinger & 96 & {\cellcolor[HTML]{65B2A2}} \color[HTML]{000000} 1.77 & {\cellcolor[HTML]{9CCCC2}} \color[HTML]{000000} 0.24 & {\cellcolor[HTML]{BADAD4}} \color[HTML]{000000} 117 \\ \hline
+explorer-entropy-8-nolinger-noTrainEntropy & 98 & {\cellcolor[HTML]{60AFA0}} \color[HTML]{000000} 1.83 & {\cellcolor[HTML]{94C8BE}} \color[HTML]{000000} 0.25 & {\cellcolor[HTML]{B8DAD3}} \color[HTML]{000000} 120 \\ \hline
+explorer-entropy-8-noTrainEntropy & 92 & {\cellcolor[HTML]{6FB6A8}} \color[HTML]{000000} 1.65 & {\cellcolor[HTML]{7CBDB0}} \color[HTML]{000000} 0.27 & {\cellcolor[HTML]{B1D6CE}} \color[HTML]{000000} 139 \\ \hline
+explorer-entropy-16 & 95 & {\cellcolor[HTML]{E8F1EF}} \color[HTML]{000000} 0.22 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 0.05 & {\cellcolor[HTML]{DEECE9}} \color[HTML]{000000} 31 \\ \hline
+explorer-entropy-16-nolinger & 100 & {\cellcolor[HTML]{B9DAD3}} \color[HTML]{000000} 0.78 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 0.14 & {\cellcolor[HTML]{CCE3DE}} \color[HTML]{000000} 74 \\ \hline
+explorer-entropy-16-nolinger-noTrainEntropy & 97 & {\cellcolor[HTML]{97CABF}} \color[HTML]{000000} 1.18 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 0.16 & {\cellcolor[HTML]{CAE2DD}} \color[HTML]{000000} 79 \\ \hline
+explorer-entropy-16-noTrainEntropy & 99 & {\cellcolor[HTML]{E7F0EE}} \color[HTML]{000000} 0.23 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 0.05 & {\cellcolor[HTML]{DEECE9}} \color[HTML]{000000} 32 \\ \hline
 
     \caption{Brief overview of the mixed-focused runs, with respect to the \textit{Total Objects Scanned}, \textit{F1-score} and \textit{Leaf Nodes Visited}.}
     \label{tab:results-mixed-agents}
 \end{longtable}
 
-% More details related to these agents can be found in Appendix \ref{appendix:results-mixed-focused-agents-bigtable}.
+
+More details related to these agents can be found in Appendix \ref{appendix:results-mixed-focused-agents-bigtable}.
+
+% More details can be found in Appendix \ref{appendix:results-mixed-focused-agents-bigtable}.
+\newpage
 
 
-% \newpage
-
-
-\section{Evaluation Framework}
+\section{Evaluation Framework}\label{chap:4:evaluation_framework} 
 This section presents the performance of the best performing agents that reached the \textit{DARPA} evaluation challenge presented in Section \ref{chap:3:further-use:evaluation-framework}. 
 These are done in the DARPA evaluation scenarios, where they test
 \begin{itemize}
@@ -308,13 +312,18 @@ These are done in the DARPA evaluation scenarios, where they test
 
 % (such as the shortest-path agent, object detector agent, etc.).
 % : object-focused runs, environment-focused runs, mixed-focused runs, baselines. The chosen candidates for the test environments 
-To this end, the evaluation candidates that were selected from each agent category presented in Figure \ref{fig:darpa-bracket} are shown the following Table \ref{tab:results-darpa-candidates}. 
-% \begin{itemize}
-%     \item object-focused runs
-%     \item environment-focused runs
-%     \item mixed-focused runs
-%     \item baselines (such as the shortest-path agent, object detector agent, etc.)
-% \end{itemize}
+
+% To this end, the evaluation candidates that were selected from each agent category presented in Figure 3.14
+% are shown the following Table
+
+To this end, the evaluation candidates, as presented in Figure \ref{fig:darpa-bracket}, were selected from the following agent categories: 
+\begin{itemize}
+    \item object-focused
+    \item environment-focused
+    \item mixed-focused
+    \item baselines (such as the shortest-path agent, object detector agent, etc.)
+\end{itemize}
+The test candidates are shown the following Table \ref{tab:results-darpa-candidates}. 
 
 % that serve as baselines to compare the performance of our proposed method. These baselines were also trained under different parameter
 %  configurations to reach the best performant one, as displayed in Table with the metrics collected and the baselines used to evaluate our method 
@@ -354,21 +363,21 @@ To this end, the evaluation candidates that were selected from each agent catego
     % explorer-entropy-16 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 0.05 & {\cellcolor[HTML]{E5EFED}} \color[HTML]{000000} 0.22 & {\cellcolor[HTML]{DFECE9}} \color[HTML]{000000} 31.36 &                              {\cellcolor[HTML]{D7C5AF}} \color[HTML]{000000}   env-goal \\ \hline
 
 
-{\cellcolor[HTML]{D7C5AF}} \color[HTML]{000000}         blind-octree-explorer-constrained-nospeed & 0.00 & 0.00 & 367.29 &      {\cellcolor[HTML]{D7C5AF}} \color[HTML]{000000}    env-goal \\ \hline
-{\cellcolor[HTML]{D7C5AF}} \color[HTML]{000000}         octree-16-constrained & 0.00 & 0.00 & 203.16 &              {\cellcolor[HTML]{D7C5AF}} \color[HTML]{000000}    env-goal \\ \hline
-{\cellcolor[HTML]{D7C5AF}} \color[HTML]{000000}         octree-16-constrained-pigeon & 0.00 & 0.00 & 325.61 &       {\cellcolor[HTML]{D7C5AF}} \color[HTML]{000000}   env-goal \\ \hline
-{\cellcolor[HTML]{D7C5AF}} \color[HTML]{000000}         octree-4 & 0.00 & 0.00 & 348.64 &                           {\cellcolor[HTML]{D7C5AF}} \color[HTML]{000000}   env-goal \\ \hline
-{\cellcolor[HTML]{B5C3D7}} \color[HTML]{000000}         voxel++025 & 0.26 & 1.43 & 150.49 &                         {\cellcolor[HTML]{B5C3D7}} \color[HTML]{000000} both \\ \hline
-{\cellcolor[HTML]{C4D7B8}} \color[HTML]{000000}         voxel++100-nospeed & 0.25 & 1.47 & 144.93 &                 {\cellcolor[HTML]{C4D7B8}} \color[HTML]{000000} obj-goal \\ \hline
-{\cellcolor[HTML]{C4D7B8}} \color[HTML]{000000}         voxel++100-nospeed-nolinger & 0.25 & 1.62 & 138.43 &        {\cellcolor[HTML]{C4D7B8}} \color[HTML]{000000} obj-goal \\ \hline
-{\cellcolor[HTML]{C4D7B8}} \color[HTML]{000000}         voxel++100-nospeed-oracle-8-pigeon & 0.25 & 1.57 & 137.12 & {\cellcolor[HTML]{C4D7B8}} \color[HTML]{000000} obj-goal \\ \hline
-{\cellcolor[HTML]{C4D7B8}} \color[HTML]{000000}         shortest-path & 0.02 & 0.06 & 63.70 &                       {\cellcolor[HTML]{C4D7B8}} \color[HTML]{000000} obj-goal \\ \hline
-{\cellcolor[HTML]{C4D7B8}} \color[HTML]{000000}         object-detector-pure & 0.18 & 0.94 & 110.38 &               {\cellcolor[HTML]{C4D7B8}} \color[HTML]{000000} obj-goal \\ \hline
-{\cellcolor[HTML]{D7C5AF}} \color[HTML]{000000}         semantic-curiosity & 0.02 & 0.06 & 54.12 &                  {\cellcolor[HTML]{D7C5AF}} \color[HTML]{000000}     env-goal \\ \hline
-{\cellcolor[HTML]{C4D7B8}} \color[HTML]{000000}         semantic-entropy & 0.05 & 0.13 & 63.50 &                    {\cellcolor[HTML]{C4D7B8}} \color[HTML]{000000} obj-goal \\ \hline
-{\cellcolor[HTML]{D7C5AF}} \color[HTML]{000000}         voxel-entropy++100-nospeed & 0.29 & 2.10 & 147.69 &         {\cellcolor[HTML]{D7C5AF}} \color[HTML]{000000}     env-goal \\ \hline
-{\cellcolor[HTML]{B5C3D7}} \color[HTML]{000000}         explorer-entropy-16 & 0.05 & 0.22 & 31.36 &                 {\cellcolor[HTML]{B5C3D7}} \color[HTML]{000000} both \\ \hline
-{\cellcolor[HTML]{D7C5AF}} \color[HTML]{000000}         explorer-entropy-8 & 0.29 & 1.96 & 151.04 &                 {\cellcolor[HTML]{D7C5AF}} \color[HTML]{000000}   env-goal \\ \hline
+{\cellcolor[HTML]{D7C5AF}} \color[HTML]{000000}         blind-octree-explorer-constrained-nospeed        &         0.00         &      0.00  &   367 &      {\cellcolor[HTML]{D7C5AF}} \color[HTML]{000000}    env-goal \\ \hline
+{\cellcolor[HTML]{D7C5AF}} \color[HTML]{000000}         octree-16-constrained        &         0.00         &      0.00  &   203 &              {\cellcolor[HTML]{D7C5AF}} \color[HTML]{000000}    env-goal \\ \hline
+{\cellcolor[HTML]{D7C5AF}} \color[HTML]{000000}         octree-16-constrained-pigeon         &      0.00      &       0.00   &   325 &       {\cellcolor[HTML]{D7C5AF}} \color[HTML]{000000}   env-goal \\ \hline
+{\cellcolor[HTML]{D7C5AF}} \color[HTML]{000000}         octree-4         &      0.00      &       0.00   &   348 &                           {\cellcolor[HTML]{D7C5AF}} \color[HTML]{000000}   env-goal \\ \hline
+{\cellcolor[HTML]{B5C3D7}} \color[HTML]{000000}         voxel++025       &        0.26        &         1.43     &   150 &                         {\cellcolor[HTML]{B5C3D7}} \color[HTML]{000000} both \\ \hline
+{\cellcolor[HTML]{C4D7B8}} \color[HTML]{000000}         voxel++100-nospeed       &        0.25        &         1.47     &   144 &                 {\cellcolor[HTML]{C4D7B8}} \color[HTML]{000000} obj-goal \\ \hline
+{\cellcolor[HTML]{C4D7B8}} \color[HTML]{000000}         voxel++100-nospeed-nolinger      &       0.25       &        1.62    &   138 &        {\cellcolor[HTML]{C4D7B8}} \color[HTML]{000000} obj-goal \\ \hline
+{\cellcolor[HTML]{C4D7B8}} \color[HTML]{000000}         voxel++100-nospeed-oracle-8-pigeon       &        0.25        &         1.  57   & 12 & {\cellcolor[HTML]{C4D7B8}} \color[HTML]{000000} obj-goal \\ \hline
+{\cellcolor[HTML]{C4D7B8}} \color[HTML]{000000}         shortest-path        &         0.02         &      0.06  &   63 &                       {\cellcolor[HTML]{C4D7B8}} \color[HTML]{000000} obj-goal \\ \hline
+{\cellcolor[HTML]{C4D7B8}} \color[HTML]{000000}         object-detector-pure & 0.18 & 0.94 & 110        &               {\cellcolor[HTML]{C4D7B8}} \color[HTML]{000000} obj-goal \\ \hline
+{\cellcolor[HTML]{D7C5AF}} \color[HTML]{000000}         semantic-curiosity       &        0.02        &         0.06     &   54 &                  {\cellcolor[HTML]{D7C5AF}} \color[HTML]{000000}     env-goal \\ \hline
+{\cellcolor[HTML]{C4D7B8}} \color[HTML]{000000}         semantic-entropy         &      0.05      &       0.13   &   63 &                    {\cellcolor[HTML]{C4D7B8}} \color[HTML]{000000} obj-goal \\ \hline
+{\cellcolor[HTML]{D7C5AF}} \color[HTML]{000000}         voxel-entropy++100-nospeed       &        0.29        &         2.10     &   147 &         {\cellcolor[HTML]{D7C5AF}} \color[HTML]{000000}     env-goal \\ \hline
+{\cellcolor[HTML]{B5C3D7}} \color[HTML]{000000}         explorer-entropy-16      &       0.05       &        0.22    &   31 &                 {\cellcolor[HTML]{B5C3D7}} \color[HTML]{000000} both \\ \hline
+{\cellcolor[HTML]{D7C5AF}} \color[HTML]{000000}         explorer-entropy-8       &        0.29        &         1.96     &   151 &                 {\cellcolor[HTML]{D7C5AF}} \color[HTML]{000000}   env-goal \\ \hline
 
     % explorer-entropy-16
    
@@ -403,17 +412,21 @@ To this end, the evaluation candidates that were selected from each agent catego
     \label{tab:results-darpa-candidates}
 \end{longtable}
 
-\newpage
 
 Given that the general performance of agents has already been registered during training (for both object and environment exploration), not all the best runs are candidates for both tests. 
 Therefore, agents that have no motivation for voxels, such as \textit{octree-4}, are not included in the candidates for the {Object-Test}. Similarly, voxel-focused runs such as \textit{voxel++025} are not considered candidates for the Environment-Test.
 
 % voxel++100-nospeed-oracle-8-pigeon
 % \newpage
-As mentioned before, one DARPA environment evaluates the object-explorative performance of the agent, by situating a goal randomly in the scene until the agent has collected 3 goals. The times to each goal and the seconds per meter are collected to evaluate how fast the agent reaches the goal. This also evaluates which run is the fastest to the first goal, and which one is the first one to reach the last goal. 
-Table \ref{tab:results-evaluation-framework} displays the results for the voxel-goal task, with the different times to each three objects, and the average seconds per meter. As mentioned before, an object is marked as collected if all of its voxels are scanned.
+As mentioned in Section \ref{chap:3:further-use:evaluation-framework}, one DARPA environment evaluates the object-exploratory performance of the agent, by situating a goal randomly in the scene until the agent has collected 3 goals. The times to each goal and the seconds per meter are collected to evaluate how fast the agent reaches the goal. 
+This also evaluates which run is the fastest to the first goal, and which one is the first one to reach the last goal. 
+% As mentioned before, an object is marked as collected if all of its voxels are scanned.
 
-Finally, each test is considered an episode, where each episode can run up to 40 thousand timesteps and a total of 7.5 million timesteps were tested. On the object exploration environment, a test (episode) is completed when all three goals were collected. On the octree exploration environment, the test is completed when 100\% of the environment was discovered.
+\newpage 
+
+Finally, each test is considered an episode, where each episode can run up to 40 thousand timesteps and a total of 7.5 million timesteps were tested. On the object exploration environment, a test (episode) is completed when all three goals were collected. On the octree exploration environment, the test is completed when 100\% of the environment was discovered. 
+
+Table \ref{tab:results-evaluation-framework} displays the results for the voxel-goal task, with the different times to each three objects, and the average seconds per meter. 
 
 
 \begin{longtable}{|l|c|c| c|c|c|}                            \hline
@@ -471,8 +484,11 @@ explorer-entropy-16-nolinger & {\cellcolor[HTML]{AFD5CD}} \color[HTML]{000000} 1
     \label{tab:results-evaluation-framework}
 \end{longtable}
 % D7C5AF
-The second DARPA environment evaluates the environmnet exploration capabilities of each agent, by measuring the time it takes to discover 10\%, 20\%,..., 100\% of the 3D volume. 
-This allows the objective evaluation of how fast and how much actual space the agent discovers.
+
+% \newpage
+
+The second DARPA environment evaluates the environmnet exploration capabilities of each agent, by measuring the time it takes to discover 10\%, 20\%,..., 100\% of half of 3D volume.
+This allows the objective evaluation of how fast and how much actual space the agent discovers. We only evaluate half of the volume since objects of interest are located at the ground level and our memory constraint of 15 GB limits the maximum amount of timesteps to 40 thousand.
 Table \ref{tab:results-evaluation-framework} shows the results for the best methods tested in the octree-goal task with the Time to Coverage (TTC) relevant percentages of the environment.
 
 \begin{longtable}{|l|c|c|c|c|}                            \hline
@@ -525,7 +541,7 @@ explorer-entropy-8-constrained & {\cellcolor[HTML]{55AA99}} \color[HTML]{000000}
 
 
 \newpage
-\section{Further Evaluations}
+\section{Further Evaluations}\label{chap:4:further_evaluations} 
 \subsection{Small Environment Results}\label{chap-4:small-env-results}
 The corresponding results for the large environment were presented in Sections \ref{chap:4:results-RQ1} and \ref{chap:4:results-RQ2} respectively. 
 This section presents the best performances for the voxel exploration task and the octree exploration task. 
@@ -538,31 +554,31 @@ This is equal to 3D volumes of 256, 32 and 4 nodes, respectively.
 Additionally, the agent’s grid sensor is also adjusted to a smaller radius of 8 meters.
 The best runs for the voxel-curious behaviors in the small environment are shown in Table \ref{tab:results-small-env-voxel}.
 
-\begin{longtable}{|l|c|c|c|}                            \hline
+\begin{longtable}{|l|c|c|}                            \hline
     % \multicolumn{3}{|l|}{\textbf{Voxel-Curiosity}}              \\\hline
     \theadcenteredLeft{Method}            
-    & \theadcentered{Episode Length \%}                
+    % & \theadcentered{Episode Length \%}                
     & \theadcentered{Total Objects Scanned} 
     & \theadcentered{Standard  Deviation} 
     % & \thead{F1-score} 
     % & \thead{Octree Leaf \\ Nodes Visited}        
     \\ \hline
     
-blind-agent-explore-constrained & 100 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 0.00 & 0.00 \\ \hline
-octree-4 & 100 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 0.00 & 0.00 \\ \hline
-voxel++025 & 100 & {\cellcolor[HTML]{CCE3DF}} \color[HTML]{000000} 4.76 & 1.84 \\ \hline
-voxel++050 & 100 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 1.49 & 2.37 \\ \hline
-voxel++075 & 100 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 2.62 & 0.47 \\ \hline
-voxel++100 & 100 & {\cellcolor[HTML]{55AA99}} \color[HTML]{000000} 9.42 & 0.88 \\ \hline
-voxel & 100 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 3.03 & 0.39 \\ \hline
-shortest-path & 100 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 0.00 & 0.00 \\ \hline
-object-detector-nospeed & 100 & {\cellcolor[HTML]{67B3A4}} \color[HTML]{000000} 8.71 & 0.01 \\ \hline
-object-detector & 100 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 0.01 & 0.56 \\ \hline
-semantic-curiosity & 100 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 0.16 & 0.12 \\ \hline
-semantic-entropy & 100 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 0.00 & 0.01 \\ \hline
-voxel-entropy++050 & 100 & {\cellcolor[HTML]{5AAD9C}} \color[HTML]{000000} 9.19 & 0.00 \\ \hline
-voxel-entropy++100 & 100 & {\cellcolor[HTML]{5EAF9E}} \color[HTML]{000000} 9.04 & 0.41 \\ \hline
-voxel-entropy-normalized & 100 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 0.00 & 0.66 \\ \hline
+blind-agent-explore-constrained & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 0.00 & 0.00 \\ \hline % & 100 
+octree-4 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 0.00 & 0.00 \\ \hline        %  100 &
+voxel++025 & {\cellcolor[HTML]{CCE3DF}} \color[HTML]{000000} 4.76 & 1.84 \\ \hline      %  100 &
+voxel++050 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 1.49 & 2.37 \\ \hline      % 100 & 
+voxel++075 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 2.62 & 0.47 \\ \hline      %  100 &
+voxel++100 & {\cellcolor[HTML]{55AA99}} \color[HTML]{000000} 9.42 & 0.88 \\ \hline %  100 &
+voxel & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 3.03 & 0.39 \\ \hline       % 100 & 
+shortest-path & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 0.00 & 0.00 \\ \hline       %  100 &
+object-detector-nospeed & {\cellcolor[HTML]{67B3A4}} \color[HTML]{000000} 8.71 & 0.01 \\ \hline     % 100 & 
+object-detector &{\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 0.01 & 0.56 \\ \hline      %  100 & 
+semantic-curiosity & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 0.16 & 0.12 \\ \hline      %  100 &
+semantic-entropy & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 0.00 & 0.01 \\ \hline        % 100 & 
+voxel-entropy++050 & {\cellcolor[HTML]{5AAD9C}} \color[HTML]{000000} 9.19 & 0.00 \\ \hline      %  100 &
+voxel-entropy++100 & {\cellcolor[HTML]{5EAF9E}} \color[HTML]{000000} 9.04 & 0.41 \\ \hline      %  100 &
+voxel-entropy-normalized & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 0.00 & 0.66 \\ \hline        %  100 &
     
     \caption{Overview of the results for the runs in the small environment, with respect to the \textit{Total Objects Scanned} metric.}
     \label{tab:results-small-env-voxel}
@@ -598,21 +614,21 @@ The following Table \ref{tab:results-small-env-octree} presents the runs with th
     & \theadcentered{Visited   \\  Volume  ($m^3$)} 
     & \theadcentered{Standard  \\   Deviation} 
     \\ \hline
-blind-agent-explore-constrained & 35.63 & {\cellcolor[HTML]{D9E9E6}} \color[HTML]{000000} 142.53 & 0.00 \\ \hline
-octree-4 & 71.27 & {\cellcolor[HTML]{55AA99}} \color[HTML]{F1F1F1} 285.08 & 0.00 \\ \hline
-voxel++025 & 30.52 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 122.10 & 0.01 \\ \hline
-voxel++050 & 24.12 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 96.49 & 0.00 \\ \hline
-voxel++075 & 26.65 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 106.60 & 0.00 \\ \hline
-voxel++100 & 30.42 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 121.67 & 0.00 \\ \hline
-voxel & 35.58 & {\cellcolor[HTML]{D9EAE6}} \color[HTML]{000000} 142.31 & 0.00 \\ \hline
-shortest-path & 3.16 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 12.64 & 0.00 \\ \hline
-object-detector-nospeed & 28.47 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 113.87 & 0.00 \\ \hline
-object-detector & 14.62 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 58.48 & 0.00 \\ \hline
-semantic-curiosity & 21.56 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 86.24 & 0.00 \\ \hline
-semantic-entropy & 2.98 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 11.93 & 0.00 \\ \hline
-voxel-entropy++050 & 31.44 & {\cellcolor[HTML]{E9F1EF}} \color[HTML]{000000} 125.76 & 0.01 \\ \hline
-voxel-entropy++100 & 32.36 & {\cellcolor[HTML]{E5EFED}} \color[HTML]{000000} 129.43 & 0.00 \\ \hline
-voxel-entropy-normalized & 30.02 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 120.08 & 0.00 \\ \hline
+blind-agent-explore-constrained & 35.63 & {\cellcolor[HTML]{D9E9E6}} \color[HTML]{000000} 142 & 0.00 \\ \hline
+octree-4 & 71.27 & {\cellcolor[HTML]{55AA99}} \color[HTML]{F1F1F1} 285 & 0.00 \\ \hline
+voxel++025 & 30.52 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 122 & 0.01 \\ \hline
+voxel++050 & 24.12 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 96 & 0.00 \\ \hline
+voxel++075 & 26.65 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 106 & 0.00 \\ \hline
+voxel++100 & 30.42 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 121 & 0.00 \\ \hline
+voxel & 35.58 & {\cellcolor[HTML]{D9EAE6}} \color[HTML]{000000} 142 & 0.00 \\ \hline
+shortest-path & 3.16 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 12 & 0.00 \\ \hline
+object-detector-nospeed & 28.47 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 113 & 0.00 \\ \hline
+object-detector & 14.62 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 58 & 0.00 \\ \hline
+semantic-curiosity & 21.56 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 86 & 0.00 \\ \hline
+semantic-entropy & 2.98 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 11 & 0.00 \\ \hline
+voxel-entropy++050 & 31.44 & {\cellcolor[HTML]{E9F1EF}} \color[HTML]{000000} 125 & 0.01 \\ \hline
+voxel-entropy++100 & 32.36 & {\cellcolor[HTML]{E5EFED}} \color[HTML]{000000} 129 & 0.00 \\ \hline
+voxel-entropy-normalized & 30.02 & {\cellcolor[HTML]{EBF2F0}} \color[HTML]{000000} 120 & 0.00 \\ \hline
 
     \caption{Overview of the results for the runs in the small environment, with respect to the \textit{Octree Discovery Reward} metric.}
     \label{tab:results-small-env-octree}
@@ -670,9 +686,9 @@ To compare the sample efficiency of PPO and SAC, we trained the best PPO-models 
  
     {\cellcolor[HTML]{B5C3D7}} \color[HTML]{000000} explorer-8      & {\cellcolor[HTML]{B5C3D7}} \color[HTML]{000000} 86    & {\cellcolor[HTML]{B5C3D7}} \color[HTML]{000000} 1.96 & {\cellcolor[HTML]{B5C3D7}} \color[HTML]{000000} 151.04 \\ \hline       % & {\cellcolor[HTML]{B5C3D7}} \color[HTML]{000000} 0.32 
     {\cellcolor[HTML]{D7C5AF}} \color[HTML]{000000} explorer-8-sac  & {\cellcolor[HTML]{D7C5AF}} \color[HTML]{000000} 63    & {\cellcolor[HTML]{D7C5AF}} \color[HTML]{000000} 0.74 & {\cellcolor[HTML]{D7C5AF}} \color[HTML]{000000} 104.04 \\ \hline       % & {\cellcolor[HTML]{D7C5AF}} \color[HTML]{000000} 0.17 
-    {\cellcolor[HTML]{B5C3D7}} \color[HTML]{000000} octree-16-constrained-pigeon        & {\cellcolor[HTML]{B5C3D7}} \color[HTML]{000000} 100 & {\cellcolor[HTML]{B5C3D7}} \color[HTML]{000000} 0.00  & {\cellcolor[HTML]{B5C3D7}} \color[HTML]{000000} 325.61      % & {\cellcolor[HTML]{B5C3D7}} \color[HTML]{000000} 0.00    \\ \hline
+    {\cellcolor[HTML]{B5C3D7}} \color[HTML]{000000} octree-16-constrained-pigeon        & {\cellcolor[HTML]{B5C3D7}} \color[HTML]{000000} 100 & {\cellcolor[HTML]{B5C3D7}} \color[HTML]{000000} 0.00  & {\cellcolor[HTML]{B5C3D7}} \color[HTML]{000000} 325.61   \\ \hline   % & {\cellcolor[HTML]{B5C3D7}} \color[HTML]{000000} 0.00    
     {\cellcolor[HTML]{D7C5AF}} \color[HTML]{000000} octree-16-constrained-pigeon-sac    & {\cellcolor[HTML]{D7C5AF}} \color[HTML]{000000} 100   & {\cellcolor[HTML]{D7C5AF}} \color[HTML]{000000} 0.01  & {\cellcolor[HTML]{D7C5AF}} \color[HTML]{000000} 123.23 \\ \hline      % & {\cellcolor[HTML]{D7C5AF}} \color[HTML]{000000} 0.00 
-    {\cellcolor[HTML]{B5C3D7}} \color[HTML]{000000} voxel++100-nospeed-nolinger         & {\cellcolor[HTML]{B5C3D7}} \color[HTML]{000000} 97    & {\cellcolor[HTML]{B5C3D7}} \color[HTML]{000000} 1.62  & {\cellcolor[HTML]{B5C3D7}} \color[HTML]{000000} 138.43        % & {\cellcolor[HTML]{B5C3D7}} \color[HTML]{000000} 0.28  \\ \hline
+    {\cellcolor[HTML]{B5C3D7}} \color[HTML]{000000} voxel++100-nospeed-nolinger         & {\cellcolor[HTML]{B5C3D7}} \color[HTML]{000000} 97    & {\cellcolor[HTML]{B5C3D7}} \color[HTML]{000000} 1.62  & {\cellcolor[HTML]{B5C3D7}} \color[HTML]{000000} 138.43  \\ \hline      % & {\cellcolor[HTML]{B5C3D7}} \color[HTML]{000000} 0.28  \\ \hline
     {\cellcolor[HTML]{D7C5AF}} \color[HTML]{000000}  voxel++100-nospeed-nolinger-sac    & {\cellcolor[HTML]{D7C5AF}} \color[HTML]{000000} 94    & {\cellcolor[HTML]{D7C5AF}} \color[HTML]{000000} 0.09  & {\cellcolor[HTML]{D7C5AF}} \color[HTML]{000000} 23.81 \\ \hline       % & {\cellcolor[HTML]{D7C5AF}} \color[HTML]{000000} 0.03 
 
     \caption{Overview of a subset of runs trained using PPO and SAC to compare their performance.
@@ -688,7 +704,8 @@ To compare the sample efficiency of PPO and SAC, we trained the best PPO-models 
 
 
 % \subsection{Research Scenarios}
-\subsection{Applicable Practical Scenarios} % Future
+\subsection{Applicable Practical Scenarios} \label{chap:4:practical-scenarios} 
+% Future
 
 % \begin{figure}[!ht]
 %     \centering
@@ -860,15 +877,17 @@ The development metrics are displayed in Table \ref{tab:results-cross-platform}.
 % \subsubsection{Quality Ranking of Predictions}
 
 
-\section{Deliverables}
-The following deliverables will be handed in with this master thesis:
+\section{Deliverables} \label{chap:4:deliverables}
+This work produced three types of exploration-capable agents: environment-focused, object-focused and mixed-focused. Accordingly, the following deliverables will be handed in with this master thesis:
 \begin{itemize}
-    \item This work produced three types of exploration-capable agents: environment-focused, object-focused and mixed-focused.
-    The environment-focused agent is able to explore twice as many leaf nodes as the non-explorative models (71 versus 35 average leaf nodes per episode). This means that the average performance of the explorative agent explores 88\% of the small environment. 
+    \item 
+    The environment-focused agent is able to explore twice as much 3D space than non-exploratory models (358$m^3$ versus 147$m^3$ per episode). This is also shown in the evaluation framework where the best candidate agents are able to cover 100\% of the required octree nodes. 
+    % This means that the average performance of the exploratory agent explores 88\% of the small environment. 
     
-    \item  The object-focused agent is able to scan at least 2 objects per episode on average. This translates to a scanning speed of 2500 time steps per object.
+    \item  The object-focused agent is able to scan at least 2 objects per episode on average. This translates to a scanning speed of 2500 timesteps per object. This performance is also demonstrated in the evaluation framework where the best candidate agents are able to scan all 3 required goals within the limited timesteps.
     
-    \item Finally, the mixed exploration agent is able to keep up with the 2 objects per episode performance and explore an average 41 leaf nodes per episode, which covers 51\% of the environment, outperforming the 43\% coverage of object-focused models.
+    \item Finally, the mixed exploration agent is able to keep up with the 2 objects per episode performance and explore an average volume of 151$m^3$, which is comparable to the performance shown by our object-focused agents. Moreover, it outperforms object-focused agents and performs comparable to the environment-focused agents in the evaluation framework.
+    % leaf nodes per episode, which covers 51\% of the environment, outperforming the 43\% coverage of object-focused models.
    
    \item A set of baselines are also handed in, used to analyze the performance of traditional methods for exploration (random actions, shortest path) and other state-of-the-art-inspired methods (object detection maximization, semantic curiosity, semantic entropy).
    
